@@ -225,11 +225,6 @@ const AdminLayout = () => {
             <span>Hero Slider &amp; Banners</span>
             <span className="admin-nav-arrow">›</span>
           </NavLink>
-          <NavLink to="/admin/illustrations" className={({isActive}) => isActive ? 'admin-nav-item active' : 'admin-nav-item'}>
-            <Feather size={17} />
-            <span>Botanical Illustrations</span>
-            <span className="admin-nav-arrow">›</span>
-          </NavLink>
           <NavLink to="/admin/stories" className={({isActive}) => isActive ? 'admin-nav-item active' : 'admin-nav-item'}>
             <Video size={17} />
             <span>Reels & Stories</span>

@@ -71,7 +71,7 @@ function App() {
                   <Route path="seo" element={<SeEeOsEgo />} />
                   <Route path="homepage" element={<HomepageManager />} />
                   <Route path="hero" element={<HeroManager />} />
-                  <Route path="illustrations" element={<IllustrationsManager />} />
+                  <Route path="illustrations" element={<Navigate to="/admin/pages" replace />} />
                   <Route path="navigation" element={<NavigationManager />} />
                   <Route path="pages" element={<PagesManager />} />
                   <Route path="stories" element={<StoriesManager />} />

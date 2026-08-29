@@ -1,63 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../lib/db';
 import { DEFAULT_PAGES_CONFIG, normalizePageConfig } from '../../lib/pageConfigs';
-import { 
-  BOTANICAL_ILLUSTRATIONS_CATALOG, 
-  BotanicalIllustration,
-  getBotanicalIllustration
-} from '../../components/Illustrations/BotanicalIllustrations';
 import MediaPickerModal from '../../components/Admin/MediaPickerModal';
 import { 
   Layout, 
-  Layers, 
   Sliders, 
   Eye, 
-  EyeOff, 
   ArrowUp, 
   ArrowDown, 
   Check, 
   Edit3, 
-  Plus, 
-  Sparkles, 
   Image as ImageIcon, 
   Type, 
-  Link2, 
   Monitor, 
   Smartphone, 
   Tablet, 
   Globe, 
-  ShieldCheck, 
   FolderOpen,
-  RotateCw,
-  Maximize2,
-  X,
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  HelpCircle,
-  Users,
-  Handshake,
-  MessageSquare
+  X
 } from 'lucide-react';
 import './AdminStyles.css';
-
-const POSITIONS = [
-  { value: 'top-left', label: 'Top Left' },
-  { value: 'top-center', label: 'Top Center' },
-  { value: 'top-right', label: 'Top Right' },
-  { value: 'center-left', label: 'Center Left' },
-  { value: 'center', label: 'Center Watermark' },
-  { value: 'center-right', label: 'Center Right' },
-  { value: 'bottom-left', label: 'Bottom Left' },
-  { value: 'bottom-center', label: 'Bottom Center' },
-  { value: 'bottom-right', label: 'Bottom Right' },
-  { value: 'inline-left', label: 'Inline Left' },
-  { value: 'inline-right', label: 'Inline Right' },
-  { value: 'background', label: 'Full Background' },
-  { value: 'background-watermark', label: 'Background Watermark' },
-  { value: 'between-sections', label: 'Between Sections' }
-];
 
 const PAGES_LIST = [
   { id: 'home', name: 'Home', badge: '10 Sections' },
@@ -76,7 +38,7 @@ const PagesManager = () => {
   
   // Section Edit Drawer/Modal State
   const [editingSection, setEditingSection] = useState(null);
-  const [editTab, setEditTab] = useState('content'); // 'content' | 'media' | 'illustration' | 'layout' | 'visibility'
+  const [editTab, setEditTab] = useState('content'); // 'content' | 'media' | 'layout' | 'visibility'
   const [showMediaPicker, setShowMediaPicker] = useState(false);
   const [mediaPickerTarget, setMediaPickerTarget] = useState('desktopImage'); // 'desktopImage' | 'mobileImage' | 'bgImage'
   
@@ -217,7 +179,7 @@ const PagesManager = () => {
         <div>
           <h2>Page-Wise &amp; Section-Wise Website Control Studio</h2>
           <p className="text-muted">
-            Configure every page, manage section order, edit content, media &amp; botanical illustrations
+            Configure every page, manage section order, edit content, media &amp; layouts
           </p>
         </div>
         <button 
@@ -328,7 +290,7 @@ const PagesManager = () => {
               {activePageConfig.name} Sections ({activePageConfig.sections?.length || 0})
             </h3>
             <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#6B7C73' }}>
-              Sections render in the exact sequence shown below. Reorder or click Edit to modify content, images &amp; illustrations.
+              Sections render in the exact sequence shown below. Reorder or click Edit to modify content, images &amp; layouts.
             </p>
           </div>
         </div>
@@ -340,7 +302,6 @@ const PagesManager = () => {
               <th>Section Name</th>
               <th>Type</th>
               <th>Heading Preview</th>
-              <th>Artwork</th>
               <th>Devices</th>
               <th>Status</th>
               <th style={{ textAlign: 'right' }}>Actions</th>
@@ -348,7 +309,6 @@ const PagesManager = () => {
           </thead>
           <tbody>
             {activePageConfig.sections?.map((sec, idx) => {
-              const ill = sec.illustration?.id ? getBotanicalIllustration(sec.illustration.id) : null;
               return (
                 <tr key={sec.id} style={{ opacity: sec.isActive ? 1 : 0.6 }}>
                   <td>
@@ -381,18 +341,8 @@ const PagesManager = () => {
                     <div style={{ fontSize: '0.72rem', color: '#6B7C73' }}>ID: <code>{sec.id}</code></div>
                   </td>
                   <td><span className="badge-tag">{sec.type}</span></td>
-                  <td style={{ maxWidth: '240px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <td style={{ maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {sec.content?.heading || sec.content?.title || <span style={{ color: '#999' }}>—</span>}
-                  </td>
-                  <td>
-                    {ill ? (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <BotanicalIllustration id={ill.id} size={22} color="#173B2F" />
-                        <span style={{ fontSize: '0.76rem', color: '#173B2F' }}>{ill.name}</span>
-                      </div>
-                    ) : (
-                      <span style={{ fontSize: '0.75rem', color: '#999' }}>None</span>
-                    )}
                   </td>
                   <td>
                     <div style={{ display: 'flex', gap: '6px', color: '#556B5C' }}>
@@ -487,7 +437,6 @@ const PagesManager = () => {
               {[
                 { id: 'content', label: 'Content', icon: Type },
                 { id: 'media', label: 'Media & Images', icon: ImageIcon },
-                { id: 'illustration', label: 'Illustration', icon: Sparkles },
                 { id: 'layout', label: 'Layout & Style', icon: Sliders },
                 { id: 'visibility', label: 'Visibility', icon: Eye }
               ].map(tab => {
@@ -499,7 +448,7 @@ const PagesManager = () => {
                     type="button"
                     onClick={() => setEditTab(tab.id)}
                     style={{
-                      padding: '12px 14px',
+                      padding: '12px 16px',
                       border: 'none',
                       background: 'none',
                       borderBottom: isActive ? '3px solid #173B2F' : '3px solid transparent',
@@ -746,103 +695,7 @@ const PagesManager = () => {
                 </div>
               )}
 
-              {/* TAB 3: ILLUSTRATION */}
-              {editTab === 'illustration' && (
-                <div>
-                  <div className="form-group">
-                    <label>Select Botanical Illustration</label>
-                    <select
-                      value={editingSection.illustration?.id || ''}
-                      onChange={e => setEditingSection({
-                        ...editingSection,
-                        illustration: { ...editingSection.illustration, id: e.target.value }
-                      })}
-                    >
-                      <option value="">None (No Illustration)</option>
-                      {BOTANICAL_ILLUSTRATIONS_CATALOG.map(ill => (
-                        <option key={ill.id} value={ill.id}>
-                          {ill.name} ({ill.category})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {editingSection.illustration?.id && (
-                    <>
-                      <div style={{ padding: '16px', background: '#FFFFFF', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '120px', border: '1px solid rgba(23, 59, 47, 0.1)', marginBottom: '16px' }}>
-                        <div style={{ 
-                          transform: `scale(${(editingSection.illustration?.scale || 100) / 100}) rotate(${editingSection.illustration?.rotation || 0}deg)`,
-                          opacity: (editingSection.illustration?.opacity || 10) / 100
-                        }}>
-                          <BotanicalIllustration 
-                            id={editingSection.illustration.id} 
-                            size={70} 
-                            color="#173B2F" 
-                          />
-                        </div>
-                      </div>
-
-                      <div className="form-group">
-                        <label>Position</label>
-                        <select
-                          value={editingSection.illustration?.position || 'top-right'}
-                          onChange={e => setEditingSection({
-                            ...editingSection,
-                            illustration: { ...editingSection.illustration, position: e.target.value }
-                          })}
-                        >
-                          {POSITIONS.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
-                        </select>
-                      </div>
-
-                      <div className="form-row">
-                        <div className="form-group flex-1">
-                          <label>Watermark Opacity ({editingSection.illustration?.opacity || 10}%)</label>
-                          <input 
-                            type="range" 
-                            min="5" 
-                            max="100" 
-                            value={editingSection.illustration?.opacity || 10}
-                            onChange={e => setEditingSection({
-                              ...editingSection,
-                              illustration: { ...editingSection.illustration, opacity: Number(e.target.value) }
-                            })}
-                          />
-                        </div>
-                        <div className="form-group flex-1">
-                          <label>Scale ({editingSection.illustration?.scale || 100}%)</label>
-                          <input 
-                            type="range" 
-                            min="50" 
-                            max="200" 
-                            value={editingSection.illustration?.scale || 100}
-                            onChange={e => setEditingSection({
-                              ...editingSection,
-                              illustration: { ...editingSection.illustration, scale: Number(e.target.value) }
-                            })}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="form-group">
-                        <label>Rotation ({editingSection.illustration?.rotation || 0}°)</label>
-                        <input 
-                          type="range" 
-                          min="-45" 
-                          max="45" 
-                          value={editingSection.illustration?.rotation || 0}
-                          onChange={e => setEditingSection({
-                            ...editingSection,
-                            illustration: { ...editingSection.illustration, rotation: Number(e.target.value) }
-                          })}
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-
-              {/* TAB 4: LAYOUT & STYLE */}
+              {/* TAB 3: LAYOUT & STYLE */}
               {editTab === 'layout' && (
                 <div>
                   <div className="form-group">
@@ -910,7 +763,7 @@ const PagesManager = () => {
                 </div>
               )}
 
-              {/* TAB 5: VISIBILITY */}
+              {/* TAB 4: VISIBILITY */}
               {editTab === 'visibility' && (
                 <div>
                   <div className="form-group">
