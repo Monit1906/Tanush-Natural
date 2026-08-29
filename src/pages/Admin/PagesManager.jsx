@@ -22,7 +22,8 @@ import {
   Layers,
   ChevronRight,
   HelpCircle,
-  MessageSquare
+  MessageSquare,
+  EyeOff
 } from 'lucide-react';
 import './AdminStyles.css';
 import './PagesManager.css';
@@ -370,7 +371,7 @@ const PagesManager = () => {
                   className="section-edit-btn"
                   onClick={() => handleOpenEditSection(sec)}
                 >
-                  <Edit3 size={14} /> Edit
+                  <Edit3 size={14} /> Edit Section
                 </button>
               </div>
             </div>
@@ -378,7 +379,7 @@ const PagesManager = () => {
         })}
       </div>
 
-      {/* Smooth Slide-In Edit Section Drawer */}
+      {/* High-End Slide-In Studio Inspector Drawer */}
       {editingSection && (
         <div 
           className="drawer-backdrop"
@@ -402,6 +403,62 @@ const PagesManager = () => {
               >
                 <X size={18} />
               </button>
+            </div>
+
+            {/* LIVE VISUAL PREVIEW STAGE */}
+            <div className="studio-live-preview-stage">
+              <div className="live-preview-header">
+                <span className="live-preview-tag">
+                  <Sparkles size={13} color="#D4AF37" /> Live Studio Preview
+                </span>
+                <span style={{ fontSize: '0.72rem', color: '#6B7C73' }}>
+                  Theme: {editingSection.layout?.bgColor || '#FAF8F5'}
+                </span>
+              </div>
+              
+              <div 
+                className="live-preview-canvas-box"
+                style={{
+                  backgroundColor: editingSection.layout?.bgColor || '#FAF8F5',
+                  color: editingSection.layout?.bgColor === '#173B2F' ? '#FFFFFF' : '#173B2F',
+                  textAlign: editingSection.layout?.align || 'center'
+                }}
+              >
+                {editingSection.content?.badge && (
+                  <span className="preview-badge-pill">{editingSection.content.badge}</span>
+                )}
+
+                <h4 className="preview-heading-text">
+                  {editingSection.content?.heading || editingSection.content?.title || editingSection.name}
+                </h4>
+
+                {(editingSection.content?.subheading || editingSection.content?.subtitle) && (
+                  <p className="preview-subheading-text">
+                    {editingSection.content?.subheading || editingSection.content?.subtitle}
+                  </p>
+                )}
+
+                {editingSection.content?.description && (
+                  <p className="preview-desc-text">
+                    {editingSection.content.description}
+                  </p>
+                )}
+
+                {(editingSection.content?.primaryCtaText || editingSection.content?.secondaryCtaText) && (
+                  <div className="preview-buttons-row">
+                    {editingSection.content?.primaryCtaText && (
+                      <span className="preview-btn-primary">
+                        {editingSection.content.primaryCtaText}
+                      </span>
+                    )}
+                    {editingSection.content?.secondaryCtaText && (
+                      <span className="preview-btn-secondary">
+                        {editingSection.content.secondaryCtaText}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Drawer Tabs */}
@@ -432,7 +489,7 @@ const PagesManager = () => {
             <form onSubmit={handleSaveEditedSection} className="drawer-form-body">
               {/* TAB 1: CONTENT */}
               {editTab === 'content' && (
-                <>
+                <div className="form-card-section">
                   <div className="form-group-clean">
                     <label>Badge / Eyebrow Text</label>
                     <input 
@@ -541,10 +598,10 @@ const PagesManager = () => {
 
                   {/* Context Specific Contact / Partner Details */}
                   {(selectedPageId === 'contact' || selectedPageId === 'become-a-partner') && (
-                    <div style={{ marginTop: '10px', padding: '18px', background: '#FFFFFF', borderRadius: '14px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
-                      <h4 style={{ margin: '0 0 12px', fontSize: '0.88rem', color: '#173B2F', fontWeight: 700 }}>Direct WhatsApp &amp; Contact Routing</h4>
+                    <div style={{ marginTop: '10px', padding: '16px', background: '#FAF8F5', borderRadius: '12px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
+                      <h4 style={{ margin: '0 0 12px', fontSize: '0.88rem', color: '#173B2F', fontWeight: 700 }}>Direct WhatsApp &amp; Routing</h4>
                       <div className="form-group-clean">
-                        <label>WhatsApp Number (e.g. +919428231144)</label>
+                        <label>WhatsApp Number</label>
                         <input 
                           type="text" 
                           placeholder="+919428231144"
@@ -583,12 +640,12 @@ const PagesManager = () => {
                       )}
                     </div>
                   )}
-                </>
+                </div>
               )}
 
               {/* TAB 2: MEDIA */}
               {editTab === 'media' && (
-                <>
+                <div className="form-card-section">
                   <div className="form-group-clean">
                     <label>Desktop Image / Main Banner</label>
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -657,12 +714,12 @@ const PagesManager = () => {
                       })}
                     />
                   </div>
-                </>
+                </div>
               )}
 
               {/* TAB 3: LAYOUT & STYLE */}
               {editTab === 'layout' && (
-                <>
+                <div className="form-card-section">
                   <div className="form-group-clean">
                     <label>Background Theme</label>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
@@ -726,14 +783,14 @@ const PagesManager = () => {
                       <option value="spacious">Spacious (Padding 100px)</option>
                     </select>
                   </div>
-                </>
+                </div>
               )}
 
               {/* TAB 4: VISIBILITY */}
               {editTab === 'visibility' && (
-                <>
+                <div className="form-card-section">
                   <div className="form-group-clean">
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '14px', background: '#FFFFFF', borderRadius: '12px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '14px', background: '#FAF8F5', borderRadius: '12px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
                       <input 
                         type="checkbox" 
                         checked={editingSection.isActive !== false} 
@@ -749,7 +806,7 @@ const PagesManager = () => {
                     </label>
                   </div>
 
-                  <div style={{ marginTop: '12px', padding: '18px', background: '#FFFFFF', borderRadius: '14px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
+                  <div style={{ marginTop: '8px', padding: '16px', background: '#FAF8F5', borderRadius: '12px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
                     <h4 style={{ margin: '0 0 14px', fontSize: '0.86rem', color: '#173B2F', fontWeight: 700 }}>Device Breakpoint Display</h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
@@ -790,7 +847,7 @@ const PagesManager = () => {
                       </label>
                     </div>
                   </div>
-                </>
+                </div>
               )}
 
               {/* Drawer Sticky Save Bar */}
