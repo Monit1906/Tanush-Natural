@@ -257,39 +257,10 @@ export const DEFAULT_PAGES_CONFIG = {
         visibility: { desktop: true, tablet: true, mobile: true }
       },
       {
-        id: 'community',
-        name: 'Social & Brand Wall',
-        type: 'community',
-        order: 8,
-        isActive: true,
-        content: {
-          badge: 'OUR COMMUNITY',
-          heading: 'Join the Tanush Family',
-          subheading: 'Share your everyday rituals with #TanushNatural'
-        },
-        media: {},
-        illustration: {
-          id: 'modern-indian-home',
-          position: 'bottom-right',
-          opacity: 8,
-          scale: 95,
-          rotation: 0,
-          desktopVisible: true,
-          mobileVisible: false
-        },
-        layout: {
-          align: 'center',
-          width: 'contained',
-          spacing: 'normal',
-          bgColor: '#FAF8F5'
-        },
-        visibility: { desktop: true, tablet: true, mobile: true }
-      },
-      {
         id: 'partner',
         name: 'Partnership Banner',
         type: 'partner',
-        order: 9,
+        order: 8,
         isActive: true,
         content: {
           badge: 'PARTNERSHIP',
@@ -315,6 +286,35 @@ export const DEFAULT_PAGES_CONFIG = {
           width: 'contained',
           spacing: 'normal',
           bgColor: '#173B2F'
+        },
+        visibility: { desktop: true, tablet: true, mobile: true }
+      },
+      {
+        id: 'community',
+        name: 'Social & Brand Wall',
+        type: 'community',
+        order: 9,
+        isActive: true,
+        content: {
+          badge: 'OUR COMMUNITY',
+          heading: 'Join the Tanush Family',
+          subheading: 'Share your everyday rituals with #TanushNatural'
+        },
+        media: {},
+        illustration: {
+          id: 'modern-indian-home',
+          position: 'bottom-right',
+          opacity: 8,
+          scale: 95,
+          rotation: 0,
+          desktopVisible: true,
+          mobileVisible: false
+        },
+        layout: {
+          align: 'center',
+          width: 'contained',
+          spacing: 'normal',
+          bgColor: '#FAF8F5'
         },
         visibility: { desktop: true, tablet: true, mobile: true }
       }
