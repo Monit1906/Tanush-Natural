@@ -39,8 +39,11 @@
   min-width: 170px;
   max-width: 200px;
   position: relative;
-  transition: transform 0.25s ease;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   padding-top: 4px;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .cat-square-frame .cat-img,
@@ -50,14 +53,20 @@
   border-radius: 28px;
   background-color: #FFFFFF;
   border: 2px solid rgba(23, 59, 47, 0.1);
-  box-shadow: 0 10px 30px rgba(23, 59, 47, 0.07);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(23, 59, 47, 0.05);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              border-color 0.25s ease,
+              background-color 0.25s ease;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 14px;
+  will-change: transform, box-shadow;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .cat-square-frame .cat-img img,
@@ -66,7 +75,10 @@
   height: 100%;
   object-fit: contain;
   border-radius: 20px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .cat-square-frame .cat-img.all-products-img img,
@@ -76,20 +88,26 @@
 
 .cat-square-frame:hover .cat-img,
 .cat-circle:hover .cat-img {
-  transform: translateY(-6px);
-  border-color: rgba(23, 59, 47, 0.3);
-  box-shadow: 0 18px 40px rgba(23, 59, 47, 0.16);
+  transform: translate3d(0, -6px, 0);
+  border-color: rgba(23, 59, 47, 0.28);
+  box-shadow: 0 16px 36px rgba(23, 59, 47, 0.13);
 }
 
 .cat-square-frame:hover .cat-img img,
 .cat-circle:hover .cat-img img {
-  transform: scale(1.08);
+  transform: scale3d(1.05, 1.05, 1);
+}
+
+.cat-square-frame:active .cat-img,
+.cat-circle:active .cat-img {
+  transform: translate3d(0, -2px, 0) scale(0.98);
+  transition-duration: 0.15s;
 }
 
 .cat-square-frame.active .cat-img,
 .cat-circle.active .cat-img {
   border: 3px solid #173B2F;
-  box-shadow: 0 14px 36px rgba(23, 59, 47, 0.22);
+  box-shadow: 0 12px 32px rgba(23, 59, 47, 0.18);
   background-color: #FAF8F5;
 }
 
@@ -103,7 +121,7 @@
   text-align: center;
   color: #556B5C;
   line-height: 1.35;
-  transition: color 0.2s ease;
+  transition: color 0.25s ease;
 }
 
 .cat-square-frame:hover span,
