@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { api } from '../../lib/db';
 import { 
   BOTANICAL_ILLUSTRATIONS_CATALOG, 
@@ -23,7 +23,11 @@ import {
   Maximize2,
   Filter,
   RotateCw,
-  LayoutGrid
+  LayoutGrid,
+  Upload,
+  ArrowUp,
+  ArrowDown,
+  Tag
 } from 'lucide-react';
 import './AdminStyles.css';
 
@@ -55,20 +59,26 @@ const PAGES = [
 ];
 
 const POSITIONS = [
-  { value: 'top-right', label: 'Top Right' },
   { value: 'top-left', label: 'Top Left' },
-  { value: 'bottom-right', label: 'Bottom Right' },
+  { value: 'top-center', label: 'Top Center' },
+  { value: 'top-right', label: 'Top Right' },
+  { value: 'center-left', label: 'Center Left' },
+  { value: 'center', label: 'Center' },
+  { value: 'center-right', label: 'Center Right' },
   { value: 'bottom-left', label: 'Bottom Left' },
-  { value: 'left', label: 'Left Side' },
-  { value: 'right', label: 'Right Side' },
-  { value: 'center-background', label: 'Center Background' },
-  { value: 'full-width-background', label: 'Full Width Background' },
-  { value: 'corner-decoration', label: 'Corner Decoration' },
-  { value: 'inline', label: 'Inline Section Story' }
+  { value: 'bottom-center', label: 'Bottom Center' },
+  { value: 'bottom-right', label: 'Bottom Right' },
+  { value: 'inline-left', label: 'Inline Left' },
+  { value: 'inline-right', label: 'Inline Right' },
+  { value: 'inline', label: 'Inline Story Flow' },
+  { value: 'background', label: 'Full Background' },
+  { value: 'background-watermark', label: 'Background Watermark' },
+  { value: 'between-sections', label: 'Between Sections' },
+  { value: 'corner-decoration', label: 'Corner Decoration' }
 ];
 
 const IllustrationsManager = () => {
-  const [activeTab, setActiveTab] = useState('library'); // 'library' | 'assignments'
+  const [activeTab, setActiveTab] = useState('library'); // 'library' | 'assignments' | 'upload'
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [selectedIllustration, setSelectedIllustration] = useState(BOTANICAL_ILLUSTRATIONS_CATALOG[0]);
   
@@ -81,9 +91,21 @@ const IllustrationsManager = () => {
 
   // Section Assignments
   const [assignments, setAssignments] = useState([]);
+  const [customIllustrations, setCustomIllustrations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState('');
   const [editingAssignment, setEditingAssignment] = useState(null);
+
+  // Upload state
+  const fileInputRef = useRef(null);
+  const [uploadData, setUploadData] = useState({
+    name: '',
+    category: 'BOTANICAL',
+    description: '',
+    file: null,
+    previewUrl: ''
+  });
+  const [uploading, setUploading] = useState(false);
 
   // New assignment modal / form
   const [newAssignment, setNewAssignment] = useState({
@@ -91,10 +113,13 @@ const IllustrationsManager = () => {
     page: 'Home',
     section: 'Why Tanush Section',
     illustrationId: 'tulsi-sprig',
+    customUrl: '',
     position: 'top-right',
     opacity: 12,
     scale: 100,
     rotation: 0,
+    zIndex: 0,
+    order: 0,
     desktopVisible: true,
     tabletVisible: true,
     mobileVisible: false,
@@ -113,6 +138,9 @@ const IllustrationsManager = () => {
       if (data && Array.isArray(data.assignments)) {
         setAssignments(data.assignments);
       }
+      if (data && Array.isArray(data.customIllustrations)) {
+        setCustomIllustrations(data.customIllustrations);
+      }
     } catch (e) {
       console.error('Failed to load illustration settings:', e);
     } finally {
@@ -124,13 +152,28 @@ const IllustrationsManager = () => {
     loadSettings();
   }, []);
 
+  const allAvailableIllustrations = [
+    ...BOTANICAL_ILLUSTRATIONS_CATALOG,
+    ...customIllustrations.map(c => ({
+      id: c.id,
+      name: c.name,
+      category: c.category || 'CUSTOM',
+      description: c.description || 'Custom uploaded illustration',
+      customUrl: c.url,
+      component: null
+    }))
+  ];
+
   const filteredIllustrations = selectedCategory === 'ALL'
-    ? BOTANICAL_ILLUSTRATIONS_CATALOG
-    : BOTANICAL_ILLUSTRATIONS_CATALOG.filter(item => item.category === selectedCategory);
+    ? allAvailableIllustrations
+    : allAvailableIllustrations.filter(item => item.category === selectedCategory);
 
   const handleSaveAssignments = async (updatedList) => {
     setAssignments(updatedList);
-    await api.saveIllustrationSettings({ assignments: updatedList });
+    await api.saveIllustrationSettings({ 
+      assignments: updatedList,
+      customIllustrations 
+    });
     showToast('✓ Illustration Section Assignments updated!');
   };
 
@@ -146,11 +189,28 @@ const IllustrationsManager = () => {
     }
   };
 
+  const handleMoveOrder = async (index, direction) => {
+    const targetIdx = index + direction;
+    if (targetIdx < 0 || targetIdx >= assignments.length) return;
+    const updated = [...assignments];
+    const temp = updated[index];
+    updated[index] = updated[targetIdx];
+    updated[targetIdx] = temp;
+    
+    // update order numbers
+    updated.forEach((item, idx) => {
+      item.order = idx;
+    });
+
+    await handleSaveAssignments(updated);
+  };
+
   const handleAddAssignment = async (e) => {
     e.preventDefault();
     const item = {
       ...newAssignment,
-      id: newAssignment.id || 'assign-' + Date.now()
+      id: newAssignment.id || 'assign-' + Date.now(),
+      order: assignments.length
     };
     const updated = [...assignments, item];
     await handleSaveAssignments(updated);
@@ -159,16 +219,70 @@ const IllustrationsManager = () => {
       page: 'Home',
       section: 'Why Tanush Section',
       illustrationId: selectedIllustration.id || 'tulsi-sprig',
+      customUrl: selectedIllustration.customUrl || '',
       position: 'top-right',
       opacity: 12,
       scale: 100,
       rotation: 0,
+      zIndex: 0,
+      order: 0,
       desktopVisible: true,
       tabletVisible: true,
       mobileVisible: false,
       isActive: true
     });
     setEditingAssignment(null);
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setUploadData(prev => ({
+        ...prev,
+        file,
+        previewUrl,
+        name: prev.name || file.name.replace(/\.[^/.]+$/, '')
+      }));
+    }
+  };
+
+  const handleSubmitCustomUpload = async (e) => {
+    e.preventDefault();
+    if (!uploadData.file) {
+      alert('Please choose an SVG, PNG, WEBP, or JPG illustration file.');
+      return;
+    }
+    setUploading(true);
+    try {
+      const uploadRes = await api.uploadMedia(uploadData.file);
+      const permanentUrl = uploadRes?.url || uploadData.previewUrl;
+
+      const newCustomItem = {
+        id: 'custom-' + Date.now(),
+        name: uploadData.name,
+        category: uploadData.category,
+        description: uploadData.description,
+        url: permanentUrl,
+        created_at: new Date().toISOString()
+      };
+
+      const updatedCustom = [...customIllustrations, newCustomItem];
+      setCustomIllustrations(updatedCustom);
+      await api.saveIllustrationSettings({
+        assignments,
+        customIllustrations: updatedCustom
+      });
+
+      showToast(`✓ Custom Illustration "${uploadData.name}" uploaded & saved!`);
+      setUploadData({ name: '', category: 'BOTANICAL', description: '', file: null, previewUrl: '' });
+      setActiveTab('library');
+    } catch (err) {
+      console.error('Upload failed:', err);
+      alert('Failed to upload illustration.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -189,7 +303,14 @@ const IllustrationsManager = () => {
             onClick={() => setActiveTab('library')}
             style={activeTab === 'library' ? { background: '#173B2F', color: '#FFF' } : {}}
           >
-            <Sparkles size={16} /> Illustration Library ({BOTANICAL_ILLUSTRATIONS_CATALOG.length})
+            <Sparkles size={16} /> Illustration Library ({allAvailableIllustrations.length})
+          </button>
+          <button 
+            className={`btn-admin-secondary ${activeTab === 'upload' ? 'active' : ''}`}
+            onClick={() => setActiveTab('upload')}
+            style={activeTab === 'upload' ? { background: '#173B2F', color: '#FFF' } : {}}
+          >
+            <Upload size={16} /> Upload Custom
           </button>
           <button 
             className={`btn-admin-secondary ${activeTab === 'assignments' ? 'active' : ''}`}
@@ -270,7 +391,12 @@ const IllustrationsManager = () => {
                     </span>
 
                     <div style={{ margin: '20px 0 14px 0', height: '90px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <BotanicalIllustration id={item.id} size={80} color="#173B2F" />
+                      <BotanicalIllustration 
+                        id={item.id} 
+                        customUrl={item.customUrl} 
+                        size={80} 
+                        color="#173B2F" 
+                      />
                     </div>
 
                     <h4 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#173B2F', margin: '0 0 4px 0' }}>
@@ -311,7 +437,12 @@ const IllustrationsManager = () => {
                 opacity: previewOpacity / 100, 
                 transition: 'all 0.2s ease' 
               }}>
-                <BotanicalIllustration id={selectedIllustration.id} size={110} color={previewColor} />
+                <BotanicalIllustration 
+                  id={selectedIllustration.id} 
+                  customUrl={selectedIllustration.customUrl} 
+                  size={110} 
+                  color={previewColor} 
+                />
               </div>
             </div>
 
@@ -411,6 +542,7 @@ const IllustrationsManager = () => {
                 setNewAssignment(prev => ({
                   ...prev,
                   illustrationId: selectedIllustration.id,
+                  customUrl: selectedIllustration.customUrl || '',
                   scale: previewScale,
                   opacity: previewOpacity,
                   rotation: previewRotation
@@ -423,13 +555,82 @@ const IllustrationsManager = () => {
             </button>
           </div>
         </div>
+      ) : activeTab === 'upload' ? (
+        /* Custom Upload Tab */
+        <div className="admin-form-card glass-panel" style={{ maxWidth: '680px', margin: '0 auto' }}>
+          <div className="form-header">
+            <h3>Upload Custom Botanical Illustration</h3>
+          </div>
+          <form onSubmit={handleSubmitCustomUpload} className="admin-form">
+            <div className="form-group">
+              <label>Illustration Name *</label>
+              <input 
+                type="text" 
+                required 
+                placeholder="e.g. Organic Moringa Pods / Kerala Farm Silhouette" 
+                value={uploadData.name}
+                onChange={e => setUploadData({ ...uploadData, name: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Category *</label>
+              <select 
+                value={uploadData.category}
+                onChange={e => setUploadData({ ...uploadData, category: e.target.value })}
+              >
+                {CATEGORIES.filter(c => c !== 'ALL').map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Description / Storyline</label>
+              <textarea 
+                rows="2"
+                placeholder="Briefly describe the visual storytelling context..."
+                value={uploadData.description}
+                onChange={e => setUploadData({ ...uploadData, description: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Vector / Image File (SVG, PNG, WEBP, JPG) *</label>
+              <input 
+                type="file" 
+                ref={fileInputRef}
+                accept=".svg,.png,.webp,.jpg,.jpeg" 
+                onChange={handleFileUpload}
+                required
+              />
+            </div>
+
+            {uploadData.previewUrl && (
+              <div style={{ margin: '16px 0', padding: '16px', background: '#FAF8F5', borderRadius: '10px', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.78rem', color: '#6B7C73', marginBottom: '8px' }}>File Preview:</div>
+                <img 
+                  src={uploadData.previewUrl} 
+                  alt="Upload Preview" 
+                  style={{ maxHeight: '120px', maxWidth: '100%', objectFit: 'contain' }} 
+                />
+              </div>
+            )}
+
+            <div className="form-actions" style={{ marginTop: '20px' }}>
+              <button type="submit" className="btn-admin-primary" disabled={uploading}>
+                <Upload size={16} /> {uploading ? 'Uploading to Media Library...' : 'Upload & Save to Library'}
+              </button>
+            </div>
+          </form>
+        </div>
       ) : (
         /* Section Assignments Tab */
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <div>
               <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem', color: '#173B2F' }}>
-                Section Watermarks &amp; Corner Accents
+                Section Watermarks, Corner Accents &amp; Storytelling Flows
               </h3>
               <p className="text-muted" style={{ margin: 0, fontSize: '0.84rem' }}>
                 Subtly enhance specific pages without interfering with product photography or readability.
@@ -469,7 +670,7 @@ const IllustrationsManager = () => {
                       required 
                       value={newAssignment.section}
                       onChange={e => setNewAssignment({ ...newAssignment, section: e.target.value })}
-                      placeholder="e.g. Hero / Why Tanush / Mosquito Protection / Story"
+                      placeholder="e.g. Hero / Why Tanush / Mosquito Protection / Story / Categories"
                     />
                   </div>
                 </div>
@@ -479,9 +680,16 @@ const IllustrationsManager = () => {
                     <label>Selected Artwork *</label>
                     <select 
                       value={newAssignment.illustrationId} 
-                      onChange={e => setNewAssignment({ ...newAssignment, illustrationId: e.target.value })}
+                      onChange={e => {
+                        const match = allAvailableIllustrations.find(i => i.id === e.target.value);
+                        setNewAssignment({ 
+                          ...newAssignment, 
+                          illustrationId: e.target.value,
+                          customUrl: match?.customUrl || ''
+                        });
+                      }}
                     >
-                      {BOTANICAL_ILLUSTRATIONS_CATALOG.map(item => (
+                      {allAvailableIllustrations.map(item => (
                         <option key={item.id} value={item.id}>{item.name} ({item.category})</option>
                       ))}
                     </select>
@@ -503,7 +711,7 @@ const IllustrationsManager = () => {
                     <input 
                       type="range" 
                       min="5" 
-                      max="40" 
+                      max="100" 
                       value={newAssignment.opacity} 
                       onChange={e => setNewAssignment({ ...newAssignment, opacity: Number(e.target.value) })}
                     />
@@ -512,10 +720,31 @@ const IllustrationsManager = () => {
                     <label>Scale ({newAssignment.scale}%)</label>
                     <input 
                       type="range" 
-                      min="60" 
-                      max="180" 
+                      min="50" 
+                      max="200" 
                       value={newAssignment.scale} 
                       onChange={e => setNewAssignment({ ...newAssignment, scale: Number(e.target.value) })}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group flex-1">
+                    <label>Rotation ({newAssignment.rotation}°)</label>
+                    <input 
+                      type="range" 
+                      min="-45" 
+                      max="45" 
+                      value={newAssignment.rotation} 
+                      onChange={e => setNewAssignment({ ...newAssignment, rotation: Number(e.target.value) })}
+                    />
+                  </div>
+                  <div className="form-group flex-1">
+                    <label>Z-Index Layer</label>
+                    <input 
+                      type="number" 
+                      value={newAssignment.zIndex} 
+                      onChange={e => setNewAssignment({ ...newAssignment, zIndex: Number(e.target.value) })}
                     />
                   </div>
                 </div>
@@ -561,6 +790,7 @@ const IllustrationsManager = () => {
             <table className="admin-table">
               <thead>
                 <tr>
+                  <th style={{ width: '40px' }}>Order</th>
                   <th>Artwork</th>
                   <th>Target Page</th>
                   <th>Section</th>
@@ -572,14 +802,39 @@ const IllustrationsManager = () => {
                 </tr>
               </thead>
               <tbody>
-                {assignments.map(a => {
-                  const ill = getBotanicalIllustration(a.illustrationId);
+                {assignments.map((a, idx) => {
+                  const ill = allAvailableIllustrations.find(i => i.id === a.illustrationId) || getBotanicalIllustration(a.illustrationId);
                   return (
                     <tr key={a.id}>
                       <td>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                          <button 
+                            type="button" 
+                            disabled={idx === 0} 
+                            onClick={() => handleMoveOrder(idx, -1)}
+                            style={{ border: 'none', background: 'none', cursor: idx === 0 ? 'default' : 'pointer', opacity: idx === 0 ? 0.2 : 0.8 }}
+                          >
+                            <ArrowUp size={14} />
+                          </button>
+                          <button 
+                            type="button" 
+                            disabled={idx === assignments.length - 1} 
+                            onClick={() => handleMoveOrder(idx, 1)}
+                            style={{ border: 'none', background: 'none', cursor: idx === assignments.length - 1 ? 'default' : 'pointer', opacity: idx === assignments.length - 1 ? 0.2 : 0.8 }}
+                          >
+                            <ArrowDown size={14} />
+                          </button>
+                        </div>
+                      </td>
+                      <td>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                           <div style={{ width: '40px', height: '40px', background: 'rgba(23, 59, 47, 0.05)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <BotanicalIllustration id={a.illustrationId} size={30} color="#173B2F" />
+                            <BotanicalIllustration 
+                              id={a.illustrationId} 
+                              customUrl={a.customUrl} 
+                              size={30} 
+                              color="#173B2F" 
+                            />
                           </div>
                           <div>
                             <strong style={{ fontSize: '0.84rem' }}>{ill.name}</strong>

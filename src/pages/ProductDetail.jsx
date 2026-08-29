@@ -11,13 +11,18 @@ import { ProductDetailSkeleton } from '../components/Skeletons/Skeleton';
 import { 
   ProductUsageFlow, 
   BotanicalWatermark, 
+  SectionIllustrationSlot,
   TulsiSprig, 
   CitronellaCluster, 
   LemongrassStalk, 
   NeemBranch, 
   EucalyptusSprig, 
   WildTurmeric, 
-  AmlaCluster 
+  AmlaCluster,
+  MoringaFrond,
+  AloeVeraRosette,
+  BhringrajFlora,
+  HibiscusBlossom
 } from '../components/Illustrations/BotanicalIllustrations';
 import './ProductDetail.css';
 
@@ -283,7 +288,69 @@ const ProductDetail = () => {
             )}
             {activeTab === 'ingredients' && (
               <div className="tab-pane">
-                <p>{ingredients}</p>
+                <p style={{ marginBottom: '16px' }}>{ingredients}</p>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '12px' }}>
+                  {ingredients.toLowerCase().includes('neem') && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: 'rgba(23, 59, 47, 0.06)', border: '1px solid rgba(23, 59, 47, 0.12)', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                      <NeemBranch size={18} color="#173B2F" />
+                      <span>Pure Neem</span>
+                    </div>
+                  )}
+                  {ingredients.toLowerCase().includes('citronella') && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: 'rgba(23, 59, 47, 0.06)', border: '1px solid rgba(23, 59, 47, 0.12)', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                      <CitronellaCluster size={18} color="#173B2F" />
+                      <span>Java Citronella</span>
+                    </div>
+                  )}
+                  {ingredients.toLowerCase().includes('lemongrass') && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: 'rgba(23, 59, 47, 0.06)', border: '1px solid rgba(23, 59, 47, 0.12)', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                      <LemongrassStalk size={18} color="#173B2F" />
+                      <span>Lemongrass</span>
+                    </div>
+                  )}
+                  {ingredients.toLowerCase().includes('eucalyptus') && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: 'rgba(23, 59, 47, 0.06)', border: '1px solid rgba(23, 59, 47, 0.12)', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                      <EucalyptusSprig size={18} color="#173B2F" />
+                      <span>Eucalyptus</span>
+                    </div>
+                  )}
+                  {ingredients.toLowerCase().includes('tulsi') && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: 'rgba(23, 59, 47, 0.06)', border: '1px solid rgba(23, 59, 47, 0.12)', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                      <TulsiSprig size={18} color="#173B2F" />
+                      <span>Holy Basil (Tulsi)</span>
+                    </div>
+                  )}
+                  {(ingredients.toLowerCase().includes('turmeric') || ingredients.toLowerCase().includes('haldi')) && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: 'rgba(23, 59, 47, 0.06)', border: '1px solid rgba(23, 59, 47, 0.12)', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                      <WildTurmeric size={18} color="#173B2F" />
+                      <span>Kasturi Haldi</span>
+                    </div>
+                  )}
+                  {ingredients.toLowerCase().includes('amla') && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: 'rgba(23, 59, 47, 0.06)', border: '1px solid rgba(23, 59, 47, 0.12)', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                      <AmlaCluster size={18} color="#173B2F" />
+                      <span>Wild Amla</span>
+                    </div>
+                  )}
+                  {ingredients.toLowerCase().includes('moringa') && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: 'rgba(23, 59, 47, 0.06)', border: '1px solid rgba(23, 59, 47, 0.12)', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                      <MoringaFrond size={18} color="#173B2F" />
+                      <span>Moringa Leaf</span>
+                    </div>
+                  )}
+                  {ingredients.toLowerCase().includes('bhringraj') && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: 'rgba(23, 59, 47, 0.06)', border: '1px solid rgba(23, 59, 47, 0.12)', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                      <BhringrajFlora size={18} color="#173B2F" />
+                      <span>Bhringraj</span>
+                    </div>
+                  )}
+                  {ingredients.toLowerCase().includes('aloe') && (
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '20px', background: 'rgba(23, 59, 47, 0.06)', border: '1px solid rgba(23, 59, 47, 0.12)', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                      <AloeVeraRosette size={18} color="#173B2F" />
+                      <span>Aloe Vera</span>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
             {activeTab === 'howToUse' && (

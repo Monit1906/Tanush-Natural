@@ -6,11 +6,11 @@ import './BotanicalIllustrations.css';
  * TANUSH NATURAL — COMPLETE BOTANICAL ILLUSTRATION SYSTEM
  * Universal editorial vector illustrations across all pages and sections:
  * - BOTANICAL & AYURVEDIC HERBS
- * - NATURAL FARMING & SOIL CULTIVATION
+ * - NATURAL FARMING, SOIL, SEEDS & TOOLS
  * - FARM TO HOME STORYTELLING
- * - MOSQUITO PROTECTION, VAPORIZER & SPRAY
- * - MODERN INDIAN HOMES & MONSOON
- * - WELLNESS, PURITY & SUSTAINABILITY
+ * - MOSQUITO PROTECTION, VAPORIZER, SPRAY & REFILL
+ * - MODERN INDIAN HOMES, MONSOON & OUTDOOR LIVING
+ * - WELLNESS, PURITY, SUSTAINABILITY & FUNCTIONAL EMPTY STATES
  */
 
 // -----------------------------------------------------------------------------
@@ -221,15 +221,35 @@ export const BhringrajFlora = ({ size = 64, color = "currentColor", className = 
     <path d="M50 90 L50 35" stroke={color} strokeWidth="2" />
     <circle cx="50" cy="24" r="7" stroke={color} strokeWidth="1.8" />
     <circle cx="50" cy="24" r="2.5" fill={color} />
-    {/* Delicate petals */}
     <path d="M50 17 L50 10 M57 24 L64 24 M50 31 L50 38 M43 24 L36 24" stroke={color} strokeWidth="1.4" strokeLinecap="round" />
     <path d="M50 50 C35 45 25 35 30 25 C40 30 46 42 50 50" stroke={color} strokeWidth="1.5" />
     <path d="M50 65 C65 60 75 50 70 40 C60 45 54 57 50 65" stroke={color} strokeWidth="1.5" />
   </svg>
 );
 
+export const HibiscusBlossom = ({ size = 64, color = "currentColor", className = "", ...props }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 100 100" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg" 
+    className={`botanical-svg-icon ${className}`}
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M50 50 C40 30 20 30 25 50 C28 62 42 56 50 50" stroke={color} strokeWidth="1.6" />
+    <path d="M50 50 C60 30 80 30 75 50 C72 62 58 56 50 50" stroke={color} strokeWidth="1.6" />
+    <path d="M50 50 C35 65 35 85 50 82 C65 85 65 65 50 50" stroke={color} strokeWidth="1.6" />
+    <path d="M50 50 C30 40 15 55 30 70 C42 66 48 56 50 50" stroke={color} strokeWidth="1.6" />
+    <path d="M50 50 C70 40 85 55 70 70 C58 66 52 56 50 50" stroke={color} strokeWidth="1.6" />
+    <path d="M50 50 L50 20" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+    <circle cx="50" cy="18" r="2.5" fill={color} />
+  </svg>
+);
+
 // -----------------------------------------------------------------------------
-// 2. NATURAL FARMING & SOIL CULTIVATION
+// 2. NATURAL FARMING, SOIL, SEEDS & TOOLS
 // -----------------------------------------------------------------------------
 
 export const FarmerInField = ({ size = 80, color = "currentColor", className = "", ...props }) => (
@@ -279,6 +299,44 @@ export const PlantingHands = ({ size = 80, color = "currentColor", className = "
   </svg>
 );
 
+export const SeedSowing = ({ size = 80, color = "currentColor", className = "", ...props }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 120 120" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg" 
+    className={`botanical-svg-icon ${className}`}
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M15 65 Q60 55 105 65" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    <path d="M25 78 Q60 68 95 78" stroke={color} strokeWidth="1.3" />
+    <ellipse cx="60" cy="58" rx="8" ry="5" transform="rotate(-15 60 58)" stroke={color} strokeWidth="1.8" fill="none" />
+    <path d="M60 53 Q58 40 60 30" stroke={color} strokeWidth="1.5" strokeDasharray="2 2" />
+    <circle cx="60" cy="24" r="2.5" fill={color} />
+  </svg>
+);
+
+export const SproutingSeedling = ({ size = 80, color = "currentColor", className = "", ...props }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 120 120" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg" 
+    className={`botanical-svg-icon ${className}`}
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M20 85 Q60 80 100 85" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    <path d="M60 85 L60 45" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    <path d="M60 45 C45 35 40 20 52 15 C60 22 62 35 60 45" stroke={color} strokeWidth="1.8" />
+    <path d="M60 45 C75 35 80 20 68 15 C60 22 58 35 60 45" stroke={color} strokeWidth="1.8" />
+    <circle cx="60" cy="94" r="3" stroke={color} strokeWidth="1.4" />
+  </svg>
+);
+
 export const HarvestBasket = ({ size = 80, color = "currentColor", className = "", ...props }) => (
   <svg 
     width={size} 
@@ -311,18 +369,16 @@ export const RootsAndSoil = ({ size = 80, color = "currentColor", className = ""
     {...props}
   >
     <path d="M15 45 Q60 40 105 45" stroke={color} strokeWidth="2" strokeLinecap="round" />
-    {/* Sprout above soil */}
     <path d="M60 45 L60 20" stroke={color} strokeWidth="2" />
     <path d="M60 32 C50 25 45 15 54 10 C58 18 60 26 60 32" stroke={color} strokeWidth="1.6" />
     <path d="M60 25 C70 18 75 8 66 5 C62 12 60 20 60 25" stroke={color} strokeWidth="1.6" />
-    {/* Deep organic root network */}
     <path d="M60 45 Q55 70 40 95 M60 45 Q65 70 80 95 M60 45 L60 105" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
     <path d="M55 60 Q45 75 30 80 M65 60 Q75 75 90 80 M58 75 Q48 90 42 105" stroke={color} strokeWidth="1.2" strokeLinecap="round" />
   </svg>
 );
 
 // -----------------------------------------------------------------------------
-// 3. MOSQUITO PROTECTION & BOTANICAL VAPORIZER/SPRAY
+// 3. MOSQUITO PROTECTION, VAPORIZER, SPRAY & REFILL
 // -----------------------------------------------------------------------------
 
 export const MosquitoVaporizerArt = ({ size = 80, color = "currentColor", className = "", ...props }) => (
@@ -351,6 +407,25 @@ export const MosquitoVaporizerArt = ({ size = 80, color = "currentColor", classN
       <path d="M4 5 Q2 0 6 0 Q7 2 4 5" stroke={color} strokeWidth="1" fill="none" />
       <path d="M4 5 Q2 10 6 10 Q7 8 4 5" stroke={color} strokeWidth="1" fill="none" />
     </g>
+  </svg>
+);
+
+export const VaporizerRefillCartridge = ({ size = 80, color = "currentColor", className = "", ...props }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 120 120" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg" 
+    className={`botanical-svg-icon ${className}`}
+    aria-hidden="true"
+    {...props}
+  >
+    <rect x="46" y="55" width="28" height="48" rx="6" stroke={color} strokeWidth="2" />
+    <rect x="52" y="38" width="16" height="17" rx="3" stroke={color} strokeWidth="1.8" />
+    <line x1="60" y1="20" x2="60" y2="55" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M50 75 Q60 82 70 75" stroke={color} strokeWidth="1.2" strokeDasharray="2 2" />
+    <circle cx="60" cy="18" r="1.5" fill={color} />
   </svg>
 );
 
@@ -402,7 +477,7 @@ export const BotanicalShield = ({ size = 80, color = "currentColor", className =
 );
 
 // -----------------------------------------------------------------------------
-// 4. MODERN INDIAN HOME & MONSOON HARMONY
+// 4. MODERN INDIAN HOME, MONSOON & OUTDOOR LIVING
 // -----------------------------------------------------------------------------
 
 export const ModernIndianHome = ({ size = 80, color = "currentColor", className = "", ...props }) => (
@@ -449,6 +524,28 @@ export const MonsoonRainLeaves = ({ size = 80, color = "currentColor", className
   </svg>
 );
 
+export const OutdoorGardenSanctuary = ({ size = 80, color = "currentColor", className = "", ...props }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 120 120" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg" 
+    className={`botanical-svg-icon ${className}`}
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M15 95 Q60 88 105 95" stroke={color} strokeWidth="2" />
+    <path d="M30 95 C30 70 45 55 45 35 C55 45 50 70 45 95" stroke={color} strokeWidth="1.6" />
+    <circle cx="85" cy="40" r="10" stroke={color} strokeWidth="1.4" strokeDasharray="2 2" opacity="0.5" />
+    <path d="M70 95 C75 80 85 75 90 60 C95 75 90 85 85 95" stroke={color} strokeWidth="1.4" />
+  </svg>
+);
+
+// -----------------------------------------------------------------------------
+// 5. WELLNESS, PURITY & FUNCTIONAL EMPTY STATES
+// -----------------------------------------------------------------------------
+
 export const AyurvedicMortarPestle = ({ size = 80, color = "currentColor", className = "", ...props }) => (
   <svg 
     width={size} 
@@ -460,12 +557,9 @@ export const AyurvedicMortarPestle = ({ size = 80, color = "currentColor", class
     aria-hidden="true"
     {...props}
   >
-    {/* Mortar Stone Bowl */}
     <path d="M28 55 C28 88 50 98 60 98 C70 98 92 88 92 55 L28 55 Z" stroke={color} strokeWidth="2" />
     <ellipse cx="60" cy="55" rx="32" ry="7" stroke={color} strokeWidth="1.8" />
-    {/* Pestle angle */}
     <path d="M52 50 L75 20 L84 26 L64 56" stroke={color} strokeWidth="1.8" strokeLinejoin="round" />
-    {/* Fresh leaves in formulation */}
     <path d="M45 55 C38 46 45 36 52 42 C50 50 45 55 45 55" stroke={color} strokeWidth="1.4" />
   </svg>
 );
@@ -481,10 +575,8 @@ export const MadeInIndiaInsignia = ({ size = 80, color = "currentColor", classNa
     aria-hidden="true"
     {...props}
   >
-    {/* Outer botanical circle */}
     <circle cx="60" cy="60" r="48" stroke={color} strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
     <circle cx="60" cy="60" r="42" stroke={color} strokeWidth="1.8" />
-    {/* Pure Lotus / India motif */}
     <path d="M60 78 C48 62 42 45 60 32 C78 45 72 62 60 78 Z" stroke={color} strokeWidth="1.8" />
     <path d="M60 78 C40 70 30 52 42 42 C48 52 55 68 60 78 Z" stroke={color} strokeWidth="1.4" />
     <path d="M60 78 C80 70 90 52 78 42 C72 52 65 68 60 78 Z" stroke={color} strokeWidth="1.4" />
@@ -492,8 +584,26 @@ export const MadeInIndiaInsignia = ({ size = 80, color = "currentColor", classNa
   </svg>
 );
 
+export const EmptyCartBasket = ({ size = 64, color = "currentColor", className = "", ...props }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 100 100" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg" 
+    className={`botanical-svg-icon ${className}`}
+    aria-hidden="true"
+    {...props}
+  >
+    <path d="M25 50 L35 85 C40 90 60 90 65 85 L75 50 Z" stroke={color} strokeWidth="1.8" />
+    <path d="M30 60 L70 60 M34 72 L66 72" stroke={color} strokeWidth="1.2" />
+    <path d="M40 50 C35 38 42 28 50 32 C48 42 43 48 40 50" stroke={color} strokeWidth="1.4" />
+    <path d="M52 50 C58 38 68 35 66 45 C62 48 56 50 52 50" stroke={color} strokeWidth="1.4" />
+  </svg>
+);
+
 // -----------------------------------------------------------------------------
-// 5. MASTER CATALOG & REGISTRY OF ALL ILLUSTRATIONS
+// 6. MASTER CATALOG & REGISTRY OF ALL ILLUSTRATIONS
 // -----------------------------------------------------------------------------
 
 export const BOTANICAL_ILLUSTRATIONS_CATALOG = [
@@ -547,6 +657,14 @@ export const BOTANICAL_ILLUSTRATIONS_CATALOG = [
     component: BhringrajFlora
   },
   {
+    id: 'hibiscus-blossom',
+    name: 'Hibiscus Hair Bloom',
+    category: 'BOTANICAL',
+    tags: ['hibiscus', 'hair-care', 'flower', 'keshya'],
+    description: 'Graceful Indian hibiscus bloom nourishing hair follicles.',
+    component: HibiscusBlossom
+  },
+  {
     id: 'wild-turmeric',
     name: 'Kasturi Haldi Blossom & Root',
     category: 'BOTANICAL',
@@ -571,6 +689,22 @@ export const BOTANICAL_ILLUSTRATIONS_CATALOG = [
     tags: ['planting', 'hands', 'seedling', 'roots', 'earth'],
     description: 'Mindful human hands cradling rich soil while a tender seedling sprouts.',
     component: PlantingHands
+  },
+  {
+    id: 'seed-sowing',
+    name: 'Seed Sowing in Furrow',
+    category: 'NATURAL FARMING',
+    tags: ['seed', 'soil', 'earth', 'origin'],
+    description: 'Organic non-hybrid seed resting in living fertile soil.',
+    component: SeedSowing
+  },
+  {
+    id: 'sprouting-seedling',
+    name: 'Sprouting Earth Seedling',
+    category: 'NATURAL FARMING',
+    tags: ['seedling', 'growth', 'sprout', 'natural'],
+    description: 'Two tender organic cotyledons breaking through clean soil.',
+    component: SproutingSeedling
   },
   {
     id: 'harvest-basket',
@@ -634,6 +768,14 @@ export const BOTANICAL_ILLUSTRATIONS_CATALOG = [
     description: 'Compact plug-in vaporizer emitting gentle botanical vapor waves.',
     component: MosquitoVaporizerArt
   },
+  {
+    id: 'vaporizer-refill-cartridge',
+    name: 'Vaporizer Refill Cartridge',
+    category: 'VAPORIZER',
+    tags: ['refill', 'bottle', 'wick', 'liquid'],
+    description: 'Essential oil repellent bottle with natural graphite porous wick.',
+    component: VaporizerRefillCartridge
+  },
 
   // 6. REPELLENT SPRAY
   {
@@ -645,7 +787,7 @@ export const BOTANICAL_ILLUSTRATIONS_CATALOG = [
     component: MosquitoSprayArt
   },
 
-  // 7. INDIAN HOME
+  // 7. INDIAN HOME & OUTDOOR
   {
     id: 'modern-indian-home',
     name: 'Modern Indian Living & Balcony',
@@ -653,6 +795,14 @@ export const BOTANICAL_ILLUSTRATIONS_CATALOG = [
     tags: ['home', 'balcony', 'plants', 'lifestyle', 'everyday'],
     description: 'Modern Indian home sanctuary with airy veranda and indoor botanical greenery.',
     component: ModernIndianHome
+  },
+  {
+    id: 'outdoor-garden-sanctuary',
+    name: 'Outdoor Garden & Veranda',
+    category: 'INDIAN HOME',
+    tags: ['garden', 'outdoor', 'evening', 'veranda'],
+    description: 'Gentle outdoor twilight garden for serene evenings.',
+    component: OutdoorGardenSanctuary
   },
 
   // 8. MONSOON
@@ -681,6 +831,14 @@ export const BOTANICAL_ILLUSTRATIONS_CATALOG = [
     tags: ['india', 'purity', 'lotus', 'insignia', 'trust'],
     description: 'Editorial lotus insignia celebrating authentic Indian botanical heritage.',
     component: MadeInIndiaInsignia
+  },
+  {
+    id: 'empty-cart-basket',
+    name: 'Empty Cart Basket',
+    category: 'WELLNESS & CARE',
+    tags: ['cart', 'basket', 'empty', 'shop'],
+    description: 'Minimal handwoven basket with leaf sprigs for cart and checkout states.',
+    component: EmptyCartBasket
   }
 ];
 
@@ -690,15 +848,35 @@ export const getBotanicalIllustration = (id) => {
   return match || BOTANICAL_ILLUSTRATIONS_CATALOG[0];
 };
 
-// Universal Component to render any Illustration by ID
-export const BotanicalIllustration = ({ id, size = 64, color = "currentColor", className = "", ...props }) => {
+// Universal Component to render any Illustration by ID or Custom Media URL
+export const BotanicalIllustration = ({ 
+  id, 
+  customUrl = null, 
+  size = 64, 
+  color = "currentColor", 
+  className = "", 
+  ...props 
+}) => {
+  if (customUrl) {
+    return (
+      <img 
+        src={customUrl} 
+        alt="Botanical Illustration" 
+        style={{ width: size, height: size, objectFit: 'contain', pointerEvents: 'none' }}
+        className={`botanical-svg-icon ${className}`}
+        aria-hidden="true"
+        onError={(e) => { e.target.style.display = 'none'; }}
+        {...props}
+      />
+    );
+  }
   const item = getBotanicalIllustration(id);
   const Component = item.component || NeemBranch;
   return <Component size={size} color={color} className={className} {...props} />;
 };
 
 // -----------------------------------------------------------------------------
-// 6. DYNAMIC SECTION ILLUSTRATION SLOT (UNIVERSAL PER-PAGE & PER-SECTION)
+// 7. DYNAMIC SECTION ILLUSTRATION SLOT (UNIVERSAL PER-PAGE & PER-SECTION)
 // -----------------------------------------------------------------------------
 
 export const SectionIllustrationSlot = ({
@@ -718,9 +896,11 @@ export const SectionIllustrationSlot = ({
       if (settings && Array.isArray(settings.assignments)) {
         const matches = settings.assignments.filter(a => 
           a.isActive !== false &&
-          (a.page?.toLowerCase() === page?.toLowerCase() || a.page === 'All') &&
+          (a.page?.toLowerCase() === page?.toLowerCase() || a.page === 'All' || a.page === 'All Pages') &&
           (a.section?.toLowerCase() === section?.toLowerCase() || a.section === 'All' || a.section?.toLowerCase().includes(section?.toLowerCase()))
         );
+        // Sort by order property if set
+        matches.sort((a, b) => (a.order || 0) - (b.order || 0));
         setActiveIllustrations(matches);
       }
     } catch (e) {
@@ -761,13 +941,12 @@ export const SectionIllustrationSlot = ({
   return (
     <>
       {activeIllustrations.map(item => {
-        const ill = getBotanicalIllustration(item.illustrationId);
-        const Comp = ill.component || NeemBranch;
         const posClass = `section-illustration-${item.position || 'top-right'}`;
         const desktopClass = item.desktopVisible === false ? 'section-illustration-desktop-hidden' : '';
         const mobileClass = item.mobileVisible === false ? 'section-illustration-mobile-hidden' : '';
         const scaleVal = (item.scale || 100) / 100;
         const opacityVal = (item.opacity || 10) / 100;
+        const rotVal = item.rotation || 0;
 
         return (
           <div
@@ -775,11 +954,17 @@ export const SectionIllustrationSlot = ({
             className={`section-illustration-slot ${posClass} ${desktopClass} ${mobileClass} ${className}`}
             style={{ 
               opacity: opacityVal,
-              transform: `scale(${scaleVal})`
+              transform: `scale(${scaleVal}) rotate(${rotVal}deg)`,
+              zIndex: item.zIndex || 0
             }}
             aria-hidden="true"
           >
-            <Comp size={260} color="var(--color-primary, #173B2F)" />
+            <BotanicalIllustration 
+              id={item.illustrationId} 
+              customUrl={item.customUrl} 
+              size={260} 
+              color="var(--color-primary, #173B2F)" 
+            />
           </div>
         );
       })}
@@ -788,7 +973,7 @@ export const SectionIllustrationSlot = ({
 };
 
 // -----------------------------------------------------------------------------
-// 7. HIGH-LEVEL STORYTELLING & LIFESTYLE COMPONENTS
+// 8. HIGH-LEVEL STORYTELLING & LIFESTYLE COMPONENTS
 // -----------------------------------------------------------------------------
 
 /**

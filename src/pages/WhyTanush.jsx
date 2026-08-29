@@ -3,7 +3,16 @@ import { Leaf, ShieldCheck, Heart, CheckCircle, Lightbulb, TrendUp, Users, Targe
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import Button from '../components/Button/Button';
 import InnerPageHero from '../components/InnerPageHero/InnerPageHero';
-import { FarmToHomeJourney, BotanicalWatermark } from '../components/Illustrations/BotanicalIllustrations';
+import { 
+  FarmToHomeJourney, 
+  BotanicalWatermark, 
+  SectionIllustrationSlot, 
+  MadeInIndiaInsignia, 
+  TulsiSprig,
+  AyurvedicMortarPestle,
+  FarmerInField,
+  NeemBranch
+} from '../components/Illustrations/BotanicalIllustrations';
 import { whyTanushSlides } from '../data/heroData';
 import './WhyTanush.css';
 
@@ -49,7 +58,7 @@ const WhyTanush = () => {
 
       {/* Thoughtful by Nature */}
       <section className="thoughtful-section container section-padding" style={{ position: 'relative' }}>
-        <BotanicalWatermark illustration="tulsi-sprig" position="bottom-left" opacity={0.05} size={220} />
+        <SectionIllustrationSlot page="WhyTanush" section="Thoughtful" defaultIllustration="tulsi-sprig" defaultPosition="bottom-left" defaultOpacity={6} />
         <div className="section-header text-center">
           <span className="subtitle">WHY TANUSH</span>
           <h2>Thoughtful by Nature. Made for You.</h2>
@@ -86,7 +95,7 @@ const WhyTanush = () => {
 
       {/* Our Story */}
       <section id="our-story" className="our-story-section bg-secondary section-padding" style={{ position: 'relative' }}>
-        <BotanicalWatermark illustration="farmer-in-field" position="bottom-right" opacity={0.06} size={260} />
+        <SectionIllustrationSlot page="WhyTanush" section="Our Story" defaultIllustration="farmer-in-field" defaultPosition="bottom-right" defaultOpacity={6} />
         <div className="container story-flex">
           <div className="story-text-content">
             <span className="subtitle">OUR STORY</span>
