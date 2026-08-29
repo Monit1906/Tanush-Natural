@@ -1,0 +1,576 @@
+/* ==========================================================================
+   TANUSH NATURAL — FULL-BLEED HERO SLIDER
+   ========================================================================== */
+
+/* ── Container ─────────────────────────────────────────────────────────── */
+.hero-slider-container {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  /* NO overflow:hidden here — trust bar card needs to poke out below */
+  background: #1a1a1a;
+}
+
+.hero-slider-container.variant-home {
+  height: 80vh;
+  min-height: 480px;
+}
+
+.hero-slider-container.variant-page {
+  height: 440px;
+  margin-bottom: var(--spacing-2xl);
+}
+
+/* ── Slider Track ──────────────────────────────────────────────────────── */
+.hero-slider {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* clips the background images only */
+  border-radius: 0;
+}
+
+/* ── Individual Slide ─────────────────────────────────────────────────── */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+/* ── Full-bleed Background Image ──────────────────────────────────────── */
+.hero-bg-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero-bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* ── Dark Gradient Overlay ─────────────────────────────────────────────── */
+/* Stronger on left for text, fades to clear on right */
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: 
+    linear-gradient(
+      to right,
+      rgba(10, 22, 18, 0.72) 0%,
+      rgba(10, 22, 18, 0.45) 45%,
+      rgba(10, 22, 18, 0.12) 75%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.35) 0%,
+      transparent 50%
+    );
+}
+
+/* ── Slide Content Inner ───────────────────────────────────────────────── */
+.hero-slide-inner {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-top: var(--header-height);
+}
+
+/* ── Hero-specific typography overrides ───────────────────────────────── */
+/* These extend the global .section-title / .section-caption system        */
+
+.hero-title-override {
+  font-size: clamp(2.8rem, 5.2vw, 4.4rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.18);
+}
+
+.hero-caption-override {
+  font-size: 0.82rem;
+  letter-spacing: 0.07em;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  max-width: 440px;
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+/* ── Left Column ──────────────────────────────────────────────────────── */
+.hero-left-column {
+  max-width: 580px;
+  text-align: left;
+  padding-left: 4px;
+}
+
+/* Eyebrow badge */
+.hero-eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-20);
+}
+
+.hero-eyebrow-icon {
+  color: #A8D5B5;
+}
+
+.hero-eyebrow-text {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.92);
+  text-transform: uppercase;
+}
+
+/* Headline */
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 4.8vw, 4.2rem);
+  line-height: 1.1;
+  font-weight: 500;
+  color: #FFFFFF;
+  letter-spacing: -0.018em;
+  margin-bottom: var(--space-16);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Subtitle */
+.hero-subtitle {
+  font-family: var(--font-sans);
+  font-size: 1.07rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 460px;
+  margin-bottom: var(--space-32);
+  font-weight: 400;
+}
+
+/* CTAs */
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.hero-cta-primary {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all var(--transition-fast);
+}
+
+.hero-cta-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
+}
+
+.hero-cta-secondary {
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  border-radius: 10px;
+  padding: 14px 26px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: all var(--transition-fast);
+}
+
+.hero-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.24);
+  border-color: rgba(255, 255, 255, 0.55);
+  transform: translateY(-2px);
+}
+
+.cta-arrow-icon {
+  transition: transform var(--transition-fast);
+}
+
+.hero-cta-primary:hover .cta-arrow-icon,
+.hero-cta-secondary:hover .cta-arrow-icon {
+  transform: translateX(3px);
+}
+
+/* ── Cursor Glow ───────────────────────────────────────────────────────── */
+.cursor-light {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  filter: blur(20px);
+}
+
+/* ── Nav Arrows ────────────────────────────────────────────────────────── */
+.slider-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #FFFFFF;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  transition: all var(--transition-fast);
+}
+
+.slider-nav-arrow:hover {
+  background: rgba(255, 255, 255, 0.26);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+
+.slider-nav-arrow.prev { left: var(--page-gutter, 32px); }
+.slider-nav-arrow.next { right: var(--page-gutter, 32px); }
+
+/* ==========================================================================
+   PROGRESS LINE BAR — replaces dots
+   ========================================================================== */
+
+.hero-progress-bar-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  gap: 4px;
+  padding: 0;
+  height: 4px;
+}
+
+/* Each segment = one slide */
+.hero-progress-segment {
+  flex: 1;
+  height: 4px;
+  background: rgba(23, 59, 47, 0.28);
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+
+.hero-progress-segment:hover {
+  background: rgba(23, 59, 47, 0.45);
+}
+
+/* Fully completed segments */
+.hero-progress-segment.done {
+  background: rgba(23, 59, 47, 0.55);
+}
+
+/* Animated fill on the active segment */
+.hero-progress-segment.active .hero-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--color-primary);
+  animation: segmentFill 6s linear forwards;
+}
+
+@keyframes segmentFill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* ── Inner Pages Navigation ───────────────────────────────────────────── */
+.hero-navigation-container {
+  position: absolute;
+  bottom: var(--spacing-xl);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-navigation {
+  padding: 10px 20px;
+  gap: var(--spacing-md);
+  height: 46px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.slider-arrow:hover { transform: scale(1.1); }
+
+.slider-progress-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  letter-spacing: 0.08em;
+}
+
+.progress-separator { color: var(--color-text-muted); }
+
+.slider-progress-bar-thin {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(23, 59, 47, 0.1);
+  overflow: hidden;
+  border-radius: 0 0 var(--radius-full) var(--radius-full);
+}
+
+.progress-bar-fill-thin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+/* ==========================================================================
+   HERO TRUST BAR — Liquid Glass, embedded at hero bottom
+   ========================================================================== */
+
+.hero-trust-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  padding: 0 var(--page-gutter, 40px);
+  /* Shift card down by half its height so it straddles the hero edge */
+  transform: translateY(50%);
+}
+
+.hero-trust-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 44px;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  /* Crystal transparent glass without heavy blur */
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  /* Clean subtle borders */
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+
+  /* Clean shadow */
+  box-shadow:
+    0 10px 30px rgba(23, 59, 47, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+
+  border-radius: 18px;
+}
+
+.hero-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  justify-content: center;
+}
+
+.hero-trust-icon {
+  color: var(--color-accent, #6B7C67);
+  flex-shrink: 0;
+}
+
+/* Match category heading brand colors & style — crisp dark botanical green */
+.hero-trust-text h4 {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-primary, #173B2F);
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+/* Match category caption style — refined muted botanical gray */
+.hero-trust-text p {
+  font-size: 0.72rem;
+  color: var(--color-text-muted, #5E6963);
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+}
+
+.hero-trust-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(23, 59, 47, 0.12);
+  flex-shrink: 0;
+  margin: 0 8px;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .hero-slider-container.variant-home {
+    height: 80vh;
+  }
+  .hero-title {
+    font-size: clamp(2.3rem, 4.2vw, 3.4rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-slider-container.variant-home {
+    height: 80vh;
+    min-height: 480px;
+  }
+
+  .hero-bg-overlay {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(10, 22, 18, 0.3) 0%,
+        rgba(10, 22, 18, 0.55) 100%
+      );
+  }
+
+  .hero-slide-inner {
+    align-items: flex-end;
+    padding-bottom: 72px;
+  }
+
+  .hero-left-column {
+    max-width: 100%;
+  }
+
+  .hero-title {
+    font-size: 2.1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.97rem;
+    color: rgba(255, 255, 255, 0.82);
+    margin-bottom: var(--space-24);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .slider-nav-arrow {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+  }
+
+  .slider-nav-arrow:hover {
+    transform: translateY(-50%) scale(1.08);
+  }
+
+  .slider-nav-arrow.prev { left: 14px; }
+  .slider-nav-arrow.next { right: 14px; }
+
+  .hero-progress-bar-container {
+    gap: 3px;
+    height: 3px;
+  }
+
+  /* Trust bar on mobile */
+  .hero-trust-inner {
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+    gap: 16px;
+    padding: 16px 20px;
+  }
+
+  .hero-trust-divider { display: none; }
+
+  .hero-trust-item {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+}

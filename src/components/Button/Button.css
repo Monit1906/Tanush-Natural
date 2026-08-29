@@ -1,0 +1,122 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 12px;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  cursor: pointer;
+  text-align: center;
+  gap: var(--space-8);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.btn svg {
+  transition: transform var(--transition-fast);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+/* Primary Button - Deep Botanical Forest Green with Subtle Natural Lift */
+.btn-primary {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 14px rgba(23, 59, 47, 0.18);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 22px rgba(23, 59, 47, 0.25);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:hover svg {
+  transform: translateX(3px);
+}
+
+/* Secondary Button - Subtle Botanical Glass */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(23, 59, 47, 0.14);
+  color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.btn-secondary:hover {
+  background: #FFFFFF;
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(23, 59, 47, 0.08);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary:hover span {
+  transform: translateX(2px);
+}
+
+/* Outline Button */
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-outline:hover {
+  background: rgba(23, 59, 47, 0.05);
+  transform: translateY(-1.5px);
+}
+
+.btn-outline:active {
+  transform: translateY(0);
+}
+
+/* Compact Sizes */
+.btn-small {
+  height: 36px;
+  padding: 0 16px;
+  font-size: 0.8rem;
+  border-radius: 8px;
+}
+
+.btn-medium {
+  height: 44px;
+  padding: 0 22px;
+  font-size: 0.88rem;
+  border-radius: 10px;
+}
+
+.btn-large {
+  height: 50px;
+  padding: 0 28px;
+  font-size: 0.94rem;
+  border-radius: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn, .btn:hover, .btn:active,
+  .btn-primary, .btn-primary:hover, .btn-primary:active,
+  .btn-secondary, .btn-secondary:hover, .btn-secondary:active,
+  .btn-outline, .btn-outline:hover, .btn-outline:active {
+    transform: none !important;
+  }
+  .btn svg, .btn span {
+    transform: none !important;
+  }
+}

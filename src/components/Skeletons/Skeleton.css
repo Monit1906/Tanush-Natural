@@ -1,0 +1,370 @@
+/* ============================================================
+   TANUSH NATURAL — LUXURY ORGANIC SKELETON SHIMMER SYSTEM
+   ============================================================ */
+
+:root {
+  --skel-bg-base: #ece8e1;
+  --skel-bg-shimmer: linear-gradient(
+    90deg,
+    rgba(236, 232, 225, 0.7) 0%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(236, 232, 225, 0.7) 100%
+  );
+  --skel-radius-sm: 6px;
+  --skel-radius-md: 12px;
+  --skel-radius-lg: 18px;
+  --skel-radius-full: 9999px;
+}
+
+/* Base Shimmer Element */
+.skel-elem {
+  background-color: var(--skel-bg-base);
+  background-image: var(--skel-bg-shimmer);
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: skel-shimmer 1.6s ease-in-out infinite;
+  display: block;
+  border-radius: var(--skel-radius-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes skel-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Basic Shimmer Building Blocks */
+.skel-text {
+  height: 14px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.skel-text-title {
+  height: 28px;
+  width: 60%;
+  margin-bottom: 14px;
+  border-radius: 6px;
+}
+
+.skel-text-subtitle {
+  height: 18px;
+  width: 40%;
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+
+.skel-pill {
+  height: 32px;
+  border-radius: var(--skel-radius-full);
+}
+
+.skel-btn {
+  height: 44px;
+  border-radius: var(--skel-radius-full);
+}
+
+.skel-circle {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   1. HOME PAGE SKELETON
+   ============================================================ */
+.skel-home-page {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color-bg, #FAF8F5);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  overflow-x: hidden;
+}
+
+.skel-home-hero {
+  width: 100%;
+  height: 600px;
+  max-height: 80vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skel-home-hero-card {
+  width: 90%;
+  max-width: 640px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: var(--skel-radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.skel-trust-strip {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 92%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.skel-trust-item {
+  height: 72px;
+  border-radius: var(--skel-radius-md);
+}
+
+.skel-categories-strip {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 92%;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.skel-featured-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 92%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.skel-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.skel-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.skel-product-card {
+  background: #ffffff;
+  border-radius: var(--skel-radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid rgba(23, 59, 47, 0.06);
+}
+
+.skel-product-img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--skel-radius-sm);
+}
+
+/* ============================================================
+   2. SHOP PAGE SKELETON
+   ============================================================ */
+.skel-shop-page {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color-bg, #FAF8F5);
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding-bottom: 60px;
+}
+
+.skel-inner-hero {
+  width: 100%;
+  height: 380px;
+  border-radius: 0;
+}
+
+.skel-shop-toolbar-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 92%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.skel-shop-categories-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 92%;
+  display: flex;
+  gap: 10px;
+  overflow-x: hidden;
+}
+
+.skel-shop-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 92%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* ============================================================
+   3. PRODUCT DETAIL SKELETON
+   ============================================================ */
+.skel-product-detail {
+  max-width: 1200px;
+  margin: 40px auto 60px;
+  width: 92%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.skel-product-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.skel-product-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skel-main-image {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--skel-radius-md);
+}
+
+.skel-thumbnail-row {
+  display: flex;
+  gap: 12px;
+}
+
+.skel-thumbnail {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--skel-radius-sm);
+}
+
+.skel-product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ============================================================
+   4. GENERIC / CONTENT PAGE SKELETON (Why Tanush, Partner, Contact)
+   ============================================================ */
+.skel-generic-page {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--color-bg, #FAF8F5);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-bottom: 60px;
+}
+
+.skel-generic-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 92%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.skel-content-card {
+  background: #ffffff;
+  border-radius: var(--skel-radius-lg);
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid rgba(23, 59, 47, 0.06);
+}
+
+/* ============================================================
+   5. ADMIN MANAGER SKELETON
+   ============================================================ */
+.skel-admin-view {
+  padding: 24px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.skel-admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.skel-admin-matrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.skel-admin-table {
+  background: #ffffff;
+  border-radius: var(--skel-radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid rgba(23, 59, 47, 0.08);
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS
+   ============================================================ */
+@media (max-width: 1024px) {
+  .skel-grid-4,
+  .skel-shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .skel-trust-strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .skel-product-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 680px) {
+  .skel-grid-4,
+  .skel-shop-grid,
+  .skel-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .skel-trust-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+  .skel-home-hero {
+    height: 420px;
+  }
+  .skel-inner-hero {
+    height: 240px;
+  }
+}

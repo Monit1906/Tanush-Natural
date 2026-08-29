@@ -1,0 +1,32 @@
+.stroke-text {
+  display: inline-flex;
+  line-height: 0;
+  max-width: 100%;
+}
+
+.stroke-text--hover {
+  cursor: pointer;
+}
+
+.stroke-text__svg {
+  display: block;
+  height: 1.2em; /* Ensure it scales with font size of container */
+  width: auto;
+  max-width: 100%;
+}
+
+.stroke-text__stroke,
+.stroke-text__fill {
+  user-select: none;
+}
+
+.stroke-text__stroke {
+  /* Default hidden state before JS kicks in */
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+}
+
+.stroke-text__fill {
+  /* Default hidden state before JS kicks in */
+  opacity: 0;
+}

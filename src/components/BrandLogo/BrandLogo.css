@@ -1,0 +1,89 @@
+/* Universal Brand Logo Component Styles */
+.global-brand-logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.global-brand-logo-wrap:hover {
+  transform: scale(1.02);
+}
+
+.global-brand-logo-img {
+  object-fit: contain;
+  display: block;
+}
+
+/* Variant Sizes */
+.img-header {
+  height: 48px;
+  width: auto;
+  max-width: 140px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.06));
+}
+
+.img-footer {
+  height: 64px;
+  width: auto;
+  max-width: 160px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
+}
+
+.img-admin-sidebar {
+  height: 42px;
+  width: 42px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.img-admin-topbar {
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+}
+
+.img-admin-login {
+  height: 84px;
+  width: 84px;
+  border-radius: 50%;
+  margin: 0 auto;
+  box-shadow: 0 8px 24px rgba(23, 59, 47, 0.15);
+}
+
+.img-account {
+  height: 64px;
+  width: 64px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.img-cart {
+  height: 36px;
+  width: auto;
+  max-width: 100px;
+}
+
+.global-logo-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.global-logo-fallback .logo-main {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-primary);
+}
+
+.global-logo-fallback .logo-sub {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  color: var(--color-accent);
+}

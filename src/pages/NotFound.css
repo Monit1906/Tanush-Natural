@@ -1,0 +1,61 @@
+.not-found-page {
+  min-height: clamp(60vh, 700px, 80vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-64) var(--space-24);
+  background-color: var(--color-bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.not-found-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+}
+
+.not-found-page h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(6rem, 15vw, 12rem);
+  color: var(--color-primary);
+  opacity: 0.15;
+  line-height: 1;
+  margin-bottom: var(--space-24);
+  user-select: none;
+}
+
+.not-found-page h2 {
+  font-family: var(--font-sans);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-16);
+  margin-top: calc(-1 * var(--space-48));
+}
+
+.not-found-page p {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-48);
+  line-height: 1.6;
+}
+
+.not-found-actions {
+  display: flex;
+  gap: var(--space-16);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.not-found-bg-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-primary);
+  opacity: 0.03;
+  z-index: 1;
+  pointer-events: none;
+}

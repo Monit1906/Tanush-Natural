@@ -1,0 +1,161 @@
+/* ==========================================================================
+   TANUSH NATURAL — INNER PAGE HERO BANNER (1920 × 600)
+   Pure visual banner with strictly no text, no buttons, and no floating cards.
+   ========================================================================== */
+
+.inner-page-hero-container {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  background-color: var(--color-bg-secondary, #F7F4EC);
+  margin-bottom: var(--space-48, 48px);
+}
+
+.inner-page-hero-banner {
+  position: relative;
+  width: 100%;
+  /* 1920 / 600 aspect ratio = 3.2 : 1 */
+  aspect-ratio: 1920 / 600;
+  max-height: 600px;
+  min-height: 260px;
+  overflow: hidden;
+  display: block;
+}
+
+.inner-hero-picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.inner-hero-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+/* Subtle overlay (if enabled in CMS) */
+.inner-hero-subtle-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(23, 59, 47, 0.08);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Multi-Slide Navigation Arrows */
+.inner-hero-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(20, 51, 40, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease, background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.inner-page-hero-container:hover .inner-hero-nav-arrow {
+  opacity: 1;
+}
+
+.inner-hero-nav-arrow:hover {
+  background: rgba(20, 51, 40, 0.95);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.inner-hero-nav-prev {
+  left: 28px;
+}
+
+.inner-hero-nav-next {
+  right: 28px;
+}
+
+/* Pagination Dots */
+.inner-hero-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.inner-hero-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.inner-hero-dot.active {
+  width: 28px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Responsive Tablet & Mobile ────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .inner-page-hero-container {
+    margin-bottom: var(--space-32, 32px);
+  }
+  
+  .inner-page-hero-banner {
+    aspect-ratio: 16 / 6;
+    min-height: 240px;
+  }
+
+  .inner-hero-nav-arrow {
+    opacity: 0.85;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .inner-page-hero-container {
+    margin-bottom: var(--space-24, 24px);
+  }
+
+  .inner-page-hero-banner {
+    aspect-ratio: 16 / 7;
+    min-height: 220px;
+  }
+
+  .inner-hero-nav-prev { left: 12px; }
+  .inner-hero-nav-next { right: 12px; }
+  .inner-hero-dots { bottom: 12px; }
+}
+
+@media (max-width: 480px) {
+  .inner-page-hero-banner {
+    aspect-ratio: 16 / 9;
+    min-height: 200px;
+  }
+}

@@ -1,0 +1,313 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+:root {
+  /* Premium Brand Colors - Indian Organic Wellness */
+  --color-primary: #173B2F; /* Deep botanical forest green */
+  --color-primary-dark: #0F261E;
+  --color-accent: #6B826D; /* Soft Sage */
+  --color-gold: #C5A869; /* Subtle Muted Gold Accent */
+  
+  /* Background Colors - Warm Ivory & Soft Tonal Transitions */
+  --color-bg-main: #FDFBF7; /* Warm Ivory */
+  --color-bg-secondary: #F7F4EC; /* Soft Cream */
+  --color-bg-sage: #EAEFE8; /* Very Soft Botanical Sage */
+  
+  /* Neutral / Text Colors */
+  --color-text-main: #1C2421; /* Deep Natural Charcoal */
+  --color-text-muted: #5E6963; /* Refined Muted Botanical Gray */
+  --color-white: #FFFFFF;
+  --color-border: rgba(23, 59, 47, 0.08); /* Hairline subtle botanical border */
+  
+  /* Utilities */
+  --color-error: #C53030;
+  --color-success: #2F855A;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+  
+  /* Layout & Spacing System */
+  --container-width: 1360px;
+  --page-gutter: 48px;
+  
+  --nav-height: 72px;
+  --announcement-height: 34px;
+  --header-height: calc(var(--nav-height) + var(--announcement-height));
+  
+  /* Refined Mathematical Spacing Scale */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-120: 120px;
+
+  /* Legacy aliases */
+  --spacing-xs: var(--space-8);
+  --spacing-sm: var(--space-16);
+  --spacing-md: var(--space-24);
+  --spacing-lg: var(--space-32);
+  --spacing-xl: var(--space-48);
+  --spacing-2xl: var(--space-64);
+  --spacing-3xl: var(--space-80);
+  --spacing-4xl: var(--space-96);
+  --spacing-5xl: var(--space-120);
+
+  /* Refined Radius Hierarchy */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* Soft Layered Shadows - Restrained & Cinematic */
+  --shadow-sm: 0 2px 8px rgba(23, 59, 47, 0.03);
+  --shadow-md: 0 6px 20px rgba(23, 59, 47, 0.05);
+  --shadow-lg: 0 12px 36px -4px rgba(23, 59, 47, 0.08);
+
+  /* Subtle Liquid Glass Shadows */
+  --shadow-glass-surface: 0 4px 16px rgba(0, 0, 0, 0.03);
+  --shadow-glass-panel: 0 8px 30px rgba(23, 59, 47, 0.05);
+  --shadow-glass-floating: 0 16px 44px -8px rgba(23, 59, 47, 0.08);
+  
+  /* Smooth Easing Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-reveal: 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   RESET & GLOBAL BASE
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-main);
+  color: var(--color-text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+button {
+  font-family: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding-left: var(--page-gutter);
+  padding-right: var(--page-gutter);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --page-gutter: 20px;
+    --nav-height: 64px;
+    --announcement-height: 30px;
+  }
+}
+
+/* ==========================================================================
+   REFINED LIQUID GLASS UTILITIES (Subtle, Restrained, Editorial)
+   ========================================================================== */
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-glass-surface);
+  border-radius: var(--radius-xl);
+}
+
+.glass-medium,
+.glass-panel {
+  background: rgba(253, 251, 247, 0.72);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-glass-panel);
+  border-radius: var(--radius-xl);
+}
+
+.glass-dark {
+  background: rgba(23, 59, 47, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-xl);
+  color: #FFFFFF;
+}
+
+.glass-control {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.glass-control:hover {
+  background: #FFFFFF;
+  border-color: rgba(23, 59, 47, 0.15);
+  transform: translateY(-1.5px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Accessible focus rings */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Accessibility: Skip to Content */
+.skip-to-main {
+  position: absolute;
+  top: -100px;
+  left: 20px;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 9999;
+  border-radius: var(--radius-sm);
+  transition: top 0.2s ease;
+}
+.skip-to-main:focus {
+  top: 20px;
+}
+
+/* Editorial Reveal Animations */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--transition-reveal), transform var(--transition-reveal);
+  will-change: opacity, transform;
+}
+
+.reveal-up.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-400 { transition-delay: 0.4s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   GLOBAL SECTION TYPOGRAPHY SYSTEM
+   Unified style matching the "Shop by Category" editorial look.
+   Use .section-eyebrow / .section-title / .section-accent-line / .section-caption
+   across ALL sections for consistent brand typography.
+   Add .on-dark modifier for sections with dark/image backgrounds (hero etc).
+   ========================================================================== */
+
+/* Eyebrow — leaf icon + all-caps tracked label */
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-accent);
+  margin-bottom: 14px;
+}
+.section-eyebrow-icon { color: var(--color-accent); flex-shrink: 0; }
+.section-eyebrow-text {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Two-tone heading — first part dark charcoal, span in sage green */
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 4vw, 3.5rem);
+  color: var(--color-text-main);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+.section-title span { color: var(--color-accent); }
+
+/* Decorative dash */
+.section-accent-line {
+  width: 40px;
+  height: 2px;
+  background-color: var(--color-accent);
+  margin-bottom: 20px;
+  border-radius: 2px;
+}
+
+/* Small all-caps caption */
+.section-caption {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+/* — On-dark variants (hero, dark bg sections) — */
+.section-eyebrow.on-dark,
+.section-eyebrow.on-dark .section-eyebrow-text { color: rgba(255,255,255,0.72); }
+.section-eyebrow.on-dark .section-eyebrow-icon { color: rgba(255,255,255,0.65); }
+.section-title.on-dark { color: #FFFFFF; }
+.section-title.on-dark span { color: #A8D5B5; }
+.section-accent-line.on-dark { background-color: rgba(255,255,255,0.4); }
+.section-caption.on-dark { color: rgba(255,255,255,0.55); }
+
