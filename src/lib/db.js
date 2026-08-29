@@ -1033,10 +1033,10 @@ export const api = {
           id: 'assign-1',
           page: 'Home',
           section: 'Why Tanush Section',
-          illustrationId: 'tulsi-sprig',
+          illustrationId: 'neem-branch',
           position: 'top-right',
-          opacity: 12,
-          scale: 100,
+          opacity: 6,
+          scale: 90,
           desktopVisible: true,
           mobileVisible: false,
           isActive: true

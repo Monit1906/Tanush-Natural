@@ -938,37 +938,33 @@ export const SectionIllustrationSlot = ({
     );
   }
 
-  return (
-    <>
-      {activeIllustrations.map(item => {
-        const posClass = `section-illustration-${item.position || 'top-right'}`;
-        const desktopClass = item.desktopVisible === false ? 'section-illustration-desktop-hidden' : '';
-        const mobileClass = item.mobileVisible === false ? 'section-illustration-mobile-hidden' : '';
-        const scaleVal = (item.scale || 100) / 100;
-        const opacityVal = (item.opacity || 10) / 100;
-        const rotVal = item.rotation || 0;
+  // Render strictly 1 single illustration per section slot to prevent duplicate overlapping
+  const primaryItem = activeIllustrations[0];
+  const posClass = `section-illustration-${primaryItem.position || 'top-right'}`;
+  const desktopClass = primaryItem.desktopVisible === false ? 'section-illustration-desktop-hidden' : '';
+  const mobileClass = primaryItem.mobileVisible === false ? 'section-illustration-mobile-hidden' : '';
+  const scaleVal = (primaryItem.scale || 100) / 100;
+  const opacityVal = (primaryItem.opacity || 10) / 100;
+  const rotVal = primaryItem.rotation || 0;
 
-        return (
-          <div
-            key={item.id}
-            className={`section-illustration-slot ${posClass} ${desktopClass} ${mobileClass} ${className}`}
-            style={{ 
-              opacity: opacityVal,
-              transform: `scale(${scaleVal}) rotate(${rotVal}deg)`,
-              zIndex: item.zIndex || 0
-            }}
-            aria-hidden="true"
-          >
-            <BotanicalIllustration 
-              id={item.illustrationId} 
-              customUrl={item.customUrl} 
-              size={260} 
-              color="var(--color-primary, #173B2F)" 
-            />
-          </div>
-        );
-      })}
-    </>
+  return (
+    <div
+      key={primaryItem.id}
+      className={`section-illustration-slot ${posClass} ${desktopClass} ${mobileClass} ${className}`}
+      style={{ 
+        opacity: opacityVal,
+        transform: `scale(${scaleVal}) rotate(${rotVal}deg)`,
+        zIndex: primaryItem.zIndex || 0
+      }}
+      aria-hidden="true"
+    >
+      <BotanicalIllustration 
+        id={primaryItem.illustrationId} 
+        customUrl={primaryItem.customUrl} 
+        size={260} 
+        color="var(--color-primary, #173B2F)" 
+      />
+    </div>
   );
 };
 
