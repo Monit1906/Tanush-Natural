@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { InstagramLogo, FacebookLogo, WhatsappLogo, Phone, EnvelopeSimple, MapPin, ArrowRight } from 'phosphor-react';
 import { api } from '../../lib/db';
 import BrandLogo from '../BrandLogo/BrandLogo';
+import { FooterBotanicalStrip } from '../Illustrations/BotanicalIllustrations';
 import './Footer.css';
 
 const Footer = () => {
@@ -63,6 +64,9 @@ const Footer = () => {
   return (
     <footer className="footer-container">
       <div className="container">
+        {/* Botanical Purity Strip */}
+        <FooterBotanicalStrip />
+
         <div className="footer-top">
           
           <div className="footer-brand">

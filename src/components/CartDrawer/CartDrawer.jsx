@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { Link } from 'react-router-dom';
 import Button from '../Button/Button';
 import BrandLogo from '../BrandLogo/BrandLogo';
+import { BotanicalShield } from '../Illustrations/BotanicalIllustrations';
 import './CartDrawer.css';
 
 const CartDrawer = () => {
@@ -80,6 +81,10 @@ const CartDrawer = () => {
             <Button variant="primary" fullWidth size="large">
               PROCEED TO CHECKOUT
             </Button>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginTop: '12px', fontSize: '0.72rem', color: '#6B7C73', fontWeight: 600 }}>
+              <BotanicalShield size={16} color="#2F6B43" />
+              <span>100% Botanical Actives • Chemical-Conscious Formulation</span>
+            </div>
           </div>
         )}
       </div>

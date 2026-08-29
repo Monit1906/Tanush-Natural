@@ -5,6 +5,11 @@ import ProductCard from '../components/ProductCard/ProductCard';
 import Button from '../components/Button/Button';
 import InnerPageHero from '../components/InnerPageHero/InnerPageHero';
 import { ShopSkeleton } from '../components/Skeletons/Skeleton';
+import { 
+  SectionIllustrationSlot, 
+  CategoryBotanicalBadge, 
+  BotanicalWatermark 
+} from '../components/Illustrations/BotanicalIllustrations';
 import { api } from '../lib/db';
 import './Shop.css';
 
@@ -74,7 +79,16 @@ const Shop = () => {
   const activeCategoryObj = categories.find(c => c.id === activeCategory);
 
   return (
-    <div className="shop-page">
+    <div className="shop-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Background Section Slot */}
+      <SectionIllustrationSlot 
+        page="Shop" 
+        section="Main" 
+        defaultIllustration={activeCategory.includes('mosquito') ? 'botanical-shield' : 'neem-branch'} 
+        defaultPosition="top-right" 
+        defaultOpacity={5} 
+      />
+
       {/* Shop Hero - Wide Banner */}
       <InnerPageHero page="shop" activeCategory={activeCategory} />
 
@@ -111,7 +125,14 @@ const Shop = () => {
       </section>
 
       {/* Main Full-Width Shop Content (No Sidebar Filter Column) */}
-      <section className="shop-main container">
+      <section className="shop-main container" style={{ position: 'relative' }}>
+        {/* Dynamic Category Botanical Badge */}
+        {activeCategory !== 'all' && (
+          <div style={{ marginBottom: '14px' }}>
+            <CategoryBotanicalBadge categoryId={activeCategory} name={activeCategoryObj?.name} />
+          </div>
+        )}
+
         {/* Controls Bar: Results, Active Filter Tag, Sort Dropdown & View Mode Switcher */}
         <div className="shop-controls-bar">
           <div className="shop-controls-left">

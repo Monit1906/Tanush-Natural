@@ -17,10 +17,13 @@ import {
   Copy, 
   Info, 
   Smartphone, 
+  Tablet,
   Monitor, 
   ShieldCheck, 
   Maximize2,
-  Filter
+  Filter,
+  RotateCw,
+  LayoutGrid
 } from 'lucide-react';
 import './AdminStyles.css';
 
@@ -33,18 +36,35 @@ const CATEGORIES = [
   'VAPORIZER',
   'REPELLENT SPRAY',
   'INDIAN HOME',
-  'MONSOON'
+  'MONSOON',
+  'WELLNESS & CARE',
+  'QUALITY & CRAFT'
 ];
 
-const PAGES = ['Home', 'Shop', 'ProductDetail', 'WhyTanush', 'BecomePartner', 'Contact'];
+const PAGES = [
+  'All Pages',
+  'Home', 
+  'Shop', 
+  'ProductDetail', 
+  'WhyTanush', 
+  'BecomePartner', 
+  'Contact',
+  'Account',
+  'NotFound',
+  'Footer'
+];
 
 const POSITIONS = [
   { value: 'top-right', label: 'Top Right' },
   { value: 'top-left', label: 'Top Left' },
   { value: 'bottom-right', label: 'Bottom Right' },
   { value: 'bottom-left', label: 'Bottom Left' },
-  { value: 'center-watermark', label: 'Center Watermark' },
-  { value: 'inline', label: 'Inline Section' }
+  { value: 'left', label: 'Left Side' },
+  { value: 'right', label: 'Right Side' },
+  { value: 'center-background', label: 'Center Background' },
+  { value: 'full-width-background', label: 'Full Width Background' },
+  { value: 'corner-decoration', label: 'Corner Decoration' },
+  { value: 'inline', label: 'Inline Section Story' }
 ];
 
 const IllustrationsManager = () => {
@@ -55,6 +75,7 @@ const IllustrationsManager = () => {
   // Interactive Studio Settings
   const [previewScale, setPreviewScale] = useState(100); // 50 - 200
   const [previewOpacity, setPreviewOpacity] = useState(100); // 5 - 100
+  const [previewRotation, setPreviewRotation] = useState(0); // -45 to 45
   const [previewBg, setPreviewBg] = useState('#FAF8F5'); // '#FAF8F5' | '#FFFFFF' | '#173B2F' | '#1A1A1A'
   const [previewColor, setPreviewColor] = useState('#173B2F'); // '#173B2F' | '#D4AF37' | '#608066' | '#FFFFFF'
 
@@ -73,7 +94,9 @@ const IllustrationsManager = () => {
     position: 'top-right',
     opacity: 12,
     scale: 100,
+    rotation: 0,
     desktopVisible: true,
+    tabletVisible: true,
     mobileVisible: false,
     isActive: true
   });
@@ -139,7 +162,9 @@ const IllustrationsManager = () => {
       position: 'top-right',
       opacity: 12,
       scale: 100,
+      rotation: 0,
       desktopVisible: true,
+      tabletVisible: true,
       mobileVisible: false,
       isActive: true
     });
@@ -153,9 +178,9 @@ const IllustrationsManager = () => {
       {/* Header */}
       <div className="admin-header-actions">
         <div>
-          <h2>Botanical Illustration &amp; Natural Storytelling System</h2>
+          <h2>Botanical Illustration &amp; Visual Storytelling Studio</h2>
           <p className="text-muted">
-            Handcrafted line art for Natural Farming, Botanical Cultivation &amp; Safe Mosquito Protection
+            Complete editorial line art for Natural Farming, Botanical Cultivation &amp; Safe Mosquito Protection
           </p>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -164,7 +189,7 @@ const IllustrationsManager = () => {
             onClick={() => setActiveTab('library')}
             style={activeTab === 'library' ? { background: '#173B2F', color: '#FFF' } : {}}
           >
-            <Sparkles size={16} /> Illustration Library
+            <Sparkles size={16} /> Illustration Library ({BOTANICAL_ILLUSTRATIONS_CATALOG.length})
           </button>
           <button 
             className={`btn-admin-secondary ${activeTab === 'assignments' ? 'active' : ''}`}
@@ -281,14 +306,19 @@ const IllustrationsManager = () => {
                 overflow: 'hidden'
               }}
             >
-              <div style={{ transform: `scale(${previewScale / 100})`, opacity: previewOpacity / 100, transition: 'all 0.2s ease' }}>
+              <div style={{ 
+                transform: `scale(${previewScale / 100}) rotate(${previewRotation}deg)`, 
+                opacity: previewOpacity / 100, 
+                transition: 'all 0.2s ease' 
+              }}>
                 <BotanicalIllustration id={selectedIllustration.id} size={110} color={previewColor} />
               </div>
             </div>
 
             <div style={{ marginBottom: '16px' }}>
               <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#173B2F' }}>{selectedIllustration.name}</div>
-              <div style={{ fontSize: '0.75rem', color: '#6B7C73' }}>ID: <code>{selectedIllustration.id}</code></div>
+              <div style={{ fontSize: '0.75rem', color: '#6B7C73' }}>Category: <strong>{selectedIllustration.category}</strong></div>
+              <div style={{ fontSize: '0.72rem', color: '#6B7C73' }}>ID: <code>{selectedIllustration.id}</code></div>
             </div>
 
             {/* Scale Slider */}
@@ -308,7 +338,7 @@ const IllustrationsManager = () => {
             </div>
 
             {/* Opacity Slider */}
-            <div className="form-group" style={{ marginBottom: '16px' }}>
+            <div className="form-group" style={{ marginBottom: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
                 <span>Watermark Opacity</span>
                 <span>{previewOpacity}%</span>
@@ -319,6 +349,22 @@ const IllustrationsManager = () => {
                 max="100" 
                 value={previewOpacity} 
                 onChange={e => setPreviewOpacity(Number(e.target.value))}
+                style={{ width: '100%' }}
+              />
+            </div>
+
+            {/* Rotation Slider */}
+            <div className="form-group" style={{ marginBottom: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', fontWeight: 600, color: '#173B2F' }}>
+                <span>Rotation</span>
+                <span>{previewRotation}°</span>
+              </div>
+              <input 
+                type="range" 
+                min="-45" 
+                max="45" 
+                value={previewRotation} 
+                onChange={e => setPreviewRotation(Number(e.target.value))}
                 style={{ width: '100%' }}
               />
             </div>
@@ -366,7 +412,8 @@ const IllustrationsManager = () => {
                   ...prev,
                   illustrationId: selectedIllustration.id,
                   scale: previewScale,
-                  opacity: previewOpacity
+                  opacity: previewOpacity,
+                  rotation: previewRotation
                 }));
                 setActiveTab('assignments');
                 setEditingAssignment('new');
@@ -422,7 +469,7 @@ const IllustrationsManager = () => {
                       required 
                       value={newAssignment.section}
                       onChange={e => setNewAssignment({ ...newAssignment, section: e.target.value })}
-                      placeholder="e.g. Why Tanush Section / Mosquito Banner"
+                      placeholder="e.g. Hero / Why Tanush / Mosquito Protection / Story"
                     />
                   </div>
                 </div>
@@ -485,6 +532,14 @@ const IllustrationsManager = () => {
                   <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                     <input 
                       type="checkbox" 
+                      checked={newAssignment.tabletVisible !== false}
+                      onChange={e => setNewAssignment({ ...newAssignment, tabletVisible: e.target.checked })}
+                    />
+                    <span>Visible on Tablet</span>
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                    <input 
+                      type="checkbox" 
                       checked={newAssignment.mobileVisible}
                       onChange={e => setNewAssignment({ ...newAssignment, mobileVisible: e.target.checked })}
                     />
@@ -494,7 +549,7 @@ const IllustrationsManager = () => {
 
                 <div className="form-actions" style={{ marginTop: '20px' }}>
                   <button type="submit" className="btn-admin-primary">
-                    <Check size={16} /> Save Assignment
+                    <Check size={16} /> Save Section Assignment
                   </button>
                 </div>
               </form>
@@ -534,11 +589,12 @@ const IllustrationsManager = () => {
                       </td>
                       <td><code>/{a.page}</code></td>
                       <td>{a.section}</td>
-                      <td><span style={{ textTransform: 'capitalize' }}>{a.position.replace('-', ' ')}</span></td>
+                      <td><span style={{ textTransform: 'capitalize' }}>{(a.position || 'top-right').replace('-', ' ')}</span></td>
                       <td>{a.opacity}%</td>
                       <td>
                         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', fontSize: '0.78rem' }}>
                           {a.desktopVisible ? <span title="Desktop Enabled" style={{ color: '#2F6B43' }}><Monitor size={16} /></span> : <span style={{ opacity: 0.3 }}><Monitor size={16} /></span>}
+                          {a.tabletVisible !== false ? <span title="Tablet Enabled" style={{ color: '#2F6B43' }}><Tablet size={16} /></span> : <span style={{ opacity: 0.3 }}><Tablet size={16} /></span>}
                           {a.mobileVisible ? <span title="Mobile Enabled" style={{ color: '#2F6B43' }}><Smartphone size={16} /></span> : <span style={{ opacity: 0.3 }}><Smartphone size={16} /></span>}
                         </div>
                       </td>

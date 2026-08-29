@@ -4,6 +4,7 @@ import Button from '../components/Button/Button';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import InnerPageHero from '../components/InnerPageHero/InnerPageHero';
 import { contactSlides } from '../data/heroData';
+import { SectionIllustrationSlot, BotanicalWatermark } from '../components/Illustrations/BotanicalIllustrations';
 import { api } from '../lib/db';
 import './Contact.css';
 
@@ -58,10 +59,12 @@ const Contact = () => {
       await api.logAnalyticsEvent({
         type: 'message',
         customer_name: formData.name,
-        details: `Submitted contact form: ${formData.subject || 'General Inquiry'}`
+        customer_email: formData.email,
+        customer_phone: formData.phone,
+        details: `Subject: ${formData.subject || 'General Enquiry'}`
       });
     } catch (err) {
-      console.warn('Error saving message:', err);
+      console.warn('Failed to log contact message:', err);
     }
     setIsSubmitted(true);
     setTimeout(() => setIsSubmitted(false), 5000);
@@ -77,7 +80,8 @@ const Contact = () => {
   };
 
   return (
-    <div className="contact-page">
+    <div className="contact-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      <SectionIllustrationSlot page="Contact" section="Main" defaultIllustration="modern-indian-home" defaultPosition="top-right" defaultOpacity={6} />
       {/* Hero Section - 1920x600 pure visual banner */}
       <InnerPageHero page="contact" />
 

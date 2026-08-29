@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { User, Lock, Envelope, ArrowRight, ShieldCheck, CheckCircle } from 'phosphor-react';
 import Button from '../components/Button/Button';
 import BrandLogo from '../components/BrandLogo/BrandLogo';
+import { BotanicalWatermark } from '../components/Illustrations/BotanicalIllustrations';
 import './Account.css';
 
 const Account = () => {
@@ -24,8 +25,9 @@ const Account = () => {
   };
 
   return (
-    <div className="account-page">
-      <div className="container account-container">
+    <div className="account-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      <BotanicalWatermark illustration="neem-branch" position="top-right" opacity={0.06} size={280} />
+      <div className="container account-container" style={{ position: 'relative', zIndex: 1 }}>
         {/* Customer Authentication Panel */}
         <div className="account-card glass-panel">
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
