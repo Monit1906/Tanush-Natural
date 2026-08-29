@@ -175,7 +175,7 @@ const AdminLayout = () => {
       <div className="admin-ambient-glow glow-1"></div>
       <div className="admin-ambient-glow glow-2"></div>
 
-      <aside className="admin-sidebar glass-liquid-panel">
+      <aside className="admin-sidebar">
         <div className="admin-sidebar-header">
           <div className="admin-brand-title">
             <BrandLogo variant="admin-sidebar" />

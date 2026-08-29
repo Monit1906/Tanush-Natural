@@ -47,7 +47,7 @@
   box-shadow: 0 4px 20px rgba(23, 59, 47, 0.04) !important;
 }
 
-/* Sidebar - Compact 230px, pinned full height */
+/* Sidebar - Full height 100vh fixed vertical flex layout */
 .admin-sidebar {
   width: 230px;
   display: flex;
@@ -59,20 +59,24 @@
   min-height: 100vh;
   max-height: 100vh;
   z-index: 50;
-  border-right: 1px solid rgba(23, 59, 47, 0.08) !important;
-  border-top: none !important;
-  border-left: none !important;
-  border-bottom: none !important;
-  background: #FFFFFF !important;
+  border-right: 1px solid rgba(23, 59, 47, 0.08);
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
+  border-radius: 0;
+  background: #FFFFFF;
   box-shadow: 2px 0 16px rgba(23, 59, 47, 0.03);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .admin-sidebar-header {
-  padding: 20px 18px;
+  padding: 18px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(23, 59, 47, 0.06);
+  flex-shrink: 0;
 }
 
 .admin-brand-title {
