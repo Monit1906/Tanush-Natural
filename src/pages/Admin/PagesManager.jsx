@@ -17,9 +17,15 @@ import {
   Tablet, 
   Globe, 
   FolderOpen,
-  X
+  X,
+  Sparkles,
+  Layers,
+  ChevronRight,
+  HelpCircle,
+  MessageSquare
 } from 'lucide-react';
 import './AdminStyles.css';
+import './PagesManager.css';
 
 const PAGES_LIST = [
   { id: 'home', name: 'Home', badge: '10 Sections' },
@@ -40,7 +46,7 @@ const PagesManager = () => {
   const [editingSection, setEditingSection] = useState(null);
   const [editTab, setEditTab] = useState('content'); // 'content' | 'media' | 'layout' | 'visibility'
   const [showMediaPicker, setShowMediaPicker] = useState(false);
-  const [mediaPickerTarget, setMediaPickerTarget] = useState('desktopImage'); // 'desktopImage' | 'mobileImage' | 'bgImage'
+  const [mediaPickerTarget, setMediaPickerTarget] = useState('desktopImage'); // 'desktopImage' | 'mobileImage'
   
   // Page Settings Modal
   const [isEditingPageMeta, setIsEditingPageMeta] = useState(false);
@@ -171,19 +177,19 @@ const PagesManager = () => {
   };
 
   return (
-    <div className="admin-page-container">
+    <div className="pages-studio-container">
       {notification && <div className="admin-toast">{notification}</div>}
 
-      {/* Header */}
-      <div className="admin-header-actions">
+      {/* Soothing Header Hero Banner */}
+      <div className="pages-studio-header">
         <div>
-          <h2>Page-Wise &amp; Section-Wise Website Control Studio</h2>
-          <p className="text-muted">
-            Configure every page, manage section order, edit content, media &amp; layouts
+          <h2>Page-Wise &amp; Section-Wise Website Studio</h2>
+          <p>
+            Seamlessly orchestrate every public page. Manage section sequence, headlines, media imagery, device visibility, and layouts with real-time site synchronization.
           </p>
         </div>
         <button 
-          className="btn-admin-secondary"
+          className="pages-meta-btn"
           onClick={() => {
             setPageMeta({
               seoTitle: activePageConfig.seoTitle || '',
@@ -198,38 +204,18 @@ const PagesManager = () => {
       </div>
 
       {/* Page Navigation Selector Tabs */}
-      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '24px' }}>
+      <div className="pages-nav-pills-bar">
         {PAGES_LIST.map(p => {
           const isSelected = selectedPageId === p.id;
           return (
             <button
               key={p.id}
+              className={`page-nav-pill-btn ${isSelected ? 'active' : ''}`}
               onClick={() => handlePageSelect(p.id)}
-              style={{
-                padding: '10px 18px',
-                borderRadius: '12px',
-                border: isSelected ? '2px solid #173B2F' : '1px solid rgba(23, 59, 47, 0.12)',
-                background: isSelected ? '#173B2F' : '#FFFFFF',
-                color: isSelected ? '#FFFFFF' : '#173B2F',
-                fontSize: '0.86rem',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                cursor: 'pointer',
-                boxShadow: isSelected ? '0 6px 18px rgba(23, 59, 47, 0.15)' : 'none',
-                transition: 'all 0.2s ease'
-              }}
             >
               <Layout size={16} />
               <span>{p.name}</span>
-              <span style={{ 
-                fontSize: '0.7rem', 
-                padding: '2px 6px', 
-                borderRadius: '6px', 
-                background: isSelected ? 'rgba(255,255,255,0.2)' : 'rgba(23, 59, 47, 0.08)',
-                color: isSelected ? '#FFFFFF' : '#556B5C'
-              }}>
+              <span className="page-badge-counter">
                 {p.badge}
               </span>
             </button>
@@ -239,7 +225,7 @@ const PagesManager = () => {
 
       {/* Page Meta Modal */}
       {isEditingPageMeta && (
-        <div className="admin-form-card glass-panel" style={{ marginBottom: '24px', border: '2px solid #173B2F' }}>
+        <div className="admin-form-card glass-panel" style={{ border: '2px solid #173B2F', borderRadius: '18px' }}>
           <div className="form-header">
             <h3>Page Settings — {activePageConfig.name}</h3>
             <button className="btn-admin-secondary btn-sm" onClick={() => setIsEditingPageMeta(false)}>
@@ -247,7 +233,7 @@ const PagesManager = () => {
             </button>
           </div>
           <form onSubmit={handleSavePageMeta} className="admin-form">
-            <div className="form-group">
+            <div className="form-group-clean">
               <label>Page SEO Title</label>
               <input 
                 type="text" 
@@ -255,7 +241,7 @@ const PagesManager = () => {
                 onChange={e => setPageMeta({ ...pageMeta, seoTitle: e.target.value })} 
               />
             </div>
-            <div className="form-group">
+            <div className="form-group-clean">
               <label>Page Meta Description</label>
               <textarea 
                 rows={2} 
@@ -263,17 +249,17 @@ const PagesManager = () => {
                 onChange={e => setPageMeta({ ...pageMeta, seoDescription: e.target.value })} 
               />
             </div>
-            <div className="form-group">
+            <div className="form-group-clean">
               <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                 <input 
                   type="checkbox" 
                   checked={pageMeta.isActive} 
                   onChange={e => setPageMeta({ ...pageMeta, isActive: e.target.checked })} 
                 />
-                <span>Page is Active and Accessible</span>
+                <span>Page is Active and Accessible to Public Visitors</span>
               </label>
             </div>
-            <div className="form-actions">
+            <div className="form-actions" style={{ marginTop: '12px' }}>
               <button type="submit" className="btn-admin-primary">
                 <Check size={16} /> Save Page Settings
               </button>
@@ -282,162 +268,148 @@ const PagesManager = () => {
         </div>
       )}
 
-      {/* Section List for Active Page */}
-      <div className="admin-table-container glass-panel">
-        <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(23, 59, 47, 0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* Enhanced Interactive Section Canvas */}
+      <div className="sections-canvas-container">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px' }}>
           <div>
-            <h3 style={{ margin: 0, fontSize: '1.05rem', color: '#173B2F' }}>
-              {activePageConfig.name} Sections ({activePageConfig.sections?.length || 0})
+            <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#173B2F', fontWeight: 700 }}>
+              {activePageConfig.name} Layout Canvas ({activePageConfig.sections?.length || 0} Sections)
             </h3>
-            <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#6B7C73' }}>
-              Sections render in the exact sequence shown below. Reorder or click Edit to modify content, images &amp; layouts.
+            <p style={{ margin: '3px 0 0', fontSize: '0.82rem', color: '#6B7C73' }}>
+              Sections render in the exact physical order from top to bottom. Click Edit to customize content, images, and device visibility.
             </p>
           </div>
         </div>
 
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th style={{ width: '60px' }}>Order</th>
-              <th>Section Name</th>
-              <th>Type</th>
-              <th>Heading Preview</th>
-              <th>Devices</th>
-              <th>Status</th>
-              <th style={{ textAlign: 'right' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {activePageConfig.sections?.map((sec, idx) => {
-              return (
-                <tr key={sec.id} style={{ opacity: sec.isActive ? 1 : 0.6 }}>
-                  <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <span style={{ fontWeight: 800, color: '#173B2F', width: '20px' }}>0{idx + 1}</span>
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <button
-                          type="button"
-                          disabled={idx === 0}
-                          onClick={() => handleMoveSection(idx, -1)}
-                          style={{ border: 'none', background: 'none', cursor: idx === 0 ? 'default' : 'pointer', opacity: idx === 0 ? 0.2 : 0.8 }}
-                          title="Move Up"
-                        >
-                          <ArrowUp size={13} />
-                        </button>
-                        <button
-                          type="button"
-                          disabled={idx === activePageConfig.sections.length - 1}
-                          onClick={() => handleMoveSection(idx, 1)}
-                          style={{ border: 'none', background: 'none', cursor: idx === activePageConfig.sections.length - 1 ? 'default' : 'pointer', opacity: idx === activePageConfig.sections.length - 1 ? 0.2 : 0.8 }}
-                          title="Move Down"
-                        >
-                          <ArrowDown size={13} />
-                        </button>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <strong>{sec.name}</strong>
-                    <div style={{ fontSize: '0.72rem', color: '#6B7C73' }}>ID: <code>{sec.id}</code></div>
-                  </td>
-                  <td><span className="badge-tag">{sec.type}</span></td>
-                  <td style={{ maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {sec.content?.heading || sec.content?.title || <span style={{ color: '#999' }}>—</span>}
-                  </td>
-                  <td>
-                    <div style={{ display: 'flex', gap: '6px', color: '#556B5C' }}>
-                      {sec.visibility?.desktop !== false ? <Monitor size={15} color="#2F6B43" title="Desktop Visible" /> : <Monitor size={15} style={{ opacity: 0.3 }} />}
-                      {sec.visibility?.tablet !== false ? <Tablet size={15} color="#2F6B43" title="Tablet Visible" /> : <Tablet size={15} style={{ opacity: 0.3 }} />}
-                      {sec.visibility?.mobile !== false ? <Smartphone size={15} color="#2F6B43" title="Mobile Visible" /> : <Smartphone size={15} style={{ opacity: 0.3 }} />}
-                    </div>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleToggleSectionActive(sec.id)}
-                      style={{
-                        border: 'none',
-                        background: sec.isActive ? '#EBF4EC' : '#F5F5F5',
-                        color: sec.isActive ? '#2F6B43' : '#888888',
-                        padding: '4px 10px',
-                        borderRadius: '20px',
-                        fontSize: '0.72rem',
-                        fontWeight: 700,
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {sec.isActive ? 'Active' : 'Disabled'}
-                    </button>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <button
-                      className="btn-admin-secondary btn-sm"
-                      onClick={() => handleOpenEditSection(sec)}
-                      style={{ padding: '6px 12px' }}
-                    >
-                      <Edit3 size={14} /> Edit
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        {activePageConfig.sections?.map((sec, idx) => {
+          const isFirst = idx === 0;
+          const isLast = idx === activePageConfig.sections.length - 1;
+          const isSecActive = sec.isActive !== false;
+
+          return (
+            <div 
+              key={sec.id} 
+              className={`section-canvas-card ${!isSecActive ? 'disabled' : ''}`}
+            >
+              {/* Left Sequence & Info */}
+              <div className="section-card-left">
+                <div className="section-order-control">
+                  <button
+                    type="button"
+                    className="order-arrow-btn"
+                    disabled={isFirst}
+                    onClick={() => handleMoveSection(idx, -1)}
+                    title="Move Section Up"
+                  >
+                    <ArrowUp size={14} />
+                  </button>
+                  
+                  <div className="order-num-badge">
+                    {idx + 1 < 10 ? `0${idx + 1}` : idx + 1}
+                  </div>
+
+                  <button
+                    type="button"
+                    className="order-arrow-btn"
+                    disabled={isLast}
+                    onClick={() => handleMoveSection(idx, 1)}
+                    title="Move Section Down"
+                  >
+                    <ArrowDown size={14} />
+                  </button>
+                </div>
+
+                <div className="section-info-block">
+                  <div className="section-name-row">
+                    <h4 className="section-title-text">{sec.name}</h4>
+                    <span className="section-type-pill">{sec.type}</span>
+                  </div>
+                  <p className="section-heading-snippet">
+                    {sec.content?.heading || sec.content?.title ? (
+                      `"${sec.content?.heading || sec.content?.title}"`
+                    ) : (
+                      <span style={{ fontStyle: 'italic', opacity: 0.7 }}>Standard Dynamic Feed Section</span>
+                    )}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right Device Badges & Action Controls */}
+              <div className="section-card-right">
+                {/* Device Badges */}
+                <div className="section-device-strip">
+                  <span className={`device-icon-tag ${sec.visibility?.desktop === false ? 'dimmed' : ''}`} title="Desktop">
+                    <Monitor size={15} />
+                  </span>
+                  <span className={`device-icon-tag ${sec.visibility?.tablet === false ? 'dimmed' : ''}`} title="Tablet">
+                    <Tablet size={15} />
+                  </span>
+                  <span className={`device-icon-tag ${sec.visibility?.mobile === false ? 'dimmed' : ''}`} title="Mobile">
+                    <Smartphone size={15} />
+                  </span>
+                </div>
+
+                {/* Status Toggle Switch */}
+                <label className="status-toggle-switch" title={isSecActive ? "Section is Visible" : "Section is Hidden"}>
+                  <input 
+                    type="checkbox"
+                    checked={isSecActive}
+                    onChange={() => handleToggleSectionActive(sec.id)}
+                  />
+                  <span className="toggle-track">
+                    <span className="toggle-thumb"></span>
+                  </span>
+                  <span className="toggle-label-text">
+                    {isSecActive ? 'Active' : 'Off'}
+                  </span>
+                </label>
+
+                {/* Edit Button */}
+                <button
+                  type="button"
+                  className="section-edit-btn"
+                  onClick={() => handleOpenEditSection(sec)}
+                >
+                  <Edit3 size={14} /> Edit
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-      {/* Edit Section Drawer / Modal */}
+      {/* Smooth Slide-In Edit Section Drawer */}
       {editingSection && (
         <div 
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0, 0, 0, 0.5)',
-            backdropFilter: 'blur(4px)',
-            zIndex: 1000,
-            display: 'flex',
-            justifyContent: 'flex-end'
-          }}
+          className="drawer-backdrop"
           onClick={(e) => { if (e.target === e.currentTarget) setEditingSection(null); }}
         >
-          <div 
-            style={{
-              width: '640px',
-              maxWidth: '90vw',
-              background: '#FAF8F5',
-              height: '100%',
-              overflowY: 'auto',
-              boxShadow: '-10px 0 30px rgba(0,0,0,0.15)',
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
+          <div className="drawer-panel">
             {/* Drawer Header */}
-            <div style={{ padding: '20px 24px', background: '#FFFFFF', borderBottom: '1px solid rgba(23, 59, 47, 0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ padding: '24px 28px', background: '#FFFFFF', borderBottom: '1px solid rgba(23, 59, 47, 0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6B7C73', textTransform: 'uppercase' }}>
-                  {activePageConfig.name} → Section
+                <span style={{ fontSize: '0.74rem', fontWeight: 700, color: '#6B7C73', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  {activePageConfig.name} → Section Studio
                 </span>
-                <h3 style={{ margin: '2px 0 0', fontSize: '1.2rem', color: '#173B2F' }}>
+                <h3 style={{ margin: '3px 0 0', fontSize: '1.25rem', color: '#173B2F', fontWeight: 700 }}>
                   {editingSection.name}
                 </h3>
               </div>
               <button 
                 type="button" 
                 onClick={() => setEditingSection(null)}
-                style={{ border: 'none', background: 'none', cursor: 'pointer', padding: '6px', borderRadius: '6px' }}
+                style={{ border: 'none', background: 'rgba(23, 59, 47, 0.06)', cursor: 'pointer', padding: '8px', borderRadius: '10px', color: '#173B2F' }}
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
             {/* Drawer Tabs */}
-            <div style={{ display: 'flex', background: '#FFFFFF', borderBottom: '1px solid rgba(23, 59, 47, 0.08)', padding: '0 20px' }}>
+            <div className="drawer-tabs-bar">
               {[
-                { id: 'content', label: 'Content', icon: Type },
-                { id: 'media', label: 'Media & Images', icon: ImageIcon },
-                { id: 'layout', label: 'Layout & Style', icon: Sliders },
+                { id: 'content', label: 'Content & Copy', icon: Type },
+                { id: 'media', label: 'Media & Imagery', icon: ImageIcon },
+                { id: 'layout', label: 'Theme & Style', icon: Sliders },
                 { id: 'visibility', label: 'Visibility', icon: Eye }
               ].map(tab => {
                 const Icon = tab.icon;
@@ -446,20 +418,8 @@ const PagesManager = () => {
                   <button
                     key={tab.id}
                     type="button"
+                    className={`drawer-tab-btn ${isActive ? 'active' : ''}`}
                     onClick={() => setEditTab(tab.id)}
-                    style={{
-                      padding: '12px 16px',
-                      border: 'none',
-                      background: 'none',
-                      borderBottom: isActive ? '3px solid #173B2F' : '3px solid transparent',
-                      color: isActive ? '#173B2F' : '#6B7C73',
-                      fontWeight: isActive ? 700 : 500,
-                      fontSize: '0.82rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      cursor: 'pointer'
-                    }}
                   >
                     <Icon size={15} />
                     <span>{tab.label}</span>
@@ -469,15 +429,15 @@ const PagesManager = () => {
             </div>
 
             {/* Drawer Body Form */}
-            <form onSubmit={handleSaveEditedSection} style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <form onSubmit={handleSaveEditedSection} className="drawer-form-body">
               {/* TAB 1: CONTENT */}
               {editTab === 'content' && (
-                <div>
-                  <div className="form-group">
-                    <label>Badge / Tagline</label>
+                <>
+                  <div className="form-group-clean">
+                    <label>Badge / Eyebrow Text</label>
                     <input 
                       type="text" 
-                      placeholder="e.g. 100% BOTANICAL & SAFE"
+                      placeholder="e.g. 100% BOTANICAL & NATURAL"
                       value={editingSection.content?.badge || ''} 
                       onChange={e => setEditingSection({
                         ...editingSection,
@@ -486,10 +446,11 @@ const PagesManager = () => {
                     />
                   </div>
 
-                  <div className="form-group">
-                    <label>Heading / Title</label>
+                  <div className="form-group-clean">
+                    <label>Main Headline / Heading</label>
                     <input 
                       type="text" 
+                      placeholder="Section headline"
                       value={editingSection.content?.heading || editingSection.content?.title || ''} 
                       onChange={e => setEditingSection({
                         ...editingSection,
@@ -498,10 +459,11 @@ const PagesManager = () => {
                     />
                   </div>
 
-                  <div className="form-group">
-                    <label>Subheading / Subtitle</label>
+                  <div className="form-group-clean">
+                    <label>Subheading / Tagline</label>
                     <input 
                       type="text" 
+                      placeholder="Brief supporting line"
                       value={editingSection.content?.subheading || editingSection.content?.subtitle || ''} 
                       onChange={e => setEditingSection({
                         ...editingSection,
@@ -510,10 +472,11 @@ const PagesManager = () => {
                     />
                   </div>
 
-                  <div className="form-group">
-                    <label>Description / Storyline</label>
+                  <div className="form-group-clean">
+                    <label>Body Description / Narrative</label>
                     <textarea 
                       rows={4} 
+                      placeholder="Enter detailed copy or storyline..."
                       value={editingSection.content?.description || ''} 
                       onChange={e => setEditingSection({
                         ...editingSection,
@@ -522,9 +485,9 @@ const PagesManager = () => {
                     />
                   </div>
 
-                  <div className="form-row">
-                    <div className="form-group flex-1">
-                      <label>Primary Button Text</label>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <div className="form-group-clean" style={{ flex: 1 }}>
+                      <label>Primary CTA Text</label>
                       <input 
                         type="text" 
                         placeholder="e.g. EXPLORE PRODUCTS"
@@ -535,8 +498,8 @@ const PagesManager = () => {
                         })}
                       />
                     </div>
-                    <div className="form-group flex-1">
-                      <label>Primary Button Link</label>
+                    <div className="form-group-clean" style={{ flex: 1 }}>
+                      <label>Primary CTA Link</label>
                       <input 
                         type="text" 
                         placeholder="e.g. /shop"
@@ -549,9 +512,9 @@ const PagesManager = () => {
                     </div>
                   </div>
 
-                  <div className="form-row">
-                    <div className="form-group flex-1">
-                      <label>Secondary Button Text</label>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <div className="form-group-clean" style={{ flex: 1 }}>
+                      <label>Secondary CTA Text</label>
                       <input 
                         type="text" 
                         placeholder="e.g. OUR STORY"
@@ -562,8 +525,8 @@ const PagesManager = () => {
                         })}
                       />
                     </div>
-                    <div className="form-group flex-1">
-                      <label>Secondary Button Link</label>
+                    <div className="form-group-clean" style={{ flex: 1 }}>
+                      <label>Secondary CTA Link</label>
                       <input 
                         type="text" 
                         placeholder="e.g. /why-tanush"
@@ -578,13 +541,13 @@ const PagesManager = () => {
 
                   {/* Context Specific Contact / Partner Details */}
                   {(selectedPageId === 'contact' || selectedPageId === 'become-a-partner') && (
-                    <div style={{ marginTop: '16px', padding: '16px', background: '#FFFFFF', borderRadius: '10px', border: '1px solid rgba(23, 59, 47, 0.1)' }}>
-                      <h4 style={{ margin: '0 0 12px', fontSize: '0.88rem', color: '#173B2F' }}>Contact &amp; WhatsApp Direct Integration</h4>
-                      <div className="form-group">
-                        <label>WhatsApp Contact Number</label>
+                    <div style={{ marginTop: '10px', padding: '18px', background: '#FFFFFF', borderRadius: '14px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
+                      <h4 style={{ margin: '0 0 12px', fontSize: '0.88rem', color: '#173B2F', fontWeight: 700 }}>Direct WhatsApp &amp; Contact Routing</h4>
+                      <div className="form-group-clean">
+                        <label>WhatsApp Number (e.g. +919428231144)</label>
                         <input 
                           type="text" 
-                          placeholder="e.g. +919428231144"
+                          placeholder="+919428231144"
                           value={editingSection.content?.whatsapp || editingSection.content?.whatsappNumber || ''} 
                           onChange={e => setEditingSection({
                             ...editingSection,
@@ -594,7 +557,7 @@ const PagesManager = () => {
                       </div>
                       {selectedPageId === 'contact' && (
                         <>
-                          <div className="form-group">
+                          <div className="form-group-clean" style={{ marginTop: '10px' }}>
                             <label>Customer Support Phone</label>
                             <input 
                               type="text" 
@@ -605,8 +568,8 @@ const PagesManager = () => {
                               })}
                             />
                           </div>
-                          <div className="form-group">
-                            <label>Support Email</label>
+                          <div className="form-group-clean" style={{ marginTop: '10px' }}>
+                            <label>Support Email Address</label>
                             <input 
                               type="email" 
                               value={editingSection.content?.email || ''} 
@@ -620,14 +583,14 @@ const PagesManager = () => {
                       )}
                     </div>
                   )}
-                </div>
+                </>
               )}
 
               {/* TAB 2: MEDIA */}
               {editTab === 'media' && (
-                <div>
-                  <div className="form-group">
-                    <label>Desktop Image / Banner</label>
+                <>
+                  <div className="form-group-clean">
+                    <label>Desktop Image / Main Banner</label>
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                       <input 
                         type="text" 
@@ -642,6 +605,7 @@ const PagesManager = () => {
                         type="button" 
                         className="btn-admin-secondary btn-sm"
                         onClick={() => openMediaPickerFor('desktopImage')}
+                        style={{ whiteSpace: 'nowrap', padding: '10px 14px' }}
                       >
                         <FolderOpen size={14} /> Choose
                       </button>
@@ -649,17 +613,17 @@ const PagesManager = () => {
                   </div>
 
                   {editingSection.media?.desktopImage && (
-                    <div style={{ marginBottom: '16px', borderRadius: '10px', overflow: 'hidden', height: '140px', background: '#EAEAEA' }}>
+                    <div style={{ borderRadius: '12px', overflow: 'hidden', height: '140px', background: '#EAEAEA', border: '1px solid rgba(23, 59, 47, 0.1)' }}>
                       <img 
                         src={editingSection.media.desktopImage} 
-                        alt="Preview" 
+                        alt="Desktop Preview" 
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                       />
                     </div>
                   )}
 
-                  <div className="form-group">
-                    <label>Mobile Image (Optional)</label>
+                  <div className="form-group-clean">
+                    <label>Mobile Banner Image (Optional)</label>
                     <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                       <input 
                         type="text" 
@@ -674,14 +638,15 @@ const PagesManager = () => {
                         type="button" 
                         className="btn-admin-secondary btn-sm"
                         onClick={() => openMediaPickerFor('mobileImage')}
+                        style={{ whiteSpace: 'nowrap', padding: '10px 14px' }}
                       >
                         <FolderOpen size={14} /> Choose
                       </button>
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label>Background Video URL (Optional MP4)</label>
+                  <div className="form-group-clean">
+                    <label>Background Video URL (Optional MP4 stream)</label>
                     <input 
                       type="text" 
                       placeholder="https://..."
@@ -692,14 +657,14 @@ const PagesManager = () => {
                       })}
                     />
                   </div>
-                </div>
+                </>
               )}
 
               {/* TAB 3: LAYOUT & STYLE */}
               {editTab === 'layout' && (
-                <div>
-                  <div className="form-group">
-                    <label>Background Color / Theme</label>
+                <>
+                  <div className="form-group-clean">
+                    <label>Background Theme</label>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
                       {[
                         { label: 'Ivory Cream', val: '#FAF8F5' },
@@ -715,14 +680,15 @@ const PagesManager = () => {
                             layout: { ...editingSection.layout, bgColor: bg.val }
                           })}
                           style={{
-                            padding: '10px 6px',
-                            borderRadius: '8px',
+                            padding: '12px 8px',
+                            borderRadius: '10px',
                             background: bg.val,
                             color: bg.val === '#173B2F' ? '#FFFFFF' : '#173B2F',
-                            border: editingSection.layout?.bgColor === bg.val ? '2px solid #D4AF37' : '1px solid rgba(0,0,0,0.1)',
-                            fontSize: '0.72rem',
+                            border: editingSection.layout?.bgColor === bg.val ? '2px solid #D4AF37' : '1px solid rgba(0,0,0,0.12)',
+                            fontSize: '0.74rem',
                             fontWeight: 700,
-                            cursor: 'pointer'
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
                           }}
                         >
                           {bg.label}
@@ -731,8 +697,8 @@ const PagesManager = () => {
                     </div>
                   </div>
 
-                  <div className="form-group">
-                    <label>Content Alignment</label>
+                  <div className="form-group-clean">
+                    <label>Content Text Alignment</label>
                     <select
                       value={editingSection.layout?.align || 'center'}
                       onChange={e => setEditingSection({
@@ -746,8 +712,8 @@ const PagesManager = () => {
                     </select>
                   </div>
 
-                  <div className="form-group">
-                    <label>Section Spacing</label>
+                  <div className="form-group-clean">
+                    <label>Section Vertical Spacing</label>
                     <select
                       value={editingSection.layout?.spacing || 'normal'}
                       onChange={e => setEditingSection({
@@ -760,14 +726,14 @@ const PagesManager = () => {
                       <option value="spacious">Spacious (Padding 100px)</option>
                     </select>
                   </div>
-                </div>
+                </>
               )}
 
               {/* TAB 4: VISIBILITY */}
               {editTab === 'visibility' && (
-                <div>
-                  <div className="form-group">
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '12px', background: '#FFFFFF', borderRadius: '8px' }}>
+                <>
+                  <div className="form-group-clean">
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '14px', background: '#FFFFFF', borderRadius: '12px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
                       <input 
                         type="checkbox" 
                         checked={editingSection.isActive !== false} 
@@ -777,16 +743,16 @@ const PagesManager = () => {
                         })}
                       />
                       <div>
-                        <strong>Section is Active on Public Website</strong>
-                        <div style={{ fontSize: '0.74rem', color: '#6B7C73' }}>Uncheck to disable without losing your configuration.</div>
+                        <strong>Section Active on Live Website</strong>
+                        <div style={{ fontSize: '0.74rem', color: '#6B7C73' }}>Uncheck to temporarily hide without losing any configured content.</div>
                       </div>
                     </label>
                   </div>
 
-                  <div style={{ marginTop: '16px', padding: '16px', background: '#FFFFFF', borderRadius: '10px' }}>
-                    <h4 style={{ margin: '0 0 12px', fontSize: '0.85rem', color: '#173B2F' }}>Device Breakpoint Display</h4>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                  <div style={{ marginTop: '12px', padding: '18px', background: '#FFFFFF', borderRadius: '14px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
+                    <h4 style={{ margin: '0 0 14px', fontSize: '0.86rem', color: '#173B2F', fontWeight: 700 }}>Device Breakpoint Display</h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
                         <input 
                           type="checkbox" 
                           checked={editingSection.visibility?.desktop !== false}
@@ -795,9 +761,10 @@ const PagesManager = () => {
                             visibility: { ...editingSection.visibility, desktop: e.target.checked }
                           })}
                         />
-                        <span>Visible on Desktop Monitors</span>
+                        <Monitor size={16} color="#2F6B43" />
+                        <span style={{ fontSize: '0.86rem', fontWeight: 600 }}>Visible on Desktop Screens</span>
                       </label>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
                         <input 
                           type="checkbox" 
                           checked={editingSection.visibility?.tablet !== false}
@@ -806,9 +773,10 @@ const PagesManager = () => {
                             visibility: { ...editingSection.visibility, tablet: e.target.checked }
                           })}
                         />
-                        <span>Visible on Tablets &amp; iPads</span>
+                        <Tablet size={16} color="#2F6B43" />
+                        <span style={{ fontSize: '0.86rem', fontWeight: 600 }}>Visible on Tablets &amp; iPads</span>
                       </label>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
                         <input 
                           type="checkbox" 
                           checked={editingSection.visibility?.mobile !== false}
@@ -817,15 +785,16 @@ const PagesManager = () => {
                             visibility: { ...editingSection.visibility, mobile: e.target.checked }
                           })}
                         />
-                        <span>Visible on Mobile Smartphones</span>
+                        <Smartphone size={16} color="#2F6B43" />
+                        <span style={{ fontSize: '0.86rem', fontWeight: 600 }}>Visible on Mobile Smartphones</span>
                       </label>
                     </div>
                   </div>
-                </div>
+                </>
               )}
 
-              {/* Drawer Footer Actions */}
-              <div style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid rgba(23, 59, 47, 0.1)', display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+              {/* Drawer Sticky Save Bar */}
+              <div className="drawer-sticky-footer">
                 <button type="button" className="btn-admin-secondary" onClick={() => setEditingSection(null)}>
                   Cancel
                 </button>
