@@ -23,7 +23,15 @@ import {
   ChevronRight,
   HelpCircle,
   MessageSquare,
-  EyeOff
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  Maximize2,
+  Video,
+  Phone,
+  Mail,
+  CheckCircle,
+  Link2
 } from 'lucide-react';
 import './AdminStyles.css';
 import './PagesManager.css';
@@ -35,6 +43,13 @@ const PAGES_LIST = [
   { id: 'become-a-partner', name: 'Become a Partner', badge: '6 Sections' },
   { id: 'contact', name: 'Contact Us', badge: '4 Sections' },
   { id: 'product-detail', name: 'Product Detail', badge: '4 Sections' }
+];
+
+const THEME_PRESETS = [
+  { id: '#FAF8F5', label: 'Ivory Cream', color: '#FAF8F5', textColor: '#173B2F', border: '#DCD6CB' },
+  { id: '#FFFFFF', label: 'Clean White', color: '#FFFFFF', textColor: '#173B2F', border: '#E2E8F0' },
+  { id: '#173B2F', label: 'Deep Forest', color: '#173B2F', textColor: '#FFFFFF', border: '#255444' },
+  { id: '#EBF4EC', label: 'Soft Sage', color: '#EBF4EC', textColor: '#173B2F', border: '#C7DEC9' }
 ];
 
 const PagesManager = () => {
@@ -489,121 +504,150 @@ const PagesManager = () => {
 
             {/* Drawer Body Form */}
             <form onSubmit={handleSaveEditedSection} className="drawer-form-body">
-              {/* TAB 1: CONTENT */}
+              {/* TAB 1: CONTENT & COPY */}
               {editTab === 'content' && (
-                <div className="form-card-section">
-                  <div className="form-group-clean">
-                    <label>Badge / Eyebrow Text</label>
-                    <input 
-                      type="text" 
-                      placeholder="e.g. 100% BOTANICAL & NATURAL"
-                      value={editingSection.content?.badge || ''} 
-                      onChange={e => setEditingSection({
-                        ...editingSection,
-                        content: { ...editingSection.content, badge: e.target.value }
-                      })}
-                    />
-                  </div>
+                <>
+                  {/* Card A: Core Messaging */}
+                  <div className="form-card-section">
+                    <h4 className="form-card-title">
+                      <Type size={15} color="#2F6B43" /> Typography &amp; Headlines
+                    </h4>
 
-                  <div className="form-group-clean">
-                    <label>Main Headline / Heading</label>
-                    <input 
-                      type="text" 
-                      placeholder="Section headline"
-                      value={editingSection.content?.heading || editingSection.content?.title || ''} 
-                      onChange={e => setEditingSection({
-                        ...editingSection,
-                        content: { ...editingSection.content, heading: e.target.value, title: e.target.value }
-                      })}
-                    />
-                  </div>
-
-                  <div className="form-group-clean">
-                    <label>Subheading / Tagline</label>
-                    <input 
-                      type="text" 
-                      placeholder="Brief supporting line"
-                      value={editingSection.content?.subheading || editingSection.content?.subtitle || ''} 
-                      onChange={e => setEditingSection({
-                        ...editingSection,
-                        content: { ...editingSection.content, subheading: e.target.value, subtitle: e.target.value }
-                      })}
-                    />
-                  </div>
-
-                  <div className="form-group-clean">
-                    <label>Body Description / Narrative</label>
-                    <textarea 
-                      rows={4} 
-                      placeholder="Enter detailed copy or storyline..."
-                      value={editingSection.content?.description || ''} 
-                      onChange={e => setEditingSection({
-                        ...editingSection,
-                        content: { ...editingSection.content, description: e.target.value }
-                      })}
-                    />
-                  </div>
-
-                  <div style={{ display: 'flex', gap: '12px' }}>
-                    <div className="form-group-clean" style={{ flex: 1 }}>
-                      <label>Primary CTA Text</label>
+                    <div className="form-group-clean">
+                      <label>
+                        <span>Badge / Eyebrow Text</span>
+                        <span className="form-label-hint">Pill tag shown above title</span>
+                      </label>
                       <input 
                         type="text" 
-                        placeholder="e.g. EXPLORE PRODUCTS"
-                        value={editingSection.content?.primaryCtaText || ''} 
+                        placeholder="e.g. 100% BOTANICAL & NATURAL"
+                        value={editingSection.content?.badge || ''} 
                         onChange={e => setEditingSection({
                           ...editingSection,
-                          content: { ...editingSection.content, primaryCtaText: e.target.value }
+                          content: { ...editingSection.content, badge: e.target.value }
                         })}
                       />
                     </div>
-                    <div className="form-group-clean" style={{ flex: 1 }}>
-                      <label>Primary CTA Link</label>
+
+                    <div className="form-group-clean">
+                      <label>
+                        <span>Main Headline / Heading</span>
+                        <span className="form-label-hint">Primary section title</span>
+                      </label>
                       <input 
                         type="text" 
-                        placeholder="e.g. /shop"
-                        value={editingSection.content?.primaryCtaLink || ''} 
+                        placeholder="Section headline"
+                        value={editingSection.content?.heading || editingSection.content?.title || ''} 
                         onChange={e => setEditingSection({
                           ...editingSection,
-                          content: { ...editingSection.content, primaryCtaLink: e.target.value }
+                          content: { ...editingSection.content, heading: e.target.value, title: e.target.value }
+                        })}
+                      />
+                    </div>
+
+                    <div className="form-group-clean">
+                      <label>
+                        <span>Subheading / Tagline</span>
+                        <span className="form-label-hint">Supporting sentence</span>
+                      </label>
+                      <input 
+                        type="text" 
+                        placeholder="Brief supporting line"
+                        value={editingSection.content?.subheading || editingSection.content?.subtitle || ''} 
+                        onChange={e => setEditingSection({
+                          ...editingSection,
+                          content: { ...editingSection.content, subheading: e.target.value, subtitle: e.target.value }
+                        })}
+                      />
+                    </div>
+
+                    <div className="form-group-clean">
+                      <label>
+                        <span>Body Description / Narrative</span>
+                        <span className="form-label-hint">Full story or paragraph</span>
+                      </label>
+                      <textarea 
+                        rows={4} 
+                        placeholder="Enter detailed copy or storyline..."
+                        value={editingSection.content?.description || ''} 
+                        onChange={e => setEditingSection({
+                          ...editingSection,
+                          content: { ...editingSection.content, description: e.target.value }
                         })}
                       />
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '12px' }}>
-                    <div className="form-group-clean" style={{ flex: 1 }}>
-                      <label>Secondary CTA Text</label>
-                      <input 
-                        type="text" 
-                        placeholder="e.g. OUR STORY"
-                        value={editingSection.content?.secondaryCtaText || ''} 
-                        onChange={e => setEditingSection({
-                          ...editingSection,
-                          content: { ...editingSection.content, secondaryCtaText: e.target.value }
-                        })}
-                      />
+                  {/* Card B: Call-To-Action Buttons */}
+                  <div className="form-card-section">
+                    <h4 className="form-card-title">
+                      <Link2 size={15} color="#2F6B43" /> Action Buttons &amp; Navigation Links
+                    </h4>
+
+                    <div style={{ display: 'flex', gap: '14px' }}>
+                      <div className="form-group-clean" style={{ flex: 1 }}>
+                        <label>Primary Button Text</label>
+                        <input 
+                          type="text" 
+                          placeholder="e.g. EXPLORE PRODUCTS"
+                          value={editingSection.content?.primaryCtaText || ''} 
+                          onChange={e => setEditingSection({
+                            ...editingSection,
+                            content: { ...editingSection.content, primaryCtaText: e.target.value }
+                          })}
+                        />
+                      </div>
+                      <div className="form-group-clean" style={{ flex: 1 }}>
+                        <label>Primary Button Link</label>
+                        <input 
+                          type="text" 
+                          placeholder="e.g. /shop"
+                          value={editingSection.content?.primaryCtaLink || ''} 
+                          onChange={e => setEditingSection({
+                            ...editingSection,
+                            content: { ...editingSection.content, primaryCtaLink: e.target.value }
+                          })}
+                        />
+                      </div>
                     </div>
-                    <div className="form-group-clean" style={{ flex: 1 }}>
-                      <label>Secondary CTA Link</label>
-                      <input 
-                        type="text" 
-                        placeholder="e.g. /why-tanush"
-                        value={editingSection.content?.secondaryCtaLink || ''} 
-                        onChange={e => setEditingSection({
-                          ...editingSection,
-                          content: { ...editingSection.content, secondaryCtaLink: e.target.value }
-                        })}
-                      />
+
+                    <div style={{ display: 'flex', gap: '14px' }}>
+                      <div className="form-group-clean" style={{ flex: 1 }}>
+                        <label>Secondary Button Text</label>
+                        <input 
+                          type="text" 
+                          placeholder="e.g. OUR STORY"
+                          value={editingSection.content?.secondaryCtaText || ''} 
+                          onChange={e => setEditingSection({
+                            ...editingSection,
+                            content: { ...editingSection.content, secondaryCtaText: e.target.value }
+                          })}
+                        />
+                      </div>
+                      <div className="form-group-clean" style={{ flex: 1 }}>
+                        <label>Secondary Button Link</label>
+                        <input 
+                          type="text" 
+                          placeholder="e.g. /why-tanush"
+                          value={editingSection.content?.secondaryCtaLink || ''} 
+                          onChange={e => setEditingSection({
+                            ...editingSection,
+                            content: { ...editingSection.content, secondaryCtaLink: e.target.value }
+                          })}
+                        />
+                      </div>
                     </div>
                   </div>
 
                   {/* Context Specific Contact / Partner Details */}
                   {(selectedPageId === 'contact' || selectedPageId === 'become-a-partner') && (
-                    <div style={{ marginTop: '10px', padding: '16px', background: '#FAF8F5', borderRadius: '12px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
-                      <h4 style={{ margin: '0 0 12px', fontSize: '0.88rem', color: '#173B2F', fontWeight: 700 }}>Direct WhatsApp &amp; Routing</h4>
+                    <div className="form-card-section">
+                      <h4 className="form-card-title">
+                        <Phone size={15} color="#2F6B43" /> Direct WhatsApp &amp; Routing
+                      </h4>
+
                       <div className="form-group-clean">
-                        <label>WhatsApp Number</label>
+                        <label>WhatsApp Contact Number</label>
                         <input 
                           type="text" 
                           placeholder="+919428231144"
@@ -616,7 +660,7 @@ const PagesManager = () => {
                       </div>
                       {selectedPageId === 'contact' && (
                         <>
-                          <div className="form-group-clean" style={{ marginTop: '10px' }}>
+                          <div className="form-group-clean">
                             <label>Customer Support Phone</label>
                             <input 
                               type="text" 
@@ -627,7 +671,7 @@ const PagesManager = () => {
                               })}
                             />
                           </div>
-                          <div className="form-group-clean" style={{ marginTop: '10px' }}>
+                          <div className="form-group-clean">
                             <label>Support Email Address</label>
                             <input 
                               type="email" 
@@ -642,157 +686,221 @@ const PagesManager = () => {
                       )}
                     </div>
                   )}
-                </div>
+                </>
               )}
 
-              {/* TAB 2: MEDIA */}
+              {/* TAB 2: MEDIA & IMAGERY */}
               {editTab === 'media' && (
-                <div className="form-card-section">
-                  <div className="form-group-clean">
-                    <label>Desktop Image / Main Banner</label>
-                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                      <input 
-                        type="text" 
-                        value={editingSection.media?.desktopImage || ''} 
-                        onChange={e => setEditingSection({
-                          ...editingSection,
-                          media: { ...editingSection.media, desktopImage: e.target.value }
-                        })}
-                        placeholder="/images/hero/hero-1.jpg"
-                      />
-                      <button 
-                        type="button" 
-                        className="btn-admin-secondary btn-sm"
-                        onClick={() => openMediaPickerFor('desktopImage')}
-                        style={{ whiteSpace: 'nowrap', padding: '10px 14px' }}
-                      >
-                        <FolderOpen size={14} /> Choose
-                      </button>
-                    </div>
-                  </div>
+                <>
+                  {/* Desktop Banner */}
+                  <div className="form-card-section">
+                    <h4 className="form-card-title">
+                      <ImageIcon size={15} color="#2F6B43" /> Desktop Image &amp; Banner Stage
+                    </h4>
 
-                  {editingSection.media?.desktopImage && (
-                    <div style={{ borderRadius: '12px', overflow: 'hidden', height: '140px', background: '#EAEAEA', border: '1px solid rgba(23, 59, 47, 0.1)' }}>
-                      <img 
-                        src={editingSection.media.desktopImage} 
-                        alt="Desktop Preview" 
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                      />
-                    </div>
-                  )}
-
-                  <div className="form-group-clean">
-                    <label>Mobile Banner Image (Optional)</label>
-                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                      <input 
-                        type="text" 
-                        value={editingSection.media?.mobileImage || ''} 
-                        onChange={e => setEditingSection({
-                          ...editingSection,
-                          media: { ...editingSection.media, mobileImage: e.target.value }
-                        })}
-                        placeholder="Leave blank to use desktop image"
-                      />
-                      <button 
-                        type="button" 
-                        className="btn-admin-secondary btn-sm"
-                        onClick={() => openMediaPickerFor('mobileImage')}
-                        style={{ whiteSpace: 'nowrap', padding: '10px 14px' }}
-                      >
-                        <FolderOpen size={14} /> Choose
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="form-group-clean">
-                    <label>Background Video URL (Optional MP4 stream)</label>
-                    <input 
-                      type="text" 
-                      placeholder="https://..."
-                      value={editingSection.media?.videoUrl || ''} 
-                      onChange={e => setEditingSection({
-                        ...editingSection,
-                        media: { ...editingSection.media, videoUrl: e.target.value }
-                      })}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* TAB 3: LAYOUT & STYLE */}
-              {editTab === 'layout' && (
-                <div className="form-card-section">
-                  <div className="form-group-clean">
-                    <label>Background Theme</label>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
-                      {[
-                        { label: 'Ivory Cream', val: '#FAF8F5' },
-                        { label: 'Clean White', val: '#FFFFFF' },
-                        { label: 'Deep Forest', val: '#173B2F' },
-                        { label: 'Soft Sage', val: '#EBF4EC' }
-                      ].map(bg => (
-                        <button
-                          key={bg.val}
-                          type="button"
-                          onClick={() => setEditingSection({
+                    <div className="form-group-clean">
+                      <label>
+                        <span>Image Source URL</span>
+                        <span className="form-label-hint">Standard / High-res Banner</span>
+                      </label>
+                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <input 
+                          type="text" 
+                          value={editingSection.media?.desktopImage || ''} 
+                          onChange={e => setEditingSection({
                             ...editingSection,
-                            layout: { ...editingSection.layout, bgColor: bg.val }
+                            media: { ...editingSection.media, desktopImage: e.target.value }
                           })}
-                          style={{
-                            padding: '12px 8px',
-                            borderRadius: '10px',
-                            background: bg.val,
-                            color: bg.val === '#173B2F' ? '#FFFFFF' : '#173B2F',
-                            border: editingSection.layout?.bgColor === bg.val ? '2px solid #D4AF37' : '1px solid rgba(0,0,0,0.12)',
-                            fontSize: '0.74rem',
-                            fontWeight: 700,
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease'
-                          }}
+                          placeholder="/images/hero/hero-1.jpg"
+                        />
+                        <button 
+                          type="button" 
+                          className="media-action-pill-btn"
+                          onClick={() => openMediaPickerFor('desktopImage')}
                         >
-                          {bg.label}
+                          <FolderOpen size={15} /> Choose Media
                         </button>
-                      ))}
+                      </div>
+                    </div>
+
+                    {editingSection.media?.desktopImage && (
+                      <div className="media-preview-container">
+                        <img 
+                          src={editingSection.media.desktopImage} 
+                          alt="Desktop Banner Preview" 
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Mobile Banner & Video */}
+                  <div className="form-card-section">
+                    <h4 className="form-card-title">
+                      <Smartphone size={15} color="#2F6B43" /> Mobile Optimization &amp; Video URL
+                    </h4>
+
+                    <div className="form-group-clean">
+                      <label>
+                        <span>Mobile Specific Banner (Optional)</span>
+                        <span className="form-label-hint">Portrait crop for smartphones</span>
+                      </label>
+                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <input 
+                          type="text" 
+                          value={editingSection.media?.mobileImage || ''} 
+                          onChange={e => setEditingSection({
+                            ...editingSection,
+                            media: { ...editingSection.media, mobileImage: e.target.value }
+                          })}
+                          placeholder="Leave blank to use desktop image"
+                        />
+                        <button 
+                          type="button" 
+                          className="media-action-pill-btn"
+                          onClick={() => openMediaPickerFor('mobileImage')}
+                        >
+                          <FolderOpen size={15} /> Choose Media
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="form-group-clean">
+                      <label>
+                        <span>Background Video URL (Optional MP4 stream)</span>
+                        <span className="form-label-hint">Direct MP4 or CDN URL</span>
+                      </label>
+                      <input 
+                        type="text" 
+                        placeholder="https://..."
+                        value={editingSection.media?.videoUrl || ''} 
+                        onChange={e => setEditingSection({
+                          ...editingSection,
+                          media: { ...editingSection.media, videoUrl: e.target.value }
+                        })}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* TAB 3: THEME & STYLE */}
+              {editTab === 'layout' && (
+                <>
+                  {/* Theme Swatch Grid */}
+                  <div className="form-card-section">
+                    <h4 className="form-card-title">
+                      <Sliders size={15} color="#2F6B43" /> Background Theme Palette
+                    </h4>
+                    
+                    <div className="theme-swatch-grid">
+                      {THEME_PRESETS.map(bg => {
+                        const isSelected = (editingSection.layout?.bgColor || '#FAF8F5') === bg.id;
+                        return (
+                          <div
+                            key={bg.id}
+                            className={`theme-swatch-tile ${isSelected ? 'active' : ''}`}
+                            onClick={() => setEditingSection({
+                              ...editingSection,
+                              layout: { ...editingSection.layout, bgColor: bg.id }
+                            })}
+                            style={{
+                              background: bg.color,
+                              color: bg.textColor,
+                              border: `2px solid ${bg.border}`
+                            }}
+                          >
+                            <span 
+                              className="theme-circle-dot" 
+                              style={{ background: bg.color, borderColor: bg.border }} 
+                            />
+                            <span className="theme-tile-label">{bg.label}</span>
+                            {isSelected && (
+                              <CheckCircle size={14} color={bg.id === '#173B2F' ? '#D4AF37' : '#2F6B43'} />
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 
-                  <div className="form-group-clean">
-                    <label>Content Text Alignment</label>
-                    <select
-                      value={editingSection.layout?.align || 'center'}
-                      onChange={e => setEditingSection({
-                        ...editingSection,
-                        layout: { ...editingSection.layout, align: e.target.value }
-                      })}
-                    >
-                      <option value="left">Left Aligned</option>
-                      <option value="center">Centered</option>
-                      <option value="right">Right Aligned</option>
-                    </select>
-                  </div>
+                  {/* Content Alignment & Spacing */}
+                  <div className="form-card-section">
+                    <h4 className="form-card-title">
+                      <Layout size={15} color="#2F6B43" /> Alignment &amp; Vertical Canvas Spacing
+                    </h4>
 
-                  <div className="form-group-clean">
-                    <label>Section Vertical Spacing</label>
-                    <select
-                      value={editingSection.layout?.spacing || 'normal'}
-                      onChange={e => setEditingSection({
-                        ...editingSection,
-                        layout: { ...editingSection.layout, spacing: e.target.value }
-                      })}
-                    >
-                      <option value="compact">Compact (Padding 30px)</option>
-                      <option value="normal">Normal (Padding 60px)</option>
-                      <option value="spacious">Spacious (Padding 100px)</option>
-                    </select>
+                    <div className="form-group-clean">
+                      <label>Content Alignment</label>
+                      <div className="segmented-button-row">
+                        {[
+                          { val: 'left', label: 'Left Aligned', icon: AlignLeft },
+                          { val: 'center', label: 'Centered', icon: AlignCenter },
+                          { val: 'right', label: 'Right Aligned', icon: AlignRight }
+                        ].map(alignItem => {
+                          const Icon = alignItem.icon;
+                          const isAlignSelected = (editingSection.layout?.align || 'center') === alignItem.val;
+                          return (
+                            <button
+                              key={alignItem.val}
+                              type="button"
+                              className={`segmented-btn-item ${isAlignSelected ? 'active' : ''}`}
+                              onClick={() => setEditingSection({
+                                ...editingSection,
+                                layout: { ...editingSection.layout, align: alignItem.val }
+                              })}
+                            >
+                              <Icon size={14} />
+                              <span>{alignItem.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="form-group-clean">
+                      <label>Section Vertical Spacing (Padding)</label>
+                      <div className="segmented-button-row">
+                        {[
+                          { val: 'compact', label: 'Compact (30px)' },
+                          { val: 'normal', label: 'Balanced (60px)' },
+                          { val: 'spacious', label: 'Spacious (100px)' }
+                        ].map(spaceItem => {
+                          const isSpaceSelected = (editingSection.layout?.spacing || 'normal') === spaceItem.val;
+                          return (
+                            <button
+                              key={spaceItem.val}
+                              type="button"
+                              className={`segmented-btn-item ${isSpaceSelected ? 'active' : ''}`}
+                              onClick={() => setEditingSection({
+                                ...editingSection,
+                                layout: { ...editingSection.layout, spacing: spaceItem.val }
+                              })}
+                            >
+                              <span>{spaceItem.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </>
               )}
 
-              {/* TAB 4: VISIBILITY */}
+              {/* TAB 4: VISIBILITY & DEVICES */}
               {editTab === 'visibility' && (
-                <div className="form-card-section">
-                  <div className="form-group-clean">
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '14px', background: '#FAF8F5', borderRadius: '12px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
+                <>
+                  {/* Master Active Status */}
+                  <div className="visibility-main-card">
+                    <div className="visibility-card-info">
+                      <h4 className="visibility-card-title">
+                        {editingSection.isActive !== false ? '🟢 Section is Active on Website' : '⚪ Section is Currently Hidden'}
+                      </h4>
+                      <p className="visibility-card-desc">
+                        Toggle this switch to show or hide the section from visitors without deleting any configured copy or media assets.
+                      </p>
+                    </div>
+
+                    <label className="status-toggle-switch">
                       <input 
                         type="checkbox" 
                         checked={editingSection.isActive !== false} 
@@ -801,55 +909,99 @@ const PagesManager = () => {
                           isActive: e.target.checked
                         })}
                       />
-                      <div>
-                        <strong>Section Active on Live Website</strong>
-                        <div style={{ fontSize: '0.74rem', color: '#6B7C73' }}>Uncheck to temporarily hide without losing any configured content.</div>
-                      </div>
+                      <span className="toggle-track">
+                        <span className="toggle-thumb"></span>
+                      </span>
                     </label>
                   </div>
 
-                  <div style={{ marginTop: '8px', padding: '16px', background: '#FAF8F5', borderRadius: '12px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
-                    <h4 style={{ margin: '0 0 14px', fontSize: '0.86rem', color: '#173B2F', fontWeight: 700 }}>Device Breakpoint Display</h4>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-                        <input 
-                          type="checkbox" 
-                          checked={editingSection.visibility?.desktop !== false}
-                          onChange={e => setEditingSection({
-                            ...editingSection,
-                            visibility: { ...editingSection.visibility, desktop: e.target.checked }
-                          })}
-                        />
-                        <Monitor size={16} color="#2F6B43" />
-                        <span style={{ fontSize: '0.86rem', fontWeight: 600 }}>Visible on Desktop Screens</span>
-                      </label>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-                        <input 
-                          type="checkbox" 
-                          checked={editingSection.visibility?.tablet !== false}
-                          onChange={e => setEditingSection({
-                            ...editingSection,
-                            visibility: { ...editingSection.visibility, tablet: e.target.checked }
-                          })}
-                        />
-                        <Tablet size={16} color="#2F6B43" />
-                        <span style={{ fontSize: '0.86rem', fontWeight: 600 }}>Visible on Tablets &amp; iPads</span>
-                      </label>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-                        <input 
-                          type="checkbox" 
-                          checked={editingSection.visibility?.mobile !== false}
-                          onChange={e => setEditingSection({
-                            ...editingSection,
-                            visibility: { ...editingSection.visibility, mobile: e.target.checked }
-                          })}
-                        />
-                        <Smartphone size={16} color="#2F6B43" />
-                        <span style={{ fontSize: '0.86rem', fontWeight: 600 }}>Visible on Mobile Smartphones</span>
-                      </label>
+                  {/* Device Breakpoint Tiles */}
+                  <div className="form-card-section">
+                    <h4 className="form-card-title">
+                      <Eye size={15} color="#2F6B43" /> Responsive Device Breakpoint Display
+                    </h4>
+
+                    <div className="device-tiles-grid">
+                      {/* Desktop */}
+                      <div className="device-tile-card">
+                        <div className="device-tile-left">
+                          <div className="device-icon-box">
+                            <Monitor size={17} />
+                          </div>
+                          <div>
+                            <div style={{ fontWeight: 700, color: '#173B2F' }}>Desktop Monitors &amp; Laptops</div>
+                            <div style={{ fontSize: '0.74rem', color: '#7A8B7C' }}>Visible on screens &gt; 1024px</div>
+                          </div>
+                        </div>
+                        <label className="status-toggle-switch">
+                          <input 
+                            type="checkbox" 
+                            checked={editingSection.visibility?.desktop !== false}
+                            onChange={e => setEditingSection({
+                              ...editingSection,
+                              visibility: { ...editingSection.visibility, desktop: e.target.checked }
+                            })}
+                          />
+                          <span className="toggle-track">
+                            <span className="toggle-thumb"></span>
+                          </span>
+                        </label>
+                      </div>
+
+                      {/* Tablet */}
+                      <div className="device-tile-card">
+                        <div className="device-tile-left">
+                          <div className="device-icon-box">
+                            <Tablet size={17} />
+                          </div>
+                          <div>
+                            <div style={{ fontWeight: 700, color: '#173B2F' }}>Tablets &amp; iPads</div>
+                            <div style={{ fontSize: '0.74rem', color: '#7A8B7C' }}>Visible on 768px – 1024px</div>
+                          </div>
+                        </div>
+                        <label className="status-toggle-switch">
+                          <input 
+                            type="checkbox" 
+                            checked={editingSection.visibility?.tablet !== false}
+                            onChange={e => setEditingSection({
+                              ...editingSection,
+                              visibility: { ...editingSection.visibility, tablet: e.target.checked }
+                            })}
+                          />
+                          <span className="toggle-track">
+                            <span className="toggle-thumb"></span>
+                          </span>
+                        </label>
+                      </div>
+
+                      {/* Mobile */}
+                      <div className="device-tile-card">
+                        <div className="device-tile-left">
+                          <div className="device-icon-box">
+                            <Smartphone size={17} />
+                          </div>
+                          <div>
+                            <div style={{ fontWeight: 700, color: '#173B2F' }}>Mobile Smartphones</div>
+                            <div style={{ fontSize: '0.74rem', color: '#7A8B7C' }}>Visible on screens &lt; 768px</div>
+                          </div>
+                        </div>
+                        <label className="status-toggle-switch">
+                          <input 
+                            type="checkbox" 
+                            checked={editingSection.visibility?.mobile !== false}
+                            onChange={e => setEditingSection({
+                              ...editingSection,
+                              visibility: { ...editingSection.visibility, mobile: e.target.checked }
+                            })}
+                          />
+                          <span className="toggle-track">
+                            <span className="toggle-thumb"></span>
+                          </span>
+                        </label>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </>
               )}
 
               {/* Drawer Sticky Save Bar */}

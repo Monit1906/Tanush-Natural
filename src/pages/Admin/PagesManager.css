@@ -375,8 +375,8 @@
 }
 
 .drawer-panel {
-  width: 680px;
-  max-width: 94vw;
+  width: 700px;
+  max-width: 95vw;
   background: #FAF8F5;
   height: 100%;
   overflow-y: auto;
@@ -551,24 +551,41 @@
   color: #D4AF37;
 }
 
-/* ── Drawer Form Inputs & Groups ───────────────────────────── */
+/* ── Drawer Form Cards & Groups ────────────────────────────── */
 .drawer-form-body {
   padding: 24px 28px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .form-card-section {
   background: #FFFFFF;
-  border: 1px solid rgba(23, 59, 47, 0.08);
-  border-radius: 14px;
-  padding: 18px 20px;
-  box-shadow: 0 2px 10px rgba(23, 59, 47, 0.02);
+  border: 1.5px solid rgba(23, 59, 47, 0.08);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 4px 18px rgba(23, 59, 47, 0.03);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.form-card-section:hover {
+  border-color: rgba(23, 59, 47, 0.16);
+}
+
+.form-card-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #173B2F;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .form-group-clean {
@@ -582,29 +599,248 @@
   font-weight: 700;
   color: #173B2F;
   letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-label-hint {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #7A8B7C;
 }
 
 .form-group-clean input,
 .form-group-clean select,
 .form-group-clean textarea {
   width: 100%;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border-radius: 12px;
   border: 1.5px solid rgba(23, 59, 47, 0.12);
-  background: #FFFFFF;
-  font-size: 0.86rem;
+  background: #FAF8F5;
+  font-size: 0.88rem;
   color: #173B2F;
   outline: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
 }
 
 .form-group-clean input:focus,
 .form-group-clean select:focus,
 .form-group-clean textarea:focus {
+  background: #FFFFFF;
   border-color: #173B2F;
-  box-shadow: 0 0 0 3px rgba(23, 59, 47, 0.08);
+  box-shadow: 0 0 0 4px rgba(23, 59, 47, 0.08);
 }
 
+/* ── Luxury Media Upload Box ───────────────────────────────── */
+.media-upload-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.media-preview-container {
+  border-radius: 14px;
+  overflow: hidden;
+  height: 160px;
+  background: #EAE6DF;
+  border: 1.5px solid rgba(23, 59, 47, 0.12);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-preview-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-action-pill-btn {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(23, 59, 47, 0.15);
+  color: #173B2F;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(23, 59, 47, 0.05);
+}
+
+.media-action-pill-btn:hover {
+  background: #173B2F;
+  color: #FFFFFF;
+  border-color: #173B2F;
+  transform: translateY(-1px);
+}
+
+/* ── Theme Swatch Tiles ────────────────────────────────────── */
+.theme-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.theme-swatch-tile {
+  padding: 14px 10px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.theme-swatch-tile:hover {
+  transform: translateY(-2px);
+}
+
+.theme-swatch-tile.active {
+  box-shadow: 0 6px 18px rgba(23, 59, 47, 0.18);
+  border-color: #D4AF37 !important;
+}
+
+.theme-circle-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.theme-tile-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ── Segmented Control for Alignment & Spacing ─────────────── */
+.segmented-button-row {
+  display: flex;
+  background: #FAF8F5;
+  border: 1.5px solid rgba(23, 59, 47, 0.12);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.segmented-btn-item {
+  flex: 1;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  color: #556B5C;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.segmented-btn-item:hover {
+  color: #173B2F;
+}
+
+.segmented-btn-item.active {
+  background: #173B2F;
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(23, 59, 47, 0.15);
+}
+
+/* ── Visibility Card Layout (Fixed Overflow Bug) ────────────── */
+.visibility-main-card {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(23, 59, 47, 0.1);
+  border-radius: 16px;
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 4px 18px rgba(23, 59, 47, 0.03);
+}
+
+.visibility-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.visibility-card-title {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #173B2F;
+  margin: 0;
+}
+
+.visibility-card-desc {
+  font-size: 0.78rem;
+  color: #6B7C73;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.device-tiles-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.device-tile-card {
+  background: #FAF8F5;
+  border: 1.5px solid rgba(23, 59, 47, 0.08);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  transition: all 0.2s ease;
+}
+
+.device-tile-card:hover {
+  background: #FFFFFF;
+  border-color: rgba(23, 59, 47, 0.18);
+}
+
+.device-tile-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #173B2F;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.device-icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(23, 59, 47, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2F6B43;
+}
+
+/* ── Drawer Sticky Save Bar ────────────────────────────────── */
 .drawer-sticky-footer {
   margin-top: auto;
   padding: 20px 28px;
