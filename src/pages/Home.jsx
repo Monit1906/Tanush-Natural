@@ -42,7 +42,7 @@ const Home = () => {
   const mainRef = useRef();
 
   const loadData = async () => {
-    const [prods, cats, slides, sects, storiesData, testimonialsData, socialData, partnershipData] = await Promise.all([
+    const [prods, cats, slides, sects, storiesData, testimonialsData, socialData, partnershipData, pageConf] = await Promise.all([
       api.getProducts(),
       api.getCategories(),
       api.getHeroSlides(),
@@ -50,7 +50,8 @@ const Home = () => {
       api.getStories(),
       api.getTestimonials(),
       api.getSocialSection(),
-      api.getPartnershipSection()
+      api.getPartnershipSection(),
+      api.getPageConfig('home')
     ]);
     setData({
       products: prods.filter(p => p.is_active !== false),
@@ -60,7 +61,8 @@ const Home = () => {
       stories: storiesData.filter(s => s.is_active !== false),
       testimonials: testimonialsData.filter(t => t.is_active !== false),
       socialSection: socialData,
-      partnershipSection: partnershipData
+      partnershipSection: partnershipData,
+      pageConfig: pageConf
     });
     setLoading(false);
   };
@@ -90,6 +92,7 @@ const Home = () => {
     window.addEventListener('products_updated', handleSync);
     window.addEventListener('categories_updated', handleSync);
     window.addEventListener('homepage_sections_updated', handleSync);
+    window.addEventListener('page_sections_updated', handleSync);
     window.addEventListener('stories_updated', handleSync);
     window.addEventListener('testimonials_updated', handleSync);
     window.addEventListener('cms_data_updated', handleSync);
@@ -101,6 +104,7 @@ const Home = () => {
       window.removeEventListener('products_updated', handleSync);
       window.removeEventListener('categories_updated', handleSync);
       window.removeEventListener('homepage_sections_updated', handleSync);
+      window.removeEventListener('page_sections_updated', handleSync);
       window.removeEventListener('stories_updated', handleSync);
       window.removeEventListener('testimonials_updated', handleSync);
       window.removeEventListener('cms_data_updated', handleSync);
@@ -134,11 +138,43 @@ const Home = () => {
   if (loading) return <HomeSkeleton />;
 
   const isVisible = (id) => {
+    if (data.pageConfig?.sections) {
+      const sec = data.pageConfig.sections.find(s => s.id === id || (s.id === 'benefits' && id === 'trust') || (s.id === 'stories' && id === 'reels') || (s.id === 'farming' && id === 'why_tanush') || (s.id === 'community' && id === 'social'));
+      if (sec) return sec.isActive !== false;
+    }
     const sec = data.sections.find(s => s.id === id);
     return sec ? sec.is_visible !== false : true;
   };
 
   const getSortedSections = () => {
+    if (data.pageConfig?.sections && data.pageConfig.sections.length > 0) {
+      const activeSecs = data.pageConfig.sections
+        .filter(s => s.isActive !== false)
+        .sort((a, b) => (a.order || 0) - (b.order || 0));
+      
+      const idMap = {
+        'hero': 'hero',
+        'benefits': 'trust',
+        'categories': 'categories',
+        'products': 'farming',
+        'farming': 'why_tanush',
+        'farm_to_home': 'why_tanush',
+        'stories': 'reels',
+        'testimonials': 'testimonials',
+        'community': 'social',
+        'partner': 'partner'
+      };
+
+      const result = [];
+      for (const s of activeSecs) {
+        const mapped = idMap[s.id] || s.id;
+        if (!result.includes(mapped)) {
+          result.push(mapped);
+        }
+      }
+      return result;
+    }
+
     if (!data.sections || data.sections.length === 0) {
       return ['hero', 'trust', 'categories', 'reels', 'why_tanush', 'testimonials', 'partner', 'social'];
     }

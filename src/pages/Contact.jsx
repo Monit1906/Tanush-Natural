@@ -3,12 +3,12 @@ import { MapPin, Phone, EnvelopeSimple, WhatsappLogo, Headset, Heart, ShieldChec
 import Button from '../components/Button/Button';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import InnerPageHero from '../components/InnerPageHero/InnerPageHero';
-import { contactSlides } from '../data/heroData';
 import { SectionIllustrationSlot, BotanicalWatermark } from '../components/Illustrations/BotanicalIllustrations';
 import { api } from '../lib/db';
 import './Contact.css';
 
 const Contact = () => {
+  const [pageConfig, setPageConfig] = useState(null);
   const [formData, setFormData] = useState({
     name: '', email: '', phone: '', subject: '', message: ''
   });
@@ -18,24 +18,55 @@ const Contact = () => {
     phone: '+91 94282 31144',
     email: 'hello@tanushnatural.com',
     address: 'Bhavnagar, Gujarat, India',
+    businessHours: 'Monday - Saturday: 9:00 AM – 6:00 PM IST',
     whatsapp: '+919428231144'
   });
 
-  const loadSettings = async () => {
-    const data = await api.getSiteSettings();
-    if (data) setSettings(prev => ({ ...prev, ...data }));
+  const loadData = async () => {
+    try {
+      const [siteData, configData] = await Promise.all([
+        api.getSiteSettings(),
+        api.getPageConfig('contact')
+      ]);
+      if (siteData) setSettings(prev => ({ ...prev, ...siteData }));
+      if (configData) setPageConfig(configData);
+    } catch (e) {
+      console.warn('Failed loading contact page config:', e);
+    }
   };
 
   useEffect(() => {
-    loadSettings();
-    window.addEventListener('site_settings_updated', loadSettings);
-    window.addEventListener('cms_data_updated', loadSettings);
+    loadData();
+    const handleSync = () => loadData();
+
+    window.addEventListener('page_sections_updated', handleSync);
+    window.addEventListener('site_settings_updated', handleSync);
+    window.addEventListener('cms_data_updated', handleSync);
 
     return () => {
-      window.removeEventListener('site_settings_updated', loadSettings);
-      window.removeEventListener('cms_data_updated', loadSettings);
+      window.removeEventListener('page_sections_updated', handleSync);
+      window.removeEventListener('site_settings_updated', handleSync);
+      window.removeEventListener('cms_data_updated', handleSync);
     };
   }, []);
+
+  const sections = pageConfig?.sections || [];
+  const getSection = (id) => sections.find(s => s.id === id);
+  const isSectionActive = (id) => {
+    const sec = getSection(id);
+    return sec ? sec.isActive !== false : true;
+  };
+
+  const heroSec = getSection('hero');
+  const formSec = getSection('form_section');
+  const infoSec = getSection('info_cards');
+  const faqSec = getSection('faq');
+
+  const displayPhone = infoSec?.content?.phone || settings.phone;
+  const displayEmail = infoSec?.content?.email || settings.email;
+  const displayAddress = infoSec?.content?.address || settings.address;
+  const displayHours = infoSec?.content?.businessHours || settings.businessHours;
+  const displayWhatsapp = infoSec?.content?.whatsapp || settings.whatsapp || '+919428231144';
 
   const faqs = [
     { q: 'How can I place an order?', a: 'You can easily place an order through our website. Simply add your desired products to the cart and proceed to checkout.' },
@@ -72,212 +103,204 @@ const Contact = () => {
   };
 
   const toggleFaq = (index) => {
-    if (activeFaq === index) {
-      setActiveFaq(null);
-    } else {
-      setActiveFaq(index);
-    }
+    setActiveFaq(activeFaq === index ? null : index);
   };
 
   return (
     <div className="contact-page" style={{ position: 'relative', overflow: 'hidden' }}>
       <SectionIllustrationSlot page="Contact" section="Main" defaultIllustration="modern-indian-home" defaultPosition="top-right" defaultOpacity={6} />
-      {/* Hero Section - 1920x600 pure visual banner */}
-      <InnerPageHero page="contact" />
+      
+      {/* Hero Section */}
+      {isSectionActive('hero') && (
+        <InnerPageHero 
+          page="contact" 
+          title={heroSec?.content?.heading} 
+          subtitle={heroSec?.content?.subheading} 
+        />
+      )}
 
       {/* Form Section */}
-      <section className="contact-hero-form" style={{ marginTop: '2rem' }}>
-        <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
-          
-          <div className="contact-form-card">
-            <div className="form-header">
-              <span className="icon-leaf">🌿</span>
-              <h3>Send Us a Message</h3>
-            </div>
+      {isSectionActive('form_section') && (
+        <section className="contact-hero-form" style={{ marginTop: '2rem', position: 'relative' }}>
+          <SectionIllustrationSlot page="Contact" section="Form" defaultIllustration="tulsi-sprig" defaultPosition="bottom-left" defaultOpacity={5} />
+          <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
             
-            {isSubmitted ? (
-               <div className="success-state">
+            <div className="contact-form-card">
+              <div className="form-header">
+                <span className="icon-leaf">🌿</span>
+                <h3>{formSec?.content?.heading || "Send Us a Message"}</h3>
+                <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: '#6B7C73' }}>
+                  {formSec?.content?.subheading || "We typically respond within 24 business hours."}
+                </p>
+              </div>
+              
+              {isSubmitted ? (
+                <div className="success-state">
                   <CheckCircle size={48} color="var(--color-primary)" />
                   <h4>Message Sent!</h4>
                   <p>We'll get back to you within 24 hours.</p>
-               </div>
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <div className="form-row">
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Your Name *</label>
+                      <input 
+                        type="text" 
+                        name="name" 
+                        required 
+                        placeholder="e.g. Rahul Sharma" 
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Email Address *</label>
+                      <input 
+                        type="email" 
+                        name="email" 
+                        required 
+                        placeholder="e.g. rahul@example.com" 
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Phone Number</label>
+                      <input 
+                        type="tel" 
+                        name="phone" 
+                        placeholder="e.g. +91 98765 43210" 
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Subject</label>
+                      <select 
+                        name="subject" 
+                        value={formData.subject}
+                        onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      >
+                        <option value="">Select a topic</option>
+                        <option value="Product Enquiry">Product Enquiry</option>
+                        <option value="Order Status">Order Status</option>
+                        <option value="Partnership / Dealership">Partnership / Dealership</option>
+                        <option value="Feedback / Suggestion">Feedback / Suggestion</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div className="form-group">
-                    <label>Your Name *</label>
-                    <input 
-                      type="text" 
-                      name="name" 
+                    <label>Message *</label>
+                    <textarea 
+                      name="message" 
+                      rows="4" 
                       required 
-                      placeholder="e.g. Rahul Sharma" 
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="How can we help you today? Please provide as much detail as possible..."
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     />
                   </div>
-                  <div className="form-group">
-                    <label>Email Address *</label>
-                    <input 
-                      type="email" 
-                      name="email" 
-                      required 
-                      placeholder="e.g. rahul@example.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    />
-                  </div>
-                </div>
 
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Phone Number</label>
-                    <input 
-                      type="tel" 
-                      name="phone" 
-                      placeholder="e.g. +91 98765 43210"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Subject</label>
-                    <input 
-                      type="text" 
-                      name="subject" 
-                      placeholder="e.g. Order Inquiry / Bulk Order"
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label>Message *</label>
-                  <textarea 
-                    name="message" 
-                    rows="4" 
-                    required 
-                    placeholder="Tell us how we can help you..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  ></textarea>
-                </div>
-
-                <Button type="submit" variant="primary" size="large" fullWidth>
-                  SEND MESSAGE &rarr;
-                </Button>
-              </form>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Info & Map */}
-      <section className="contact-info-map section-padding">
-        <div className="container info-map-grid">
-          <div className="info-side">
-            <SectionHeading title="Get in Touch" subtitle="We'd love to hear from you" alignment="center" />
-            
-            <div className="info-cards">
-              <div className="info-card">
-                <div className="icon-wrap"><Phone size={24} color="var(--color-primary)" /></div>
-                <h4>Call Us</h4>
-                <p className="primary-text">{settings.phone || '+91 94282 31144'}</p>
-                <p className="sub-text">Mon - Sat<br/>9:30 AM - 6:30 PM</p>
-              </div>
-              <div className="info-card">
-                <div className="icon-wrap"><WhatsappLogo size={24} color="var(--color-primary)" /></div>
-                <h4>WhatsApp</h4>
-                <p className="primary-text">{settings.whatsapp || '+91 94282 31144'}</p>
-                <p className="sub-text">Chat with us for quick assistance</p>
-              </div>
-              <div className="info-card">
-                <div className="icon-wrap"><EnvelopeSimple size={24} color="var(--color-primary)" /></div>
-                <h4>Email Us</h4>
-                <p className="primary-text">{settings.email || 'hello@tanushnatural.com'}</p>
-                <p className="sub-text">We reply within<br/>24 hours</p>
-              </div>
-              <div className="info-card">
-                <div className="icon-wrap"><MapPin size={24} color="var(--color-primary)" /></div>
-                <h4>Our Location</h4>
-                <p className="primary-text">{settings.address || 'Bhavnagar, Gujarat, India'}</p>
-                <p className="sub-text">Find us easily</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="map-side">
-            <div className="map-placeholder">
-              <div className="map-pin">
-                <MapPin size={24} weight="fill" color="var(--color-primary)" />
-                <div className="pin-tooltip">
-                  <strong>Tanush Natural</strong>
-                  <p>{settings.address || 'Bhavnagar, Gujarat, India'}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Support Values */}
-      <section className="support-values container section-padding">
-        <div className="values-grid">
-          <div className="value-item">
-            <Headset size={32} weight="light" />
-            <div>
-              <h4>Fast Response</h4>
-              <p>We value your time and respond quickly.</p>
-            </div>
-          </div>
-          <div className="value-item">
-            <Heart size={32} weight="light" />
-            <div>
-              <h4>Customer First</h4>
-              <p>Your satisfaction is our top priority.</p>
-            </div>
-          </div>
-          <div className="value-item">
-            <ShieldCheck size={32} weight="light" />
-            <div>
-              <h4>Quality Guaranteed</h4>
-              <p>100% natural, tested formulations.</p>
-            </div>
-          </div>
-          <div className="value-item">
-            <Users size={32} weight="light" />
-            <div>
-              <h4>Community Driven</h4>
-              <p>Trusted by thousands of Indian homes.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="contact-faq-section container section-padding">
-        <SectionHeading title="Frequently Asked Questions" subtitle="FIND QUICK ANSWERS" alignment="center" />
-        
-        <div className="faq-accordion">
-          {faqs.map((faq, index) => (
-            <div 
-              key={index} 
-              className={`faq-item ${activeFaq === index ? 'active' : ''}`}
-              onClick={() => toggleFaq(index)}
-            >
-              <div className="faq-question">
-                <span>{faq.q}</span>
-                <CaretDown size={20} className="faq-caret" />
-              </div>
-              {activeFaq === index && (
-                <div className="faq-answer">
-                  <p>{faq.a}</p>
-                </div>
+                  <Button variant="primary" type="submit" className="w-full">
+                    {formSec?.content?.primaryCtaText || "SEND MESSAGE →"}
+                  </Button>
+                </form>
               )}
             </div>
-          ))}
-        </div>
-      </section>
+
+          </div>
+        </section>
+      )}
+
+      {/* Contact Info Cards */}
+      {isSectionActive('info_cards') && (
+        <section className="contact-details-section section-padding" style={{ position: 'relative' }}>
+          <SectionIllustrationSlot page="Contact" section="Cards" defaultIllustration="botanical-shield" defaultPosition="center-right" defaultOpacity={6} />
+          <div className="container">
+            <SectionHeading 
+              subtitle="DIRECT CHANNELS" 
+              title={infoSec?.content?.heading || "Other Ways to Reach Us"} 
+              alignment="center" 
+            />
+            
+            <div className="contact-cards-grid">
+              
+              {/* Phone */}
+              <div className="contact-info-card">
+                <div className="card-icon"><Phone size={28} /></div>
+                <h4>Call Us</h4>
+                <p className="info-main"><a href={`tel:${displayPhone}`}>{displayPhone}</a></p>
+                <p className="info-sub">{displayHours}</p>
+              </div>
+
+              {/* Email */}
+              <div className="contact-info-card">
+                <div className="card-icon"><EnvelopeSimple size={28} /></div>
+                <h4>Email Us</h4>
+                <p className="info-main"><a href={`mailto:${displayEmail}`}>{displayEmail}</a></p>
+                <p className="info-sub">We reply within 24 hours</p>
+              </div>
+
+              {/* WhatsApp */}
+              <div className="contact-info-card">
+                <div className="card-icon"><WhatsappLogo size={28} /></div>
+                <h4>WhatsApp</h4>
+                <p className="info-main"><a href={`https://wa.me/${displayWhatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a></p>
+                <p className="info-sub">Instant quick answers</p>
+              </div>
+
+              {/* Location */}
+              <div className="contact-info-card">
+                <div className="card-icon"><MapPin size={28} /></div>
+                <h4>Location</h4>
+                <p className="info-main">{displayAddress}</p>
+                <p className="info-sub">Headquarters &amp; Operations</p>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* FAQ Section */}
+      {isSectionActive('faq') && (
+        <section className="contact-faq-section section-padding bg-secondary" style={{ position: 'relative' }}>
+          <div className="container">
+            <SectionHeading 
+              subtitle="FREQUENTLY ASKED" 
+              title={faqSec?.content?.heading || "Common Questions"} 
+              alignment="center" 
+            />
+            
+            <div className="faq-accordion">
+              {faqs.map((faq, index) => (
+                <div 
+                  key={index} 
+                  className={`faq-item ${activeFaq === index ? 'active' : ''}`}
+                  onClick={() => toggleFaq(index)}
+                >
+                  <div className="faq-question">
+                    <h4>{faq.q}</h4>
+                    <CaretDown size={20} className={`faq-caret ${activeFaq === index ? 'rotated' : ''}`} />
+                  </div>
+                  {activeFaq === index && (
+                    <div className="faq-answer">
+                      <p>{faq.a}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
     </div>
   );
 };

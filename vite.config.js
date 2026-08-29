@@ -366,6 +366,19 @@ function cmsServerPlugin() {
           }
         }
 
+        // 9a. Pages & Section-Wise Control System
+        if (pathname === '/api/cms/pages_config') {
+          if (req.method === 'GET') {
+            return res.end(JSON.stringify(db?.pageConfigs || {}));
+          }
+          if (req.method === 'POST') {
+            const pageConfigs = await readBody();
+            db.pageConfigs = pageConfigs;
+            saveDB(db);
+            return res.end(JSON.stringify({ success: true, data: pageConfigs }));
+          }
+        }
+
         // 9b. Partnership Section
         if (pathname === '/api/cms/partnership-section' || pathname === '/api/cms/sections/partnerships') {
           if (req.method === 'GET') {

@@ -23,14 +23,24 @@ const Shop = () => {
   
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [pageConfig, setPageConfig] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
-    const prods = await api.getProducts();
-    const cats = await api.getCategories();
-    setProducts(prods.filter(p => p.is_active !== false));
-    setCategories(cats.filter(c => c.is_active !== false));
-    setLoading(false);
+    try {
+      const [prods, cats, conf] = await Promise.all([
+        api.getProducts(),
+        api.getCategories(),
+        api.getPageConfig('shop')
+      ]);
+      setProducts(prods.filter(p => p.is_active !== false));
+      setCategories(cats.filter(c => c.is_active !== false));
+      if (conf) setPageConfig(conf);
+    } catch (e) {
+      console.warn('Failed loading shop data:', e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -39,11 +49,13 @@ const Shop = () => {
     const handleSync = () => fetchData();
     window.addEventListener('products_updated', handleSync);
     window.addEventListener('categories_updated', handleSync);
+    window.addEventListener('page_sections_updated', handleSync);
     window.addEventListener('cms_data_updated', handleSync);
 
     return () => {
       window.removeEventListener('products_updated', handleSync);
       window.removeEventListener('categories_updated', handleSync);
+      window.removeEventListener('page_sections_updated', handleSync);
       window.removeEventListener('cms_data_updated', handleSync);
     };
   }, []);
@@ -55,6 +67,16 @@ const Shop = () => {
   }, [searchParams]);
 
   if (loading) return <ShopSkeleton />;
+
+  const sections = pageConfig?.sections || [];
+  const getSection = (id) => sections.find(s => s.id === id);
+  const isSectionActive = (id) => {
+    const sec = getSection(id);
+    return sec ? sec.isActive !== false : true;
+  };
+
+  const heroSec = getSection('hero');
+  const promoSec = getSection('promotional');
 
   // Handle Category Filter
   const handleCategoryClick = (categoryId) => {
@@ -90,132 +112,155 @@ const Shop = () => {
       />
 
       {/* Shop Hero - Wide Banner */}
-      <InnerPageHero page="shop" activeCategory={activeCategory} />
+      {isSectionActive('hero') && (
+        <InnerPageHero 
+          page="shop" 
+          activeCategory={activeCategory}
+          title={heroSec?.content?.heading}
+          subtitle={heroSec?.content?.subheading}
+        />
+      )}
 
       {/* Categories Bar with Square Frames */}
-      <section className="shop-categories-bar container">
-        <h2 className="visually-hidden">Shop by Category</h2>
-        <div className="categories-scroll">
-          <div 
-            className={`cat-square-frame cat-circle ${activeCategory === 'all' ? 'active' : ''}`}
-            onClick={() => handleCategoryClick('all')}
-          >
-            <div className="cat-img all-products-img">
-              <img src="/images/categories/more.jpg" alt="All Products" />
-            </div>
-            <span>All Products</span>
-          </div>
-          {categories.map(cat => (
+      {isSectionActive('category_bar') && (
+        <section className="shop-categories-bar container">
+          <h2 className="visually-hidden">Shop by Category</h2>
+          <div className="categories-scroll">
             <div 
-              key={cat.id} 
-              className={`cat-square-frame cat-circle ${activeCategory === cat.id ? 'active' : ''}`}
-              onClick={() => handleCategoryClick(cat.id)}
+              className={`cat-square-frame cat-circle ${activeCategory === 'all' ? 'active' : ''}`}
+              onClick={() => handleCategoryClick('all')}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && handleCategoryClick('all')}
             >
-              <div className="cat-img">
+              <div className="cat-img all-products-img">
                 <img 
-                  src={cat.image} 
-                  alt={cat.name} 
-                  onError={(e) => { e.target.onerror = null; e.target.src = "/images/categories/personal-care.jpg"; }}
+                  src="/images/categories/all.jpg" 
+                  alt="All Products"
+                  loading="lazy"
+                  onError={(e) => { e.target.src = '/images/products/vaporizer-machine-1.jpg'; }}
                 />
               </div>
-              <span>{cat.name}</span>
+              <span>All Products</span>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* Main Full-Width Shop Content (No Sidebar Filter Column) */}
-      <section className="shop-main container" style={{ position: 'relative' }}>
-        {/* Dynamic Category Botanical Badge */}
-        {activeCategory !== 'all' && (
-          <div style={{ marginBottom: '14px' }}>
-            <CategoryBotanicalBadge categoryId={activeCategory} name={activeCategoryObj?.name} />
+            {categories.map(cat => (
+              <div 
+                key={cat.id}
+                className={`cat-square-frame cat-circle ${activeCategory === cat.id ? 'active' : ''}`}
+                onClick={() => handleCategoryClick(cat.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && handleCategoryClick(cat.id)}
+              >
+                <div className="cat-img">
+                  <img 
+                    src={cat.image || '/images/categories/all.jpg'} 
+                    alt={cat.name}
+                    loading="lazy"
+                    onError={(e) => { e.target.src = '/images/categories/all.jpg'; }}
+                  />
+                </div>
+                <span>{cat.name}</span>
+              </div>
+            ))}
           </div>
-        )}
+        </section>
+      )}
 
-        {/* Controls Bar: Results, Active Filter Tag, Sort Dropdown & View Mode Switcher */}
-        <div className="shop-controls-bar">
-          <div className="shop-controls-left">
-            <span className="results-count">Showing {sortedProducts.length} results</span>
-            {activeCategory !== 'all' && (
-              <div className="active-category-pill">
-                <span>Filter: {activeCategoryObj?.name || activeCategory}</span>
-                <button 
-                  type="button" 
-                  onClick={() => handleCategoryClick('all')} 
-                  title="Clear Category Filter"
-                  aria-label="Clear Filter"
+      {/* Main Shop Section */}
+      {isSectionActive('product_grid') && (
+        <section className="shop-main container">
+          {/* Active Category Botanical Context Indicator */}
+          <CategoryBotanicalBadge category={activeCategory} />
+
+          {/* Controls Bar: Results Count + Sort + Layout Mode */}
+          <div className="shop-controls-bar">
+            <div className="shop-controls-left">
+              <span className="results-count">
+                Showing <strong>{sortedProducts.length}</strong> {sortedProducts.length === 1 ? 'product' : 'products'}
+                {activeCategory !== 'all' && activeCategoryObj ? ` in ${activeCategoryObj.name}` : ''}
+              </span>
+            </div>
+
+            <div className="shop-controls-right">
+              {/* Sort Dropdown */}
+              <div className="sort-control">
+                <label htmlFor="shop-sort" className="visually-hidden">Sort products</label>
+                <select 
+                  id="shop-sort"
+                  value={sortBy} 
+                  onChange={(e) => setSortBy(e.target.value)}
                 >
-                  <ArrowCounterClockwise size={13} />
-                  <span>Clear</span>
+                  <option value="featured">Sort: Featured</option>
+                  <option value="best-selling">Sort: Best Selling</option>
+                  <option value="price-low-high">Price: Low to High</option>
+                  <option value="price-high-low">Price: High to Low</option>
+                  <option value="newest">Sort: Newest First</option>
+                </select>
+              </div>
+
+              {/* View Mode Switcher (Grid vs List) */}
+              <div className="view-mode-toggle" role="group" aria-label="Product view mode">
+                <button 
+                  type="button"
+                  className={`view-mode-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                  onClick={() => setViewMode('grid')}
+                  title="Grid View"
+                  aria-label="Grid View"
+                >
+                  <SquaresFour size={19} weight={viewMode === 'grid' ? 'fill' : 'regular'} />
                 </button>
+
+                <button 
+                  type="button"
+                  className={`view-mode-btn ${viewMode === 'list' ? 'active' : ''}`}
+                  onClick={() => setViewMode('list')}
+                  title="List View"
+                  aria-label="List View"
+                >
+                  <List size={19} weight={viewMode === 'list' ? 'bold' : 'regular'} />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Product Listing Area */}
+          <div className="shop-products-wrapper">
+            {sortedProducts.length === 0 ? (
+              <div className="no-results">
+                <h3>No products found</h3>
+                <p>No products match your current category selection.</p>
+                <Button variant="primary" onClick={() => handleCategoryClick('all')}>Show All Products</Button>
+              </div>
+            ) : (
+              <div className={viewMode === 'grid' ? 'products-grid' : 'products-list-layout'}>
+                {sortedProducts.map(product => (
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    viewMode={viewMode}
+                  />
+                ))}
               </div>
             )}
           </div>
+        </section>
+      )}
 
-          <div className="shop-controls-right">
-            {/* Sort Control */}
-            <div className="sort-control">
-              <label htmlFor="shop-sort-select">Sort by:</label>
-              <select 
-                id="shop-sort-select"
-                value={sortBy} 
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                <option value="featured">Featured</option>
-                <option value="best-selling">Best Selling</option>
-                <option value="price-low-high">Price: Low to High</option>
-                <option value="price-high-low">Price: High to Low</option>
-                <option value="newest">Newest First</option>
-              </select>
-            </div>
-
-            {/* View Mode Switcher (Grid vs List) */}
-            <div className="view-mode-toggle" role="group" aria-label="Product view mode">
-              <button 
-                type="button"
-                className={`view-mode-btn ${viewMode === 'grid' ? 'active' : ''}`}
-                onClick={() => setViewMode('grid')}
-                title="Grid View"
-                aria-label="Grid View"
-              >
-                <SquaresFour size={19} weight={viewMode === 'grid' ? 'fill' : 'regular'} />
-              </button>
-
-              <button 
-                type="button"
-                className={`view-mode-btn ${viewMode === 'list' ? 'active' : ''}`}
-                onClick={() => setViewMode('list')}
-                title="List View"
-                aria-label="List View"
-              >
-                <List size={19} weight={viewMode === 'list' ? 'bold' : 'regular'} />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Product Listing Area */}
-        <div className="shop-products-wrapper">
-          {sortedProducts.length === 0 ? (
-            <div className="no-results">
-              <h3>No products found</h3>
-              <p>No products match your current category selection.</p>
-              <Button variant="primary" onClick={() => handleCategoryClick('all')}>Show All Products</Button>
-            </div>
-          ) : (
-            <div className={viewMode === 'grid' ? 'products-grid' : 'products-list-layout'}>
-              {sortedProducts.map(product => (
-                <ProductCard 
-                  key={product.id} 
-                  product={product} 
-                  viewMode={viewMode}
-                />
-              ))}
-            </div>
+      {/* Promotional Botanical Quality Strip */}
+      {isSectionActive('promotional') && promoSec?.content?.heading && (
+        <section className="shop-promo-strip container text-center" style={{ margin: '40px auto 20px', padding: '30px 20px', background: '#FFFFFF', borderRadius: '16px', border: '1px solid rgba(23, 59, 47, 0.08)' }}>
+          {promoSec.content.badge && <span className="subtitle">{promoSec.content.badge}</span>}
+          <h3 style={{ fontSize: '1.4rem', color: '#173B2F', margin: '6px 0 10px' }}>{promoSec.content.heading}</h3>
+          <p style={{ maxWidth: '650px', margin: '0 auto 16px', color: '#556B5C', fontSize: '0.9rem' }}>{promoSec.content.subheading}</p>
+          {promoSec.content.primaryCtaText && (
+            <Button variant="secondary" to={promoSec.content.primaryCtaLink || "/why-tanush"}>
+              {promoSec.content.primaryCtaText}
+            </Button>
           )}
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 };

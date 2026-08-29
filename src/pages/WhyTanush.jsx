@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Leaf, ShieldCheck, Heart, CheckCircle, Lightbulb, TrendUp, Users, Target } from 'phosphor-react';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import Button from '../components/Button/Button';
@@ -13,165 +13,220 @@ import {
   FarmerInField,
   NeemBranch
 } from '../components/Illustrations/BotanicalIllustrations';
-import { whyTanushSlides } from '../data/heroData';
+import { api } from '../lib/db';
 import './WhyTanush.css';
 
 const WhyTanush = () => {
+  const [pageConfig, setPageConfig] = useState(null);
+
+  const loadConfig = async () => {
+    try {
+      const conf = await api.getPageConfig('why-tanush');
+      if (conf) setPageConfig(conf);
+    } catch (e) {
+      console.warn('Failed loading why-tanush page config:', e);
+    }
+  };
+
+  useEffect(() => {
+    loadConfig();
+    const handleSync = () => loadConfig();
+
+    window.addEventListener('page_sections_updated', handleSync);
+    window.addEventListener('cms_data_updated', handleSync);
+
+    return () => {
+      window.removeEventListener('page_sections_updated', handleSync);
+      window.removeEventListener('cms_data_updated', handleSync);
+    };
+  }, []);
+
+  const sections = pageConfig?.sections || [];
+  const getSection = (id) => sections.find(s => s.id === id);
+  const isSectionActive = (id) => {
+    const sec = getSection(id);
+    return sec ? sec.isActive !== false : true;
+  };
+
+  const heroSec = getSection('hero');
+  const benefitsSec = getSection('benefits');
+  const thoughtfulSec = getSection('thoughtful');
+  const farmJourneySec = getSection('farm_journey');
+  const storySec = getSection('story');
+  const timelineSec = getSection('timeline_numbers');
+
   return (
     <div className="why-tanush-page" style={{ position: 'relative', overflow: 'hidden' }}>
       {/* Background Subtle Watermark */}
       <BotanicalWatermark illustration="neem-branch" position="top-right" opacity={0.06} size={300} />
 
-      {/* Hero Section - 1920x600 pure visual banner */}
-      <InnerPageHero page="why-tanush" />
+      {/* Hero Section */}
+      {isSectionActive('hero') && (
+        <InnerPageHero 
+          page="why-tanush" 
+          title={heroSec?.content?.heading}
+          subtitle={heroSec?.content?.subheading}
+        />
+      )}
 
       {/* Benefits Strip */}
-      <section className="why-benefits-strip">
-        <div className="container why-benefits-grid">
-          <div className="why-benefit-card">
-            <div className="icon-wrapper"><Leaf size={32} weight="light" /></div>
-            <h4>Nature-Inspired</h4>
-            <p>We look to nature for thoughtful ingredients and everyday solutions.</p>
+      {isSectionActive('benefits') && (
+        <section className="why-benefits-strip">
+          <div className="container why-benefits-grid">
+            <div className="why-benefit-card">
+              <div className="icon-wrapper"><Leaf size={32} weight="light" /></div>
+              <h4>Nature-Inspired</h4>
+              <p>We look to nature for thoughtful ingredients and everyday solutions.</p>
+            </div>
+            <div className="why-benefit-card">
+              <div className="icon-wrapper"><ShieldCheck size={32} weight="light" /></div>
+              <h4>Quality You Can Trust</h4>
+              <p>Carefully crafted with consistency, safety and quality at the core.</p>
+            </div>
+            <div className="why-benefit-card">
+              <div className="icon-wrapper"><Heart size={32} weight="light" /></div>
+              <h4>Made for Everyday Life</h4>
+              <p>Practical, effective and designed for real Indian homes and routines.</p>
+            </div>
+            <div className="why-benefit-card">
+              <div className="icon-wrapper"><HeartIcon /></div>
+              <h4>Better Choices</h4>
+              <p>We choose better ingredients, better practices and a better tomorrow.</p>
+            </div>
+            <div className="why-benefit-card">
+              <div className="icon-wrapper"><IndiaIcon /></div>
+              <h4>Proudly Made in India</h4>
+              <p>Designed, developed and made for the needs of modern Indian households.</p>
+            </div>
           </div>
-          <div className="why-benefit-card">
-            <div className="icon-wrapper"><ShieldCheck size={32} weight="light" /></div>
-            <h4>Quality You Can Trust</h4>
-            <p>Carefully crafted with consistency, safety and quality at the core.</p>
-          </div>
-          <div className="why-benefit-card">
-            <div className="icon-wrapper"><Heart size={32} weight="light" /></div>
-            <h4>Made for Everyday Life</h4>
-            <p>Practical, effective and designed for real Indian homes and routines.</p>
-          </div>
-          <div className="why-benefit-card">
-            <div className="icon-wrapper"><HeartIcon /></div>
-            <h4>Better Choices</h4>
-            <p>We choose better ingredients, better practices and a better tomorrow.</p>
-          </div>
-          <div className="why-benefit-card">
-            <div className="icon-wrapper"><IndiaIcon /></div>
-            <h4>Proudly Made in India</h4>
-            <p>Designed, developed and made for the needs of modern Indian households.</p>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Thoughtful by Nature */}
-      <section className="thoughtful-section container section-padding" style={{ position: 'relative' }}>
-        <SectionIllustrationSlot page="WhyTanush" section="Thoughtful" defaultIllustration="tulsi-sprig" defaultPosition="bottom-left" defaultOpacity={6} />
-        <div className="section-header text-center">
-          <span className="subtitle">WHY TANUSH</span>
-          <h2>Thoughtful by Nature. Made for You.</h2>
-        </div>
-        
-        <div className="thoughtful-grid">
-          <div className="thoughtful-card">
-            <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-1.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-            <h4>Inspired by Nature</h4>
-            <p>We draw inspiration from nature and use ingredients that are mindful and responsibly sourced.</p>
+      {isSectionActive('thoughtful') && (
+        <section className="thoughtful-section container section-padding" style={{ position: 'relative' }}>
+          <SectionIllustrationSlot page="WhyTanush" section="Thoughtful" defaultIllustration="tulsi-sprig" defaultPosition="bottom-left" defaultOpacity={6} />
+          <div className="section-header text-center">
+            <span className="subtitle">{thoughtfulSec?.content?.badge || "WHY TANUSH"}</span>
+            <h2>{thoughtfulSec?.content?.heading || "Thoughtful by Nature. Made for You."}</h2>
           </div>
-          <div className="thoughtful-card">
-            <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-2.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-            <h4>Carefully Crafted</h4>
-            <p>Our formulations are developed with care, using modern research and expertise.</p>
+          
+          <div className="thoughtful-grid">
+            <div className="thoughtful-card">
+              <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-1.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <h4>Inspired by Nature</h4>
+              <p>We draw inspiration from nature and use ingredients that are mindful and responsibly sourced.</p>
+            </div>
+            <div className="thoughtful-card">
+              <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-2.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <h4>Carefully Crafted</h4>
+              <p>Our formulations are developed with care, using modern research and expertise.</p>
+            </div>
+            <div className="thoughtful-card">
+              <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-3.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <h4>Quality Assured</h4>
+              <p>Every product goes through rigorous quality checks to ensure safety and consistency.</p>
+            </div>
+            <div className="thoughtful-card">
+              <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-4.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <h4>Made for Everyday</h4>
+              <p>Practical, effective and easy to use products that fit seamlessly into daily life.</p>
+            </div>
           </div>
-          <div className="thoughtful-card">
-            <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-3.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-            <h4>Quality Assured</h4>
-            <p>Every product goes through rigorous quality checks to ensure safety and consistency.</p>
-          </div>
-          <div className="thoughtful-card">
-            <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-4.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-            <h4>Made for Everyday</h4>
-            <p>Practical, effective and easy to use products that fit seamlessly into daily life.</p>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Editorial Farm-to-Home Storytelling Path */}
-      <section className="farm-story-section container" style={{ padding: '0 20px' }}>
-        <FarmToHomeJourney />
-      </section>
+      {isSectionActive('farm_journey') && (
+        <section className="farm-story-section container" style={{ padding: '0 20px' }}>
+          <FarmToHomeJourney />
+        </section>
+      )}
 
       {/* Our Story */}
-      <section id="our-story" className="our-story-section bg-secondary section-padding" style={{ position: 'relative' }}>
-        <SectionIllustrationSlot page="WhyTanush" section="Our Story" defaultIllustration="farmer-in-field" defaultPosition="bottom-right" defaultOpacity={6} />
-        <div className="container story-flex">
-          <div className="story-text-content">
-            <span className="subtitle">OUR STORY</span>
-            <h2>A Simple Thought That Started Tanush</h2>
+      {isSectionActive('story') && (
+        <section id="our-story" className="our-story-section bg-secondary section-padding" style={{ position: 'relative' }}>
+          <SectionIllustrationSlot page="WhyTanush" section="Our Story" defaultIllustration="farmer-in-field" defaultPosition="bottom-right" defaultOpacity={6} />
+          <div className="container story-flex">
+            <div className="story-text-content">
+              <span className="subtitle">{storySec?.content?.badge || "OUR STORY"}</span>
+              <h2>{storySec?.content?.heading || "A Simple Thought That Started Tanush"}</h2>
+              
+              <p>{storySec?.content?.description || "We noticed how everyday households were looking for products that are effective, safe and inspired by nature without harsh chemicals."}</p>
+              <p>That's when Tanush Natural was born — with a simple thought to create products that are thoughtful, nature-inspired and truly made for everyday living.</p>
+              <p>Today, Tanush Natural is a growing family that believes in better choices, better practices and a better everyday.</p>
+              
+              <Button variant="primary" to={storySec?.content?.primaryCtaLink || "/shop"} className="mt-xl">
+                {storySec?.content?.primaryCtaText || "EXPLORE OUR PRODUCTS →"}
+              </Button>
+            </div>
             
-            <p>We noticed how everyday households were looking for products that are effective, safe and inspired by nature.</p>
-            <p>But most options either had harsh chemicals or didn't meet our expectations for quality and care.</p>
-            <p>That's when Tanush Natural was born — with a simple thought to create products that are thoughtful, nature-inspired and truly made for everyday living.</p>
-            <p>Today, Tanush Natural is a growing family that believes in better choices, better practices and a better everyday.</p>
-            
-            <Button variant="primary" to="/shop" className="mt-xl">EXPLORE OUR PRODUCTS →</Button>
-          </div>
-          
-          <div className="story-collage">
-            <div className="collage-main" style={{ backgroundImage: "url('/images/lifestyle/collage-main.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-            <div className="collage-sub-wrap">
-              <div className="collage-sub" style={{ backgroundImage: "url('/images/lifestyle/collage-sub1.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-              <div className="collage-sub" style={{ backgroundImage: "url('/images/lifestyle/collage-sub2.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+            <div className="story-collage">
+              <div className="collage-main" style={{ backgroundImage: `url(${storySec?.media?.desktopImage || '/images/lifestyle/collage-main.jpg'})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <div className="collage-sub-wrap">
+                <div className="collage-sub" style={{ backgroundImage: "url('/images/lifestyle/collage-sub1.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+                <div className="collage-sub" style={{ backgroundImage: "url('/images/lifestyle/collage-sub2.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Journey & Numbers */}
-      <section className="journey-numbers-section container section-padding">
-        <div className="journey-numbers-grid">
-          <div className="journey-area">
-            <span className="subtitle">OUR JOURNEY</span>
-            
-            <div className="timeline">
-              <div className="timeline-item">
-                <div className="icon-wrap"><Lightbulb size={24} weight="light" /></div>
-                <h4>2021<br/>The Idea</h4>
-                <p>A simple thought of better everyday products.</p>
-              </div>
-              <div className="timeline-item">
-                <div className="icon-wrap"><Leaf size={24} weight="light" /></div>
-                <h4>2022<br/>First Steps</h4>
-                <p>Research, learning and our first range of products.</p>
-              </div>
-              <div className="timeline-item">
-                <div className="icon-wrap"><Users size={24} weight="light" /></div>
-                <h4>2023<br/>Growing Together</h4>
-                <p>More families joined us and our range expanded.</p>
-              </div>
-              <div className="timeline-item">
-                <div className="icon-wrap"><TrendUp size={24} weight="light" /></div>
-                <h4>2024 & Beyond<br/>Better Everyday</h4>
-                <p>Continuing our promise of thoughtful, natural and quality products.</p>
+      {isSectionActive('timeline_numbers') && (
+        <section className="journey-numbers-section container section-padding">
+          <div className="journey-numbers-grid">
+            <div className="journey-area">
+              <span className="subtitle">OUR JOURNEY</span>
+              
+              <div className="timeline">
+                <div className="timeline-item">
+                  <div className="icon-wrap"><Lightbulb size={24} weight="light" /></div>
+                  <h4>2021<br/>The Idea</h4>
+                  <p>A simple thought of better everyday products.</p>
+                </div>
+                <div className="timeline-item">
+                  <div className="icon-wrap"><Leaf size={24} weight="light" /></div>
+                  <h4>2022<br/>First Steps</h4>
+                  <p>Research, learning and our first range of products.</p>
+                </div>
+                <div className="timeline-item">
+                  <div className="icon-wrap"><Users size={24} weight="light" /></div>
+                  <h4>2023<br/>Growing Together</h4>
+                  <p>More families joined us and our range expanded.</p>
+                </div>
+                <div className="timeline-item">
+                  <div className="icon-wrap"><TrendUp size={24} weight="light" /></div>
+                  <h4>2024 &amp; Beyond<br/>Better Everyday</h4>
+                  <p>Continuing our promise of thoughtful, natural and quality products.</p>
+                </div>
               </div>
             </div>
+            
+            <div className="numbers-area">
+               <span className="subtitle">TANUSH IN NUMBERS</span>
+               <div className="numbers-grid">
+                 <div className="number-card">
+                   <h3>25+</h3>
+                   <p>Products</p>
+                 </div>
+                 <div className="number-card">
+                   <h3>50,000+</h3>
+                   <p>Happy Families</p>
+                 </div>
+                 <div className="number-card">
+                   <h3>100%</h3>
+                   <p>Quality Assured</p>
+                 </div>
+                 <div className="number-card">
+                   <h3>Made in<br/>India</h3>
+                   <p>For Indian Homes</p>
+                 </div>
+               </div>
+            </div>
           </div>
-          
-          <div className="numbers-area">
-             <span className="subtitle">TANUSH IN NUMBERS</span>
-             <div className="numbers-grid">
-               <div className="number-card">
-                 <h3>25+</h3>
-                 <p>Products</p>
-               </div>
-               <div className="number-card">
-                 <h3>50,000+</h3>
-                 <p>Happy Families</p>
-               </div>
-               <div className="number-card">
-                 <h3>100%</h3>
-                 <p>Quality Assured</p>
-               </div>
-               <div className="number-card">
-                 <h3>Made in<br/>India</h3>
-                 <p>For Indian Homes</p>
-               </div>
-             </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
     </div>
   );

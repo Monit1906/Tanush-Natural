@@ -197,6 +197,14 @@ const AdminLayout = () => {
             <span>Dashboard</span>
           </NavLink>
 
+          {/* WEBSITE BUILDER */}
+          <div className="admin-nav-section-label">WEBSITE BUILDER</div>
+          <NavLink to="/admin/pages" className={({isActive}) => isActive ? 'admin-nav-item active' : 'admin-nav-item'}>
+            <LayoutDashboard size={17} />
+            <span>Website Pages</span>
+            <span className="admin-nav-arrow">›</span>
+          </NavLink>
+
           {/* CATALOG */}
           <div className="admin-nav-section-label">CATALOG</div>
           <NavLink to="/admin/products" className={({isActive}) => isActive ? 'admin-nav-item active' : 'admin-nav-item'}>

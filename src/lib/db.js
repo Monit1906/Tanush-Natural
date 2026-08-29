@@ -1,6 +1,7 @@
 import { supabase, isSupabaseConfigured } from './supabase';
 import { products as defaultProducts, categories as defaultCategories } from '../data/products';
 import { homepageSlides as defaultHeroSlides } from '../data/heroData';
+import { DEFAULT_PAGES_CONFIG, normalizePageConfig } from './pageConfigs';
 
 const DB_API_BASE = '/api/cms';
 
@@ -1102,6 +1103,87 @@ export const api = {
     logAction('Updated Botanical Illustration Settings', 'Illustrations');
     dispatchSyncEvent('illustration_settings_updated', payload);
     return payload;
+  },
+
+  // --- Page-Wise & Section-Wise Website Control System ---
+  getPageConfig: async (pageId) => {
+    try {
+      const res = await fetch(`${DB_API_BASE}/pages_config`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && typeof data === 'object' && data[pageId]) {
+          saveClientStoredDB(db => ({ ...db, pageConfigs: data }));
+          return normalizePageConfig(pageId, data[pageId]);
+        }
+      }
+    } catch (e) {}
+
+    const localDB = getClientStoredDB();
+    if (localDB?.pageConfigs && localDB.pageConfigs[pageId]) {
+      return normalizePageConfig(pageId, localDB.pageConfigs[pageId]);
+    }
+
+    return normalizePageConfig(pageId, DEFAULT_PAGES_CONFIG[pageId]);
+  },
+
+  savePageConfig: async (pageId, config) => {
+    const normalized = normalizePageConfig(pageId, config);
+    const localDB = getClientStoredDB() || {};
+    const existingConfigs = localDB.pageConfigs || { ...DEFAULT_PAGES_CONFIG };
+    const updatedConfigs = {
+      ...existingConfigs,
+      [pageId]: normalized
+    };
+
+    saveClientStoredDB(db => ({ ...db, pageConfigs: updatedConfigs }));
+
+    try {
+      await fetch(`${DB_API_BASE}/pages_config`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedConfigs)
+      });
+    } catch (e) {}
+
+    logAction(`Updated ${normalized.name} Page Sections`, 'Pages & Content', pageId);
+    dispatchSyncEvent('page_sections_updated', { pageId, config: normalized });
+    return normalized;
+  },
+
+  getAllPageConfigs: async () => {
+    try {
+      const res = await fetch(`${DB_API_BASE}/pages_config`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+          const merged = { ...DEFAULT_PAGES_CONFIG, ...data };
+          saveClientStoredDB(db => ({ ...db, pageConfigs: merged }));
+          return merged;
+        }
+      }
+    } catch (e) {}
+
+    const localDB = getClientStoredDB();
+    if (localDB?.pageConfigs) {
+      return { ...DEFAULT_PAGES_CONFIG, ...localDB.pageConfigs };
+    }
+
+    return DEFAULT_PAGES_CONFIG;
+  },
+
+  saveAllPageConfigs: async (configs) => {
+    saveClientStoredDB(db => ({ ...db, pageConfigs: configs }));
+    try {
+      await fetch(`${DB_API_BASE}/pages_config`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(configs)
+      });
+    } catch (e) {}
+
+    logAction('Updated Website Pages Configuration', 'Pages & Content');
+    dispatchSyncEvent('page_sections_updated', { all: true, configs });
+    return configs;
   },
 
   // --- Media Library ---

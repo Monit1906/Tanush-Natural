@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Storefront, Truck, Handshake, TrendUp, Megaphone, 
   GraduationCap, Globe, ClipboardText, WhatsappLogo, 
@@ -7,11 +7,12 @@ import {
 import Button from '../components/Button/Button';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import InnerPageHero from '../components/InnerPageHero/InnerPageHero';
-import { BotanicalWatermark } from '../components/Illustrations/BotanicalIllustrations';
-import { partnerSlides } from '../data/heroData';
+import { SectionIllustrationSlot } from '../components/Illustrations/BotanicalIllustrations';
+import { api } from '../lib/db';
 import './BecomePartner.css';
 
 const BecomePartner = () => {
+  const [pageConfig, setPageConfig] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     businessName: '',
@@ -24,13 +25,52 @@ const BecomePartner = () => {
   
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const loadConfig = async () => {
+    try {
+      const conf = await api.getPageConfig('become-a-partner');
+      if (conf) setPageConfig(conf);
+    } catch (e) {
+      console.warn('Failed loading partner page config:', e);
+    }
+  };
+
+  useEffect(() => {
+    loadConfig();
+    const handleSync = () => loadConfig();
+
+    window.addEventListener('page_sections_updated', handleSync);
+    window.addEventListener('cms_data_updated', handleSync);
+
+    return () => {
+      window.removeEventListener('page_sections_updated', handleSync);
+      window.removeEventListener('cms_data_updated', handleSync);
+    };
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Frontend mock submit
+    try {
+      await api.saveMessage({
+        customer_name: formData.name,
+        customer_email: formData.email,
+        customer_phone: formData.phone,
+        message: `[Partner Application] Business: ${formData.businessName}, City: ${formData.city}, Type: ${formData.businessType}. Note: ${formData.message}`,
+        status: 'New'
+      });
+      await api.logAnalyticsEvent({
+        type: 'partner_lead',
+        customer_name: formData.name,
+        customer_email: formData.email,
+        customer_phone: formData.phone,
+        details: `Business: ${formData.businessName} (${formData.businessType})`
+      });
+    } catch (err) {
+      console.warn('Failed to log partner application:', err);
+    }
     setIsSubmitted(true);
     setTimeout(() => setIsSubmitted(false), 5000);
     setFormData({
@@ -38,207 +78,290 @@ const BecomePartner = () => {
     });
   };
 
+  const sections = pageConfig?.sections || [];
+  const getSection = (id) => sections.find(s => s.id === id);
+  const isSectionActive = (id) => {
+    const sec = getSection(id);
+    return sec ? sec.isActive !== false : true;
+  };
+
+  const heroSec = getSection('hero');
+  const introSec = getSection('intro');
+  const benefitsSec = getSection('benefits');
+  const typesSec = getSection('partner_types');
+  const processSec = getSection('process');
+  const formSec = getSection('form_section');
+
   return (
     <div className="partner-page" style={{ position: 'relative', overflow: 'hidden' }}>
-      <BotanicalWatermark illustration="harvest-basket" position="top-right" opacity={0.06} size={280} />
-      {/* Hero Section - 1920x600 pure visual banner */}
-      <InnerPageHero page="become-a-partner" />
+      <SectionIllustrationSlot page="BecomePartner" section="PageWatermark" defaultIllustration="harvest-basket" defaultPosition="top-right" defaultOpacity={6} />
+      
+      {/* Hero Section */}
+      {isSectionActive('hero') && (
+        <InnerPageHero 
+          page="become-a-partner" 
+          title={heroSec?.content?.heading} 
+          subtitle={heroSec?.content?.subheading} 
+        />
+      )}
+
+      {/* Partnership Intro Banner */}
+      {isSectionActive('intro') && introSec?.content?.description && (
+        <section className="partner-intro-strip container text-center" style={{ padding: '40px 20px 0' }}>
+          <SectionIllustrationSlot page="BecomePartner" section="Intro" defaultIllustration="botanical-shield" defaultPosition="center-left" defaultOpacity={8} />
+          {introSec.content.badge && <span className="subtitle">{introSec.content.badge}</span>}
+          {introSec.content.heading && <h2 style={{ fontSize: '1.8rem', color: '#173B2F', margin: '8px 0 16px' }}>{introSec.content.heading}</h2>}
+          <p style={{ maxWidth: '780px', margin: '0 auto', fontSize: '1rem', color: '#556B5C', lineHeight: 1.6 }}>
+            {introSec.content.description}
+          </p>
+        </section>
+      )}
 
       {/* Why Partner With Us */}
-      <section className="why-partner-section container section-padding">
-        <SectionHeading title="Why Partner With Us?" alignment="center" />
-        
-        <div className="why-partner-grid">
-          <div className="why-partner-card">
-            <Leaf size={32} />
-            <h4>Growing Product Portfolio</h4>
-            <p>A wide range of natural, everyday products</p>
+      {isSectionActive('benefits') && (
+        <section className="why-partner-section container section-padding" style={{ position: 'relative' }}>
+          <SectionIllustrationSlot page="BecomePartner" section="Benefits" defaultIllustration="harvest-basket" defaultPosition="top-right" defaultOpacity={6} />
+          <SectionHeading title={benefitsSec?.content?.heading || "Why Partner With Us?"} alignment="center" />
+          
+          <div className="why-partner-grid">
+            <div className="why-partner-card">
+              <Leaf size={32} />
+              <h4>Growing Product Portfolio</h4>
+              <p>A wide range of natural, everyday products</p>
+            </div>
+            <div className="why-partner-card">
+              <Handshake size={32} />
+              <h4>Attractive Margins</h4>
+              <p>Better business opportunities</p>
+            </div>
+            <div className="why-partner-card">
+              <Megaphone size={32} />
+              <h4>Marketing Support</h4>
+              <p>Branding &amp; promotional assistance</p>
+            </div>
+            <div className="why-partner-card">
+              <GraduationCap size={32} />
+              <h4>Product Training</h4>
+              <p>Knowledge &amp; product insights</p>
+            </div>
+            <div className="why-partner-card">
+              <Storefront size={32} />
+              <h4>Retail &amp; Distribution Opportunities</h4>
+              <p>Expand your business reach</p>
+            </div>
+            <div className="why-partner-card">
+              <TrendUp size={32} />
+              <h4>Long-term Partnership</h4>
+              <p>Grow together for a healthier future</p>
+            </div>
           </div>
-          <div className="why-partner-card">
-            <Handshake size={32} />
-            <h4>Attractive Margins</h4>
-            <p>Better business opportunities</p>
-          </div>
-          <div className="why-partner-card">
-            <Megaphone size={32} />
-            <h4>Marketing Support</h4>
-            <p>Branding & promotional assistance</p>
-          </div>
-          <div className="why-partner-card">
-            <GraduationCap size={32} />
-            <h4>Product Training</h4>
-            <p>Knowledge & product insights</p>
-          </div>
-          <div className="why-partner-card">
-            <Storefront size={32} />
-            <h4>Retail & Distribution Opportunities</h4>
-            <p>Expand your business reach</p>
-          </div>
-          <div className="why-partner-card">
-            <TrendUp size={32} />
-            <h4>Long-term Partnership</h4>
-            <p>Grow together for a healthier future</p>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Who Can Partner */}
-      <section className="who-can-partner section-padding">
-        <div className="container">
-          <SectionHeading title="Who Can Partner?" alignment="center" />
-          
-          <div className="who-partner-grid">
-            <div className="who-partner-card">
-              <div className="card-img" style={{ backgroundImage: "url('/images/categories/home-care.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-              <h4>Retailers</h4>
-            </div>
-            <div className="who-partner-card">
-              <div className="card-img" style={{ backgroundImage: "url('/images/categories/mosquito-protection.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-              <h4>Distributors</h4>
-            </div>
-            <div className="who-partner-card">
-              <div className="card-img" style={{ backgroundImage: "url('/images/categories/personal-care.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-              <h4>Wholesalers</h4>
-            </div>
-            <div className="who-partner-card">
-              <div className="card-img" style={{ backgroundImage: "url('/images/categories/more.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-              <h4>E-commerce Sellers</h4>
+      {isSectionActive('partner_types') && (
+        <section className="who-can-partner section-padding" style={{ position: 'relative' }}>
+          <div className="container">
+            <SectionHeading title={typesSec?.content?.heading || "Who Can Partner?"} alignment="center" />
+            
+            <div className="who-partner-grid">
+              <div className="who-partner-card">
+                <div className="card-img" style={{ backgroundImage: "url('/images/categories/home-care.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+                <h4>Retailers</h4>
+              </div>
+              <div className="who-partner-card">
+                <div className="card-img" style={{ backgroundImage: "url('/images/categories/mosquito-protection.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+                <h4>Distributors</h4>
+              </div>
+              <div className="who-partner-card">
+                <div className="card-img" style={{ backgroundImage: "url('/images/categories/personal-care.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+                <h4>Wholesalers</h4>
+              </div>
+              <div className="who-partner-card">
+                <div className="card-img" style={{ backgroundImage: "url('/images/categories/more.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+                <h4>E-commerce Sellers</h4>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Journey & Form */}
-      <section className="journey-form-section container section-padding">
-        <div className="journey-form-grid">
-          
-          <div className="journey-side">
-            <SectionHeading title="Our Partner Journey" alignment="left" />
+      {(isSectionActive('process') || isSectionActive('form_section')) && (
+        <section className="journey-form-section container section-padding" style={{ position: 'relative' }}>
+          <SectionIllustrationSlot page="BecomePartner" section="Form" defaultIllustration="modern-indian-home" defaultPosition="bottom-right" defaultOpacity={6} />
+          <div className="journey-form-grid">
             
-            <div className="journey-steps">
-              <div className="j-step">
-                <div className="j-icon"><ClipboardText size={32} /></div>
-                <div className="j-text">
-                  <h4>Enquiry</h4>
-                  <p>Share your business details</p>
-                </div>
-              </div>
-              <div className="j-arrow">→</div>
-              <div className="j-step">
-                <div className="j-icon"><Handshake size={32} /></div>
-                <div className="j-text">
-                  <h4>Onboarding</h4>
-                  <p>Get product catalog & support</p>
-                </div>
-              </div>
-              <div className="j-arrow">→</div>
-              <div className="j-step">
-                <div className="j-icon"><TrendUp size={32} /></div>
-                <div className="j-text">
-                  <h4>Grow Together</h4>
-                  <p>Sell more, serve better</p>
-                </div>
-              </div>
-              <div className="j-arrow">→</div>
-              <div className="j-step">
-                <div className="j-icon"><Globe size={32} /></div>
-                <div className="j-text">
-                  <h4>Long-term Success</h4>
-                  <p>A stronger business ahead</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="journey-message bg-sage">
-              <div className="icon"><Leaf size={32} color="var(--color-primary)" /></div>
-              <div>
-                <h4>Together for a Healthier Tomorrow.</h4>
-                <p>Partner with Tanush Natural and be part of a growing natural living movement.</p>
-              </div>
-            </div>
-          </div>
-
-          <div id="enquiry-form" className="form-side">
-            <div className="form-card">
-              <h3>Partner Enquiry Form</h3>
-              
-              {isSubmitted ? (
-                <div className="success-state">
-                  <CheckCircle size={48} color="var(--color-success)" />
-                  <h4>Thank You!</h4>
-                  <p>Our team will get in touch with you shortly.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit}>
-                  <div className="form-row">
-                    <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
-                    <input type="text" name="businessName" placeholder="Business Name" value={formData.businessName} onChange={handleChange} required />
+            {/* Journey Process Steps */}
+            {isSectionActive('process') && (
+              <div className="journey-side">
+                <SectionHeading title={processSec?.content?.heading || "Our Partner Journey"} alignment="left" />
+                
+                <div className="journey-steps">
+                  <div className="j-step">
+                    <div className="j-icon"><ClipboardText size={32} /></div>
+                    <div className="j-info">
+                      <h4>1. Enquiry &amp; Registration</h4>
+                      <p>Fill in your basic details and interest in partnering with us.</p>
+                    </div>
                   </div>
-                  <div className="form-row">
-                    <input type="text" name="city" placeholder="City / Location" value={formData.city} onChange={handleChange} required />
-                    <input type="tel" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleChange} required />
+                  <div className="j-step">
+                    <div className="j-icon"><Handshake size={32} /></div>
+                    <div className="j-info">
+                      <h4>2. Discussion &amp; Proposal</h4>
+                      <p>Our team discusses terms, margin structures, and opportunities.</p>
+                    </div>
                   </div>
-                  <input type="email" name="email" placeholder="Email Address" value={formData.email} onChange={handleChange} required />
-                  <select name="businessType" value={formData.businessType} onChange={handleChange} required>
-                    <option value="" disabled>Business Type</option>
-                    <option value="Retailer">Retailer</option>
-                    <option value="Distributor">Distributor</option>
-                    <option value="Wholesaler">Wholesaler</option>
-                    <option value="Ecommerce">E-commerce Seller</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  <textarea name="message" placeholder="Tell us about your business / partnership interest" rows="4" value={formData.message} onChange={handleChange} required></textarea>
-                  
-                  <Button type="submit" variant="primary" fullWidth size="large">Submit Enquiry</Button>
-                </form>
-              )}
-              
-              <div className="whatsapp-contact">
-                <WhatsappLogo size={20} color="#25D366" /> Or reach us directly on WhatsApp
+                  <div className="j-step">
+                    <div className="j-icon"><CheckCircle size={32} /></div>
+                    <div className="j-info">
+                      <h4>3. Onboarding &amp; Samples</h4>
+                      <p>Product catalog, initial sample sets, and business onboarding.</p>
+                    </div>
+                  </div>
+                  <div className="j-step">
+                    <div className="j-icon"><Storefront size={32} /></div>
+                    <div className="j-info">
+                      <h4>4. Launch &amp; Grow</h4>
+                      <p>Begin distribution and retail sales with continuous marketing support.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          
-        </div>
-      </section>
+            )}
 
-      {/* Testimonials */}
-      <section className="partner-testimonials container section-padding">
-        <SectionHeading title="What Our Partners Say" alignment="center" />
-        
-        <div className="partner-test-grid">
-          <div className="partner-test-card">
-            <Quotes size={32} color="var(--color-accent)" weight="fill" />
-            <p className="quote">"Tanush products sell really well. Customers love the natural quality and trust the brand."</p>
-            <div className="author">— Retail Store Owner, Bhavnagar</div>
-          </div>
-          <div className="partner-test-card">
-            <Quotes size={32} color="var(--color-accent)" weight="fill" />
-            <p className="quote">"Good margins, great support and growing demand. Tanush is a reliable partner."</p>
-            <div className="author">— Distributor, Gujarat</div>
-          </div>
-          <div className="partner-test-card">
-            <Quotes size={32} color="var(--color-accent)" weight="fill" />
-            <p className="quote">"The range is excellent and fits perfectly with our customers' needs for natural, safe and effective products."</p>
-            <div className="author">— Wholesaler, Surat</div>
-          </div>
-        </div>
-      </section>
+            {/* Application Form */}
+            {isSectionActive('form_section') && (
+              <div className="form-side">
+                <div className="partner-form-card glass-panel">
+                  <div className="form-header">
+                    <h3>{formSec?.content?.heading || "Partner Registration"}</h3>
+                    <p>{formSec?.content?.subheading || "Let's connect and build a rewarding business together."}</p>
+                  </div>
 
-      {/* Final CTA */}
-      <section className="partner-final-cta container section-padding">
-        <div className="final-cta-card">
-          <div className="cta-content">
-            <Leaf size={40} color="var(--color-white)" />
-            <div>
-              <h2>Ready to Partner?</h2>
-              <p>Let's build a healthier, greener and more natural tomorrow — together.</p>
-            </div>
+                  {isSubmitted ? (
+                    <div className="partner-success">
+                      <CheckCircle size={48} color="#2F6B43" />
+                      <h4>Thank you for your interest!</h4>
+                      <p>Our partnership desk will contact you within 24 hours.</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="partner-form">
+                      <div className="form-group">
+                        <label>Your Name *</label>
+                        <input 
+                          type="text" 
+                          name="name" 
+                          required 
+                          placeholder="e.g. Anand Mehta"
+                          value={formData.name}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      
+                      <div className="form-row">
+                        <div className="form-group flex-1">
+                          <label>Business / Firm Name *</label>
+                          <input 
+                            type="text" 
+                            name="businessName" 
+                            required 
+                            placeholder="e.g. Mehta Traders"
+                            value={formData.businessName}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="form-group flex-1">
+                          <label>City &amp; State *</label>
+                          <input 
+                            type="text" 
+                            name="city" 
+                            required 
+                            placeholder="e.g. Ahmedabad, Gujarat"
+                            value={formData.city}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-row">
+                        <div className="form-group flex-1">
+                          <label>Contact Phone Number *</label>
+                          <input 
+                            type="tel" 
+                            name="phone" 
+                            required 
+                            placeholder="e.g. +91 98765 43210"
+                            value={formData.phone}
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div className="form-group flex-1">
+                          <label>Email Address *</label>
+                          <input 
+                            type="email" 
+                            name="email" 
+                            required 
+                            placeholder="e.g. anand@mehtatraders.com"
+                            value={formData.email}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label>Business Category *</label>
+                        <select 
+                          name="businessType" 
+                          required 
+                          value={formData.businessType}
+                          onChange={handleChange}
+                        >
+                          <option value="">Select Business Model</option>
+                          <option value="Retailer">Retailer / Store Owner</option>
+                          <option value="Distributor">Distributor / Stockist</option>
+                          <option value="Wholesaler">Wholesaler</option>
+                          <option value="Ecommerce">E-commerce / Online Seller</option>
+                          <option value="Institutional">Institutional / Corporate Buyer</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+
+                      <div className="form-group">
+                        <label>Message / Additional Information</label>
+                        <textarea 
+                          name="message" 
+                          rows="3" 
+                          placeholder="Tell us about your distribution reach, store locations, or experience..."
+                          value={formData.message}
+                          onChange={handleChange}
+                        />
+                      </div>
+
+                      <Button variant="primary" type="submit" className="w-full">
+                        {formSec?.content?.primaryCtaText || "SUBMIT PARTNERSHIP ENQUIRY →"}
+                      </Button>
+
+                      {formSec?.content?.whatsappNumber && (
+                        <div style={{ marginTop: '16px', textAlign: 'center' }}>
+                          <a 
+                            href={`https://wa.me/${formSec.content.whatsappNumber.replace(/[^0-9]/g, '')}?text=Hello%20Tanush%20Natural,%20I%20am%20interested%20in%20a%20business%20partnership.`}
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#25D366', fontWeight: 600, fontSize: '0.86rem', textDecoration: 'none' }}
+                          >
+                            <WhatsappLogo size={20} weight="fill" /> Quick WhatsApp Business Chat
+                          </a>
+                        </div>
+                      )}
+                    </form>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
-          <Button variant="outline" className="bg-white" to="#enquiry-form">Become a Tanush Partner →</Button>
-        </div>
-      </section>
-      
+        </section>
+      )}
     </div>
   );
 };
