@@ -64,7 +64,7 @@ const CategoryCard = ({ category, index }) => {
   return (
     <div className="premium-category-card">
       <Link to={categoryLink} className="category-card-inner">
-        {/* Top Image Stage */}
+        {/* Top Image Stage - Large Visual Presentation */}
         <div className="category-card-media">
           <img
             src={imgSrc}
@@ -84,19 +84,9 @@ const CategoryCard = ({ category, index }) => {
           {getCategoryIcon(category)}
         </div>
 
-        {/* Bottom Information Content */}
+        {/* Bottom Information Content - Clean & Minimal Name Only */}
         <div className="category-card-body">
           <h3 className="category-card-title">{category.name}</h3>
-          
-          <p className="category-card-desc">
-            {category.description || 'Thoughtfully crafted natural formulations for everyday wellness.'}
-          </p>
-
-          <div className="category-card-action">
-            <span className="category-explore-btn">
-              Explore <ArrowRight size={15} weight="bold" className="explore-arrow" />
-            </span>
-          </div>
         </div>
       </Link>
     </div>

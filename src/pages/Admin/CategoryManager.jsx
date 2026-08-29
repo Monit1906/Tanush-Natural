@@ -172,9 +172,10 @@ const CategoryManager = () => {
             </div>
 
             <div className="form-group">
-              <label>Description</label>
+              <label>Description (SEO / Optional)</label>
               <textarea 
-                rows={3} 
+                rows={2} 
+                placeholder="Optional notes or SEO description (public cards display large image & category title only)"
                 value={currentCategory.description} 
                 onChange={(e) => setCurrentCategory({ ...currentCategory, description: e.target.value })} 
               />

@@ -59,7 +59,7 @@
 .category-card-media {
   position: relative;
   width: 100%;
-  height: 250px;
+  height: 360px;
   background: #EDE6D8;
   overflow: hidden;
 }
@@ -73,7 +73,7 @@
 }
 
 .category-card-inner:hover .category-card-img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 /* ── Overlapping Icon Badge ───────────────────────────────────────────── */
@@ -97,61 +97,27 @@
   transform: scale(1.08);
 }
 
-/* ── Card Body (Bottom Content) ───────────────────────────────────────── */
+/* ── Card Body (Bottom Content - Minimal Name Only) ─────────────────────── */
 .category-card-body {
-  padding: 18px 24px 26px;
+  padding: 18px 24px 22px;
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  align-items: center;
   text-align: left;
 }
 
 .category-card-title {
   font-family: var(--font-serif, 'Lora', serif);
-  font-size: 1.35rem;
-  font-weight: 500;
-  color: var(--color-primary, #173B2F);
-  margin-bottom: 8px;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
-}
-
-.category-card-desc {
-  font-family: var(--font-sans, 'Inter', sans-serif);
-  font-size: 0.84rem;
-  line-height: 1.55;
-  color: var(--color-text-muted, #5E6963);
-  margin-bottom: 20px;
-  flex-grow: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ── Explore Action ───────────────────────────────────────────────────── */
-.category-card-action {
-  margin-top: auto;
-}
-
-.category-explore-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-sans, 'Inter', sans-serif);
-  font-size: 0.86rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: var(--color-primary, #173B2F);
-  letter-spacing: 0.02em;
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
   transition: color 0.2s ease;
 }
 
-.explore-arrow {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.category-card-inner:hover .explore-arrow {
-  transform: translateX(4px);
+.category-card-inner:hover .category-card-title {
+  color: #2F6B43;
 }
 
 /* ── Navigation Arrow Buttons ─────────────────────────────────────────── */
@@ -239,7 +205,7 @@
     right: -10px;
   }
   .category-card-media {
-    height: 220px;
+    height: 310px;
   }
 }
 
@@ -262,10 +228,10 @@
   }
 
   .category-card-media {
-    height: 230px;
+    height: 290px;
   }
 
   .category-card-body {
-    padding: 16px 20px 22px;
+    padding: 16px 20px 20px;
   }
 }
