@@ -461,28 +461,30 @@ const PagesManager = () => {
               </div>
             </div>
 
-            {/* Drawer Tabs */}
-            <div className="drawer-tabs-bar">
-              {[
-                { id: 'content', label: 'Content & Copy', icon: Type },
-                { id: 'media', label: 'Media & Imagery', icon: ImageIcon },
-                { id: 'layout', label: 'Theme & Style', icon: Sliders },
-                { id: 'visibility', label: 'Visibility', icon: Eye }
-              ].map(tab => {
-                const Icon = tab.icon;
-                const isActive = editTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    className={`drawer-tab-btn ${isActive ? 'active' : ''}`}
-                    onClick={() => setEditTab(tab.id)}
-                  >
-                    <Icon size={15} />
-                    <span>{tab.label}</span>
-                  </button>
-                );
-              })}
+            {/* Drawer Tabs — Luxury Segmented Pill Control */}
+            <div className="drawer-tabs-wrapper">
+              <div className="drawer-tabs-bar">
+                {[
+                  { id: 'content', label: 'Content & Copy', icon: Type },
+                  { id: 'media', label: 'Media & Imagery', icon: ImageIcon },
+                  { id: 'layout', label: 'Theme & Style', icon: Sliders },
+                  { id: 'visibility', label: 'Visibility', icon: Eye }
+                ].map(tab => {
+                  const Icon = tab.icon;
+                  const isActive = editTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      className={`drawer-tab-btn ${isActive ? 'active' : ''}`}
+                      onClick={() => setEditTab(tab.id)}
+                    >
+                      <Icon size={15} />
+                      <span>{tab.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Drawer Body Form */}
