@@ -298,8 +298,8 @@ const AdminLayout = () => {
         </nav>
 
         <div className="admin-sidebar-footer">
-          <button className="admin-logout-btn" onClick={handleLogout} style={{ width: '100%', background: 'rgba(229, 62, 62, 0.08)', color: '#C53030', border: '1px solid rgba(229, 62, 62, 0.2)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer' }}>
-            <LogOut size={15} />
+          <button className="admin-logout-btn" onClick={handleLogout} title="Sign Out of Admin Panel">
+            <LogOut size={16} />
             <span>Sign Out</span>
           </button>
         </div>

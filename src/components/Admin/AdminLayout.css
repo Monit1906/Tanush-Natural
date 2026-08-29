@@ -47,22 +47,25 @@
   box-shadow: 0 4px 20px rgba(23, 59, 47, 0.04) !important;
 }
 
-/* Sidebar - Compact 230px */
+/* Sidebar - Full Height Solid & Smooth */
 .admin-sidebar {
-  width: 230px;
+  width: 240px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
   z-index: 50;
   border-right: 1px solid rgba(23, 59, 47, 0.08) !important;
   border-top: none !important;
   border-left: none !important;
   border-bottom: none !important;
-  background: rgba(255, 255, 255, 0.72) !important;
-  backdrop-filter: blur(20px) saturate(160%) !important;
+  background: #FFFFFF !important;
+  box-shadow: 2px 0 16px rgba(23, 59, 47, 0.02);
 }
 
 .admin-sidebar-header {
@@ -71,6 +74,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(23, 59, 47, 0.06);
+  background: #FFFFFF;
 }
 
 .admin-brand-title {
@@ -209,8 +213,13 @@
 
 
 .admin-sidebar-footer {
-  padding: 14px 12px;
-  border-top: 1px solid rgba(23, 59, 47, 0.06);
+  margin-top: auto;
+  padding: 16px 14px;
+  border-top: 1px solid rgba(23, 59, 47, 0.08);
+  background: #FFFFFF;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 
 .admin-logout-btn {
@@ -219,20 +228,22 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 8px 12px;
+  padding: 10px 14px;
   background: rgba(197, 48, 48, 0.06);
   color: #C53030;
-  border: 1px solid rgba(197, 48, 48, 0.15);
-  font-size: 0.82rem;
-  font-weight: 600;
+  border: 1.5px solid rgba(197, 48, 48, 0.2);
+  font-size: 0.84rem;
+  font-weight: 700;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 12px;
   transition: all var(--transition-fast);
 }
 
 .admin-logout-btn:hover {
   background: #C53030;
   color: #FFFFFF;
+  border-color: #C53030;
+  box-shadow: 0 4px 12px rgba(197, 48, 48, 0.2);
   transform: translateY(-1px);
 }
 
