@@ -299,7 +299,7 @@ const AdminLayout = () => {
 
         <div className="admin-sidebar-footer">
           <button className="admin-logout-btn" onClick={handleLogout} title="Sign Out of Admin Panel">
-            <LogOut size={16} />
+            <LogOut size={15} />
             <span>Sign Out</span>
           </button>
         </div>

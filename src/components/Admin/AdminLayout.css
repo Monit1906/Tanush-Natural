@@ -47,25 +47,24 @@
   box-shadow: 0 4px 20px rgba(23, 59, 47, 0.04) !important;
 }
 
-/* Sidebar - Full Height Solid & Smooth */
+/* Sidebar - Compact 230px, pinned full height */
 .admin-sidebar {
-  width: 240px;
+  width: 230px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   position: sticky;
   top: 0;
   height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
   max-height: 100vh;
-  max-height: 100dvh;
   z-index: 50;
   border-right: 1px solid rgba(23, 59, 47, 0.08) !important;
   border-top: none !important;
   border-left: none !important;
   border-bottom: none !important;
   background: #FFFFFF !important;
-  box-shadow: 2px 0 16px rgba(23, 59, 47, 0.02);
+  box-shadow: 2px 0 16px rgba(23, 59, 47, 0.03);
 }
 
 .admin-sidebar-header {
@@ -74,7 +73,6 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid rgba(23, 59, 47, 0.06);
-  background: #FFFFFF;
 }
 
 .admin-brand-title {
@@ -155,7 +153,8 @@
   display: flex;
   flex-direction: column;
   padding: 12px 10px;
-  flex-grow: 1;
+  flex: 1 1 0%;
+  min-height: 0;
   overflow-y: auto;
   gap: 2px;
 }
@@ -211,15 +210,15 @@
   transform: translateX(2px);
 }
 
-
 .admin-sidebar-footer {
   margin-top: auto;
-  padding: 16px 14px;
+  flex-shrink: 0;
+  padding: 14px 12px;
   border-top: 1px solid rgba(23, 59, 47, 0.08);
   background: #FFFFFF;
   position: sticky;
   bottom: 0;
-  z-index: 10;
+  z-index: 20;
 }
 
 .admin-logout-btn {
@@ -229,13 +228,13 @@
   gap: 8px;
   width: 100%;
   padding: 10px 14px;
-  background: rgba(197, 48, 48, 0.06);
+  background: rgba(229, 62, 62, 0.08);
   color: #C53030;
-  border: 1.5px solid rgba(197, 48, 48, 0.2);
-  font-size: 0.84rem;
-  font-weight: 700;
+  border: 1px solid rgba(229, 62, 62, 0.2);
+  font-size: 0.82rem;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 10px;
   transition: all var(--transition-fast);
 }
 
@@ -243,8 +242,8 @@
   background: #C53030;
   color: #FFFFFF;
   border-color: #C53030;
-  box-shadow: 0 4px 12px rgba(197, 48, 48, 0.2);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(197, 48, 48, 0.2);
 }
 
 /* Main Content Area */
