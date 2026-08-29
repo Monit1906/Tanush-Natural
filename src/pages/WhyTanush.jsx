@@ -57,9 +57,6 @@ const WhyTanush = () => {
 
   return (
     <div className="why-tanush-page" style={{ position: 'relative', overflow: 'hidden' }}>
-      {/* Background Subtle Watermark */}
-      <BotanicalWatermark illustration="neem-branch" position="top-right" opacity={0.06} size={300} />
-
       {/* Hero Section */}
       {isSectionActive('hero') && (
         <InnerPageHero 

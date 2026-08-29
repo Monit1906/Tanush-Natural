@@ -94,8 +94,6 @@ const BecomePartner = () => {
 
   return (
     <div className="partner-page" style={{ position: 'relative', overflow: 'hidden' }}>
-      <SectionIllustrationSlot page="BecomePartner" section="PageWatermark" defaultIllustration="harvest-basket" defaultPosition="top-right" defaultOpacity={6} />
-      
       {/* Hero Section */}
       {isSectionActive('hero') && (
         <InnerPageHero 
