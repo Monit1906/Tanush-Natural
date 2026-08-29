@@ -6,6 +6,7 @@ import path from 'path';
 function cmsServerPlugin() {
   const dbFilePath = path.resolve(process.cwd(), 'tanush_database.json');
   const uploadsDir = path.resolve(process.cwd(), 'public/uploads');
+  const distUploadsDir = path.resolve(process.cwd(), 'dist/uploads');
 
   if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
@@ -34,13 +35,10 @@ function cmsServerPlugin() {
     }
   };
 
-  return {
-    name: 'tanush-cms-server',
-    configureServer(server) {
-      server.middlewares.use(async (req, res, next) => {
-        if (!req.url.startsWith('/api/cms')) {
-          return next();
-        }
+  const cmsMiddleware = async (req, res, next) => {
+    if (!req.url.startsWith('/api/cms')) {
+      return next();
+    }
 
         const url = new URL(req.url, `http://${req.headers.host}`);
         const pathname = url.pathname;
@@ -99,6 +97,11 @@ function cmsServerPlugin() {
           req.pipe(fileStream);
 
           fileStream.on('finish', () => {
+            if (fs.existsSync(distUploadsDir)) {
+              try {
+                fs.copyFileSync(filePath, path.join(distUploadsDir, cleanName));
+              } catch (e) {}
+            }
             const publicUrl = `/uploads/${cleanName}`;
             res.statusCode = 200;
             return res.end(JSON.stringify({
@@ -130,6 +133,12 @@ function cmsServerPlugin() {
           const filePath = path.join(uploadsDir, cleanName);
           const dataBuffer = Buffer.from(base64Data.replace(/^data:[^;]+;base64,/, ''), 'base64');
           fs.writeFileSync(filePath, dataBuffer);
+
+          if (fs.existsSync(distUploadsDir)) {
+            try {
+              fs.writeFileSync(path.join(distUploadsDir, cleanName), dataBuffer);
+            } catch (e) {}
+          }
 
           const publicUrl = `/uploads/${cleanName}`;
           return res.end(JSON.stringify({
@@ -523,11 +532,18 @@ function cmsServerPlugin() {
         // Default 404 for unknown api endpoint
         res.statusCode = 404;
         return res.end(JSON.stringify({ error: 'Endpoint not found' }));
+      };
 
-      });
+      return {
+        name: 'tanush-cms-server',
+        configureServer(server) {
+          server.middlewares.use(cmsMiddleware);
+        },
+        configurePreviewServer(server) {
+          server.middlewares.use(cmsMiddleware);
+        }
+      };
     }
-  };
-}
 
 // https://vite.dev/config/
 export default defineConfig({

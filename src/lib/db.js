@@ -1,4 +1,6 @@
 import { supabase, isSupabaseConfigured } from './supabase';
+import { products as defaultProducts, categories as defaultCategories } from '../data/products';
+import { homepageSlides as defaultHeroSlides } from '../data/heroData';
 
 const DB_API_BASE = '/api/cms';
 
@@ -6,6 +8,31 @@ const DB_API_BASE = '/api/cms';
 const syncChannel = typeof window !== 'undefined' && 'BroadcastChannel' in window
   ? new BroadcastChannel('tanush_cms_sync_channel')
   : null;
+
+// LocalStorage Persistence Key
+const LOCAL_STORAGE_DB_KEY = 'tanush_natural_cms_db_v1';
+
+export const getClientStoredDB = () => {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(LOCAL_STORAGE_DB_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+};
+
+export const saveClientStoredDB = (updater) => {
+  if (typeof window === 'undefined') return;
+  try {
+    const current = getClientStoredDB() || {};
+    const updated = typeof updater === 'function' ? updater(current) : { ...current, ...updater };
+    localStorage.setItem(LOCAL_STORAGE_DB_KEY, JSON.stringify(updated));
+    return updated;
+  } catch (e) {
+    return null;
+  }
+};
 
 // In-memory cache for ultra-fast instant UI rendering
 let memoryDB = null;
@@ -220,23 +247,32 @@ export const api = {
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
-          return data.map(normalizeProduct);
+          const norm = data.map(normalizeProduct);
+          saveClientStoredDB(db => ({ ...db, products: norm }));
+          return norm;
         }
       }
-    } catch (e) {
-      console.warn('Server API getProducts error:', e);
-    }
+    } catch (e) {}
 
     if (isSupabaseConfigured() && supabase) {
       try {
         const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
         if (!error && data && data.length > 0) {
-          return data.map(normalizeProduct);
+          const norm = data.map(normalizeProduct);
+          saveClientStoredDB(db => ({ ...db, products: norm }));
+          return norm;
         }
       } catch (e) {}
     }
 
-    return [];
+    const localDB = getClientStoredDB();
+    if (localDB && Array.isArray(localDB.products) && localDB.products.length > 0) {
+      return localDB.products.map(normalizeProduct);
+    }
+
+    const initial = (defaultProducts || []).map(normalizeProduct);
+    saveClientStoredDB(db => ({ ...db, products: initial }));
+    return initial;
   },
 
   getProductBySlug: async (slug) => {
@@ -253,18 +289,22 @@ export const api = {
     p.updated_at = new Date().toISOString();
     const normalized = normalizeProduct(p);
 
-    // Save to Server Database
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.products) ? [...db.products] : [];
+      const idx = list.findIndex(item => String(item.id) === String(normalized.id));
+      if (idx >= 0) list[idx] = normalized;
+      else list.unshift(normalized);
+      return { ...db, products: list };
+    });
+
     try {
       await fetch(`${DB_API_BASE}/products`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(normalized)
       });
-    } catch (e) {
-      console.error('Server saveProduct error:', e);
-    }
+    } catch (e) {}
 
-    // Save to Supabase if configured
     if (isSupabaseConfigured() && supabase) {
       try {
         await supabase.from('products').upsert(normalized);
@@ -277,6 +317,11 @@ export const api = {
   },
 
   deleteProduct: async (id) => {
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.products) ? [...db.products] : [];
+      return { ...db, products: list.filter(item => String(item.id) !== String(id)) };
+    });
+
     try {
       await fetch(`${DB_API_BASE}/products?id=${encodeURIComponent(id)}`, {
         method: 'DELETE'
@@ -301,7 +346,9 @@ export const api = {
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
-          return data.map(normalizeCategory);
+          const norm = data.map(normalizeCategory);
+          saveClientStoredDB(db => ({ ...db, categories: norm }));
+          return norm;
         }
       }
     } catch (e) {}
@@ -309,11 +356,22 @@ export const api = {
     if (isSupabaseConfigured() && supabase) {
       try {
         const { data, error } = await supabase.from('categories').select('*').order('sort_order', { ascending: true });
-        if (!error && data && data.length > 0) return data.map(normalizeCategory);
+        if (!error && data && data.length > 0) {
+          const norm = data.map(normalizeCategory);
+          saveClientStoredDB(db => ({ ...db, categories: norm }));
+          return norm;
+        }
       } catch (e) {}
     }
 
-    return [];
+    const localDB = getClientStoredDB();
+    if (localDB && Array.isArray(localDB.categories) && localDB.categories.length > 0) {
+      return localDB.categories.map(normalizeCategory);
+    }
+
+    const initial = (defaultCategories || []).map(normalizeCategory);
+    saveClientStoredDB(db => ({ ...db, categories: initial }));
+    return initial;
   },
 
   saveCategory: async (categoryData) => {
@@ -323,6 +381,14 @@ export const api = {
       c.slug = c.id;
     }
     const normalized = normalizeCategory(c);
+
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.categories) ? [...db.categories] : [];
+      const idx = list.findIndex(item => String(item.id) === String(normalized.id));
+      if (idx >= 0) list[idx] = normalized;
+      else list.push(normalized);
+      return { ...db, categories: list };
+    });
 
     try {
       await fetch(`${DB_API_BASE}/categories`, {
@@ -344,6 +410,11 @@ export const api = {
   },
 
   deleteCategory: async (id) => {
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.categories) ? [...db.categories] : [];
+      return { ...db, categories: list.filter(item => String(item.id) !== String(id)) };
+    });
+
     try {
       await fetch(`${DB_API_BASE}/categories?id=${encodeURIComponent(id)}`, {
         method: 'DELETE'
@@ -408,23 +479,32 @@ export const api = {
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
-          return data.map(normalizeHeroSlide);
+          const norm = data.map(normalizeHeroSlide);
+          saveClientStoredDB(db => ({ ...db, heroSlides: norm }));
+          return norm;
         }
       }
-    } catch (e) {
-      console.warn('Server API getHeroSlides error:', e);
-    }
+    } catch (e) {}
 
     if (isSupabaseConfigured() && supabase) {
       try {
         const { data, error } = await supabase.from('hero_slides').select('*').order('sort_order', { ascending: true });
         if (!error && data && data.length > 0) {
-          return data.map(normalizeHeroSlide);
+          const norm = data.map(normalizeHeroSlide);
+          saveClientStoredDB(db => ({ ...db, heroSlides: norm }));
+          return norm;
         }
       } catch (e) {}
     }
 
-    return [];
+    const localDB = getClientStoredDB();
+    if (localDB && Array.isArray(localDB.heroSlides) && localDB.heroSlides.length > 0) {
+      return localDB.heroSlides.map(normalizeHeroSlide);
+    }
+
+    const initial = (defaultHeroSlides || []).map(normalizeHeroSlide);
+    saveClientStoredDB(db => ({ ...db, heroSlides: initial }));
+    return initial;
   },
 
   saveHeroSlide: async (slideData) => {
@@ -436,16 +516,21 @@ export const api = {
     s.updated_at = new Date().toISOString();
     const normalized = normalizeHeroSlide(s);
 
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.heroSlides) ? [...db.heroSlides] : [];
+      const idx = list.findIndex(item => String(item.id) === String(normalized.id));
+      if (idx >= 0) list[idx] = normalized;
+      else list.unshift(normalized);
+      return { ...db, heroSlides: list };
+    });
+
     try {
-      const res = await fetch(`${DB_API_BASE}/hero`, {
+      await fetch(`${DB_API_BASE}/hero`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(normalized)
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    } catch (e) {
-      console.error('Server saveHeroSlide error:', e);
-    }
+    } catch (e) {}
 
     if (isSupabaseConfigured() && supabase) {
       try {
@@ -453,12 +538,17 @@ export const api = {
       } catch (e) {}
     }
 
-    logAction(`Updated hero slide "${normalized.title}"`, 'Hero Slide', normalized.id);
-    dispatchSyncEvent('hero_updated', normalized);
+    logAction(`Saved hero slide "${normalized.title || normalized.id}"`, 'Hero', normalized.id);
+    dispatchSyncEvent('hero_slides_updated', normalized);
     return normalized;
   },
 
   deleteHeroSlide: async (id) => {
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.heroSlides) ? [...db.heroSlides] : [];
+      return { ...db, heroSlides: list.filter(item => String(item.id) !== String(id)) };
+    });
+
     try {
       await fetch(`${DB_API_BASE}/hero?id=${encodeURIComponent(id)}`, {
         method: 'DELETE'
@@ -467,12 +557,12 @@ export const api = {
 
     if (isSupabaseConfigured() && supabase) {
       try {
-        await supabase.from('hero_slides').delete().eq('id', String(id));
+        await supabase.from('hero_slides').delete().eq('id', id);
       } catch (e) {}
     }
 
-    logAction(`Deleted hero slide ID ${id}`, 'Hero Slide', id);
-    dispatchSyncEvent('hero_updated', { deletedId: id });
+    logAction(`Deleted hero slide ID ${id}`, 'Hero', id);
+    dispatchSyncEvent('hero_slides_updated', { deletedId: id });
     return true;
   },
 
@@ -560,7 +650,9 @@ export const api = {
       if (res.ok) {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
-          return data.map(normalizeStory);
+          const norm = data.map(normalizeStory);
+          saveClientStoredDB(db => ({ ...db, stories: norm }));
+          return norm;
         }
       }
     } catch (e) {}
@@ -569,9 +661,16 @@ export const api = {
       try {
         const { data, error } = await supabase.from('reels').select('*').order('sort_order', { ascending: true });
         if (!error && data && data.length > 0) {
-          return data.map(normalizeStory);
+          const norm = data.map(normalizeStory);
+          saveClientStoredDB(db => ({ ...db, stories: norm }));
+          return norm;
         }
       } catch (e) {}
+    }
+
+    const localDB = getClientStoredDB();
+    if (localDB && Array.isArray(localDB.stories) && localDB.stories.length > 0) {
+      return localDB.stories.map(normalizeStory);
     }
 
     return [];
@@ -583,6 +682,14 @@ export const api = {
       s.id = 's' + Date.now();
     }
     const normalized = normalizeStory(s);
+
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.stories) ? [...db.stories] : [];
+      const idx = list.findIndex(item => String(item.id) === String(normalized.id));
+      if (idx >= 0) list[idx] = normalized;
+      else list.push(normalized);
+      return { ...db, stories: list };
+    });
 
     try {
       await fetch(`${DB_API_BASE}/stories`, {
@@ -604,6 +711,11 @@ export const api = {
   },
 
   deleteStory: async (id) => {
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.stories) ? [...db.stories] : [];
+      return { ...db, stories: list.filter(item => String(item.id) !== String(id)) };
+    });
+
     try {
       await fetch(`${DB_API_BASE}/stories?id=${encodeURIComponent(id)}`, {
         method: 'DELETE'
@@ -842,15 +954,26 @@ export const api = {
       const res = await fetch(`${DB_API_BASE}/media`);
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) return data;
+        if (Array.isArray(data) && data.length > 0) {
+          saveClientStoredDB(db => ({ ...db, media: data }));
+          return data;
+        }
       }
     } catch (e) {}
 
     if (isSupabaseConfigured() && supabase) {
       try {
         const { data, error } = await supabase.from('media').select('*').order('created_at', { ascending: false });
-        if (!error && data && data.length > 0) return data;
+        if (!error && data && data.length > 0) {
+          saveClientStoredDB(db => ({ ...db, media: data }));
+          return data;
+        }
       } catch (e) {}
+    }
+
+    const localDB = getClientStoredDB();
+    if (localDB && Array.isArray(localDB.media) && localDB.media.length > 0) {
+      return localDB.media;
     }
 
     return [];
@@ -862,6 +985,14 @@ export const api = {
       id: mediaItem.id || 'media-' + Date.now(),
       created_at: new Date().toISOString()
     };
+
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.media) ? [...db.media] : [];
+      const idx = list.findIndex(item => String(item.id) === String(m.id));
+      if (idx >= 0) list[idx] = m;
+      else list.unshift(m);
+      return { ...db, media: list };
+    });
 
     try {
       await fetch(`${DB_API_BASE}/media`, {
@@ -883,6 +1014,11 @@ export const api = {
   },
 
   deleteMedia: async (id) => {
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.media) ? [...db.media] : [];
+      return { ...db, media: list.filter(item => String(item.id) !== String(id)) };
+    });
+
     try {
       await fetch(`${DB_API_BASE}/media?id=${encodeURIComponent(id)}`, {
         method: 'DELETE'
