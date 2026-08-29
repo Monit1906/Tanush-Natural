@@ -532,4 +532,12 @@ function cmsServerPlugin() {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), cmsServerPlugin()],
+  preview: {
+    host: '0.0.0.0',
+    port: parseInt(process.env.PORT || '3000', 10),
+    allowedHosts: true
+  },
+  server: {
+    host: '0.0.0.0'
+  }
 });
