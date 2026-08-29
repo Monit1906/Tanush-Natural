@@ -3,12 +3,16 @@ import { Leaf, ShieldCheck, Heart, CheckCircle, Lightbulb, TrendUp, Users, Targe
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import Button from '../components/Button/Button';
 import InnerPageHero from '../components/InnerPageHero/InnerPageHero';
+import { FarmToHomeJourney, BotanicalWatermark } from '../components/Illustrations/BotanicalIllustrations';
 import { whyTanushSlides } from '../data/heroData';
 import './WhyTanush.css';
 
 const WhyTanush = () => {
   return (
-    <div className="why-tanush-page">
+    <div className="why-tanush-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Background Subtle Watermark */}
+      <BotanicalWatermark illustration="neem-branch" position="top-right" opacity={0.06} size={300} />
+
       {/* Hero Section - 1920x600 pure visual banner */}
       <InnerPageHero page="why-tanush" />
 
@@ -44,7 +48,8 @@ const WhyTanush = () => {
       </section>
 
       {/* Thoughtful by Nature */}
-      <section className="thoughtful-section container section-padding">
+      <section className="thoughtful-section container section-padding" style={{ position: 'relative' }}>
+        <BotanicalWatermark illustration="tulsi-sprig" position="bottom-left" opacity={0.05} size={220} />
         <div className="section-header text-center">
           <span className="subtitle">WHY TANUSH</span>
           <h2>Thoughtful by Nature. Made for You.</h2>
@@ -74,8 +79,14 @@ const WhyTanush = () => {
         </div>
       </section>
 
+      {/* Editorial Farm-to-Home Storytelling Path */}
+      <section className="farm-story-section container" style={{ padding: '0 20px' }}>
+        <FarmToHomeJourney />
+      </section>
+
       {/* Our Story */}
-      <section id="our-story" className="our-story-section bg-secondary section-padding">
+      <section id="our-story" className="our-story-section bg-secondary section-padding" style={{ position: 'relative' }}>
+        <BotanicalWatermark illustration="farmer-in-field" position="bottom-right" opacity={0.06} size={260} />
         <div className="container story-flex">
           <div className="story-text-content">
             <span className="subtitle">OUR STORY</span>

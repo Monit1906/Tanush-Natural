@@ -28,7 +28,9 @@ import {
   User,
   Clock,
   Handshake,
-  Sliders
+  Sliders,
+  Palette,
+  Feather
 } from 'lucide-react';
 
 import BrandLogo from '../BrandLogo/BrandLogo';
@@ -213,6 +215,11 @@ const AdminLayout = () => {
           <NavLink to="/admin/hero" className={({isActive}) => isActive ? 'admin-nav-item active' : 'admin-nav-item'}>
             <Sliders size={17} />
             <span>Hero Slider &amp; Banners</span>
+            <span className="admin-nav-arrow">›</span>
+          </NavLink>
+          <NavLink to="/admin/illustrations" className={({isActive}) => isActive ? 'admin-nav-item active' : 'admin-nav-item'}>
+            <Feather size={17} />
+            <span>Botanical Illustrations</span>
             <span className="admin-nav-arrow">›</span>
           </NavLink>
           <NavLink to="/admin/stories" className={({isActive}) => isActive ? 'admin-nav-item active' : 'admin-nav-item'}>

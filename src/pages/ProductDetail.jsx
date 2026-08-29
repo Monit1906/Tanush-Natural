@@ -8,6 +8,17 @@ import Button from '../components/Button/Button';
 import ProductCard from '../components/ProductCard/ProductCard';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import { ProductDetailSkeleton } from '../components/Skeletons/Skeleton';
+import { 
+  ProductUsageFlow, 
+  BotanicalWatermark, 
+  TulsiSprig, 
+  CitronellaCluster, 
+  LemongrassStalk, 
+  NeemBranch, 
+  EucalyptusSprig, 
+  WildTurmeric, 
+  AmlaCluster 
+} from '../components/Illustrations/BotanicalIllustrations';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -120,9 +131,19 @@ const ProductDetail = () => {
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hi%2C%20I%20would%20like%20to%20order%20${encodeURIComponent(product.name)}%20(Qty%3A%20${quantity})%20from%20Tanush%20Natural.`;
 
 
+    const isMosquitoProd = (product.category || '').includes('mosquito') || (product.slug || '').includes('mosquito') || (product.slug || '').includes('vaporizer');
+
   return (
-    <div className="product-detail-page">
-      <div className="container">
+    <div className="product-detail-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Background Watermark */}
+      <BotanicalWatermark 
+        illustration={isMosquitoProd ? "botanical-shield" : "neem-branch"} 
+        position="top-right" 
+        opacity={0.05} 
+        size={280} 
+      />
+
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         {/* Breadcrumb */}
         <div className="breadcrumb">
           <span onClick={() => navigate('/')}>Home</span> / 
@@ -222,6 +243,9 @@ const ProductDetail = () => {
           </div>
         </div>
 
+        {/* Botanical Usage & Preparation Step Flow */}
+        <ProductUsageFlow product={product} />
+
         {/* Detailed Tabs */}
         <div className="product-details-tabs">
           <div className="tabs-header">
@@ -247,7 +271,7 @@ const ProductDetail = () => {
               className={`tab-btn ${activeTab === 'caution' ? 'active' : ''}`}
               onClick={() => setActiveTab('caution')}
             >
-              Care & Caution
+              Care &amp; Caution
             </button>
           </div>
 

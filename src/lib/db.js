@@ -1008,6 +1008,102 @@ export const api = {
     return payload;
   },
 
+  // --- Botanical Illustration System CMS ---
+  getIllustrationSettings: async () => {
+    try {
+      const res = await fetch(`${DB_API_BASE}/illustrations_settings`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+          saveClientStoredDB(db => ({ ...db, illustrationSettings: data }));
+          return data;
+        }
+      }
+    } catch (e) {}
+
+    const localDB = getClientStoredDB();
+    if (localDB && localDB.illustrationSettings) {
+      return localDB.illustrationSettings;
+    }
+
+    const defaultIllustrationSettings = {
+      assignments: [
+        {
+          id: 'assign-1',
+          page: 'Home',
+          section: 'Why Tanush Section',
+          illustrationId: 'tulsi-sprig',
+          position: 'top-right',
+          opacity: 12,
+          scale: 100,
+          desktopVisible: true,
+          mobileVisible: false,
+          isActive: true
+        },
+        {
+          id: 'assign-2',
+          page: 'Home',
+          section: 'Mosquito Protection Cards',
+          illustrationId: 'botanical-shield',
+          position: 'center-watermark',
+          opacity: 10,
+          scale: 100,
+          desktopVisible: true,
+          mobileVisible: true,
+          isActive: true
+        },
+        {
+          id: 'assign-3',
+          page: 'WhyTanush',
+          section: 'Our Story & Farm Section',
+          illustrationId: 'farmer-in-field',
+          position: 'bottom-right',
+          opacity: 15,
+          scale: 110,
+          desktopVisible: true,
+          mobileVisible: false,
+          isActive: true
+        },
+        {
+          id: 'assign-4',
+          page: 'BecomePartner',
+          section: 'Partnership Banner',
+          illustrationId: 'harvest-basket',
+          position: 'bottom-left',
+          opacity: 12,
+          scale: 100,
+          desktopVisible: true,
+          mobileVisible: false,
+          isActive: true
+        }
+      ],
+      updated_at: new Date().toISOString()
+    };
+
+    return defaultIllustrationSettings;
+  },
+
+  saveIllustrationSettings: async (settings) => {
+    const payload = {
+      ...settings,
+      updated_at: new Date().toISOString()
+    };
+
+    saveClientStoredDB(db => ({ ...db, illustrationSettings: payload }));
+
+    try {
+      await fetch(`${DB_API_BASE}/illustrations_settings`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) {}
+
+    logAction('Updated Botanical Illustration Settings', 'Illustrations');
+    dispatchSyncEvent('illustration_settings_updated', payload);
+    return payload;
+  },
+
   // --- Media Library ---
   getMedia: async () => {
     try {

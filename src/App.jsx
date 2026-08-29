@@ -38,6 +38,7 @@ import ProductAnalytics from './pages/Admin/ProductAnalytics';
 import CustomerAnalytics from './pages/Admin/CustomerAnalytics';
 import SeEeOsEgo from './pages/Admin/SeEeOsEgo';
 import PartnershipSectionManager from './pages/Admin/PartnershipSectionManager';
+import IllustrationsManager from './pages/Admin/IllustrationsManager';
 
 function App() {
   const ScrollToTop = () => {
@@ -70,6 +71,7 @@ function App() {
                   <Route path="seo" element={<SeEeOsEgo />} />
                   <Route path="homepage" element={<HomepageManager />} />
                   <Route path="hero" element={<HeroManager />} />
+                  <Route path="illustrations" element={<IllustrationsManager />} />
                   <Route path="navigation" element={<NavigationManager />} />
                   <Route path="pages" element={<PagesManager />} />
                   <Route path="stories" element={<StoriesManager />} />

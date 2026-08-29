@@ -1,24 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { CaretLeft, CaretRight, ArrowRight, Leaf, Drop, Sparkle, Heart, FlowerLotus, ShieldCheck } from 'phosphor-react';
+import { 
+  BotanicalShield, 
+  LemongrassStalk, 
+  HarvestBasket, 
+  TulsiSprig, 
+  NeemBranch 
+} from '../Illustrations/BotanicalIllustrations';
 import './CategoryCarousel.css';
 
 // Helper to assign a fitting botanical icon per category if not provided by CMS
 const getCategoryIcon = (category) => {
   const name = (category?.name || category?.slug || '').toLowerCase();
-  if (name.includes('hair') || name.includes('oil') || name.includes('liquid')) {
-    return <Drop size={22} weight="light" />;
+  if (name.includes('mosquito') || name.includes('protect') || name.includes('vaporizer') || name.includes('spray')) {
+    return <BotanicalShield size={24} color="#2F6B43" />;
   }
-  if (name.includes('skin') || name.includes('face') || name.includes('glow') || name.includes('care')) {
-    return <Sparkle size={22} weight="light" />;
+  if (name.includes('home') || name.includes('floor') || name.includes('clean')) {
+    return <LemongrassStalk size={24} color="#2D5B57" />;
   }
-  if (name.includes('well') || name.includes('health') || name.includes('immunity') || name.includes('elixir')) {
-    return <FlowerLotus size={22} weight="light" />;
+  if (name.includes('kitchen') || name.includes('masala') || name.includes('spice') || name.includes('dish')) {
+    return <HarvestBasket size={24} color="#8C673B" />;
   }
-  if (name.includes('mosquito') || name.includes('protect') || name.includes('safe')) {
-    return <ShieldCheck size={22} weight="light" />;
+  if (name.includes('skin') || name.includes('personal') || name.includes('care') || name.includes('hand') || name.includes('haldi') || name.includes('amla')) {
+    return <TulsiSprig size={24} color="#2F6B43" />;
   }
-  return <Leaf size={22} weight="light" />;
+  return <NeemBranch size={24} color="#2F6B43" />;
 };
 
 // Subtle background tints for cards based on category type

@@ -7,6 +7,7 @@ import {
 import Button from '../components/Button/Button';
 import SectionHeading from '../components/SectionHeading/SectionHeading';
 import InnerPageHero from '../components/InnerPageHero/InnerPageHero';
+import { BotanicalWatermark } from '../components/Illustrations/BotanicalIllustrations';
 import { partnerSlides } from '../data/heroData';
 import './BecomePartner.css';
 
@@ -38,7 +39,8 @@ const BecomePartner = () => {
   };
 
   return (
-    <div className="partner-page">
+    <div className="partner-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      <BotanicalWatermark illustration="harvest-basket" position="top-right" opacity={0.06} size={280} />
       {/* Hero Section - 1920x600 pure visual banner */}
       <InnerPageHero page="become-a-partner" />
 

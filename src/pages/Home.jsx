@@ -9,6 +9,7 @@ import DriftWall from '../components/DriftWall/DriftWall';
 import ReelsSection from '../components/ReelsSection/ReelsSection';
 import HeroSlider from '../components/HeroSlider/HeroSlider';
 import { HomeSkeleton } from '../components/Skeletons/Skeleton';
+import { FarmToHomeJourney, BotanicalWatermark } from '../components/Illustrations/BotanicalIllustrations';
 import { api } from '../lib/db';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { gsap } from 'gsap';
@@ -213,8 +214,9 @@ const Home = () => {
 
       case 'why_tanush':
         return (
-          <section key="why_tanush" className="why-tanush-section bg-sage section-padding mt-4xl">
-            <div className="container">
+          <section key="why_tanush" className="why-tanush-section bg-sage section-padding mt-4xl" style={{ position: 'relative', overflow: 'hidden' }}>
+            <BotanicalWatermark illustration="neem-branch" position="top-right" opacity={0.06} size={280} />
+            <div className="container relative z-10">
               <div className="why-tanush-split">
                 <RevealSection className="why-tanush-heading glass-panel p-2xl">
                   <div className="section-eyebrow">
@@ -261,6 +263,11 @@ const Home = () => {
                     </div>
                   </RevealSection>
                 </div>
+              </div>
+
+              {/* Farm-to-Home Visual Storytelling */}
+              <div style={{ marginTop: '48px' }}>
+                <FarmToHomeJourney />
               </div>
             </div>
           </section>
