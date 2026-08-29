@@ -139,9 +139,9 @@ const Home = () => {
 
   const getSortedSections = () => {
     if (!data.sections || data.sections.length === 0) {
-      return ['hero', 'trust', 'categories', 'reels', 'why_tanush', 'testimonials', 'partner', 'social', 'final_cta'];
+      return ['hero', 'trust', 'categories', 'reels', 'why_tanush', 'testimonials', 'partner', 'social'];
     }
-    const sorted = [...data.sections].filter(s => s.id !== 'featured_products').sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+    const sorted = [...data.sections].filter(s => s.id !== 'featured_products' && s.id !== 'final_cta').sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
     return sorted.map(s => s.id);
   };
   const layoutOrder = getSortedSections();
@@ -499,22 +499,6 @@ const Home = () => {
           </section>
         );
       }
-
-      case 'final_cta':
-        return (
-          <section key="final_cta" className="final-cta-editorial section-padding text-center">
-            <RevealSection className="container">
-              <div className="final-cta-glass glass-panel p-4xl">
-                <Leaf size={40} weight="light" color="var(--color-accent)" className="mb-md mx-auto" style={{ margin: '0 auto' }} />
-                <AnimatedSectionHeading delayElements={['.mb-md', '.mb-xl', '.btn']}>
-                  NATURAL CHOICES. BETTER EVERYDAY.
-                </AnimatedSectionHeading>
-                <p className="mt-md mb-xl">Explore the Tanush Natural collection.</p>
-                <Button variant="primary" className="btn" to="/shop" size="large">EXPLORE ALL PRODUCTS &rarr;</Button>
-              </div>
-            </RevealSection>
-          </section>
-        );
 
       default:
         return null;

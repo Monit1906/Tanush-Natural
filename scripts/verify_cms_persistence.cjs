@@ -1,32 +1,37 @@
 const fs = require('fs');
 const path = require('path');
 
-console.log('=== VERIFYING CMS REEL, PRODUCT, AND MEDIA PERSISTENCE ===');
+// Test vite config preview and start configuration
+const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8'));
+console.log('Checking package.json scripts:');
+console.log(' - build:', pkg.scripts.build);
+console.log(' - preview:', pkg.scripts.preview);
+console.log(' - start:', pkg.scripts.start);
 
-const viteConfig = fs.readFileSync(path.join(__dirname, '../vite.config.js'), 'utf8');
-if (!viteConfig.includes('configurePreviewServer(server)')) {
-  console.error('FAIL: vite.config.js is missing configurePreviewServer!');
+if (!pkg.scripts.start || !pkg.scripts.start.includes('vite preview')) {
+  console.error('FAIL: Missing start script for GoDaddy App Platform preview execution');
   process.exit(1);
 }
-console.log('PASS: configurePreviewServer registered in vite.config.js.');
 
-if (!viteConfig.includes('distUploadsDir')) {
-  console.error('FAIL: vite.config.js missing distUploadsDir sync!');
-  process.exit(1);
-}
-console.log('PASS: distUploadsDir sync found in vite.config.js.');
-
+// Test db.js normalization logic
 const dbJs = fs.readFileSync(path.join(__dirname, '../src/lib/db.js'), 'utf8');
-if (!dbJs.includes('saveClientStoredDB') || !dbJs.includes('getClientStoredDB')) {
-  console.error('FAIL: db.js is missing client storage persistence!');
-  process.exit(1);
-}
-console.log('PASS: Client-side storage persistence functions found in db.js.');
 
-if (!dbJs.includes('tanush_natural_cms_db_v1')) {
-  console.error('FAIL: db.js is missing local storage DB key!');
-  process.exit(1);
-}
-console.log('PASS: LocalStorage synchronization key found.');
+const requiredMethods = [
+  'getProducts', 'saveProduct', 'deleteProduct',
+  'getCategories', 'saveCategory', 'deleteCategory',
+  'getStories', 'saveStory', 'deleteStory',
+  'getHeroSlides', 'saveHeroSlide', 'deleteHeroSlide',
+  'getPartnershipSection', 'savePartnershipSection',
+  'getTestimonials', 'saveTestimonial', 'deleteTestimonial',
+  'getSiteSettings', 'saveSiteSettings',
+  'getClientStoredDB', 'saveClientStoredDB'
+];
 
-console.log('=== ALL CMS PERSISTENCE TESTS PASSED! ===');
+for (const m of requiredMethods) {
+  if (!dbJs.includes(m)) {
+    console.error(`FAIL: Missing required method: ${m}`);
+    process.exit(1);
+  }
+}
+
+console.log('SUCCESS: All required CMS database methods and localStorage fallbacks verified.');

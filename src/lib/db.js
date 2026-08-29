@@ -438,21 +438,34 @@ export const api = {
       const res = await fetch(`${DB_API_BASE}/homepage_sections`);
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) return data;
+        if (Array.isArray(data) && data.length > 0) {
+          saveClientStoredDB(db => ({ ...db, homepageSections: data }));
+          return data;
+        }
       }
     } catch (e) {}
 
     if (isSupabaseConfigured() && supabase) {
       try {
         const { data, error } = await supabase.from('homepage_sections').select('*').order('sort_order', { ascending: true });
-        if (!error && data && data.length > 0) return data;
+        if (!error && data && data.length > 0) {
+          saveClientStoredDB(db => ({ ...db, homepageSections: data }));
+          return data;
+        }
       } catch (e) {}
+    }
+
+    const localDB = getClientStoredDB();
+    if (localDB && Array.isArray(localDB.homepageSections) && localDB.homepageSections.length > 0) {
+      return localDB.homepageSections;
     }
 
     return [];
   },
 
   updateHomepageSections: async (sections) => {
+    saveClientStoredDB(db => ({ ...db, homepageSections: sections }));
+
     try {
       await fetch(`${DB_API_BASE}/homepage_sections`, {
         method: 'POST',
@@ -784,15 +797,26 @@ export const api = {
       const res = await fetch(`${DB_API_BASE}/testimonials`);
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) return data;
+        if (Array.isArray(data) && data.length > 0) {
+          saveClientStoredDB(db => ({ ...db, testimonials: data }));
+          return data;
+        }
       }
     } catch (e) {}
 
     if (isSupabaseConfigured() && supabase) {
       try {
         const { data, error } = await supabase.from('testimonials').select('*').order('sort_order', { ascending: true });
-        if (!error && data && data.length > 0) return data;
+        if (!error && data && data.length > 0) {
+          saveClientStoredDB(db => ({ ...db, testimonials: data }));
+          return data;
+        }
       } catch (e) {}
+    }
+
+    const localDB = getClientStoredDB();
+    if (localDB && Array.isArray(localDB.testimonials) && localDB.testimonials.length > 0) {
+      return localDB.testimonials;
     }
 
     return [];
@@ -801,6 +825,14 @@ export const api = {
   saveTestimonial: async (testimonialData) => {
     const t = { ...testimonialData };
     if (!t.id) t.id = 't' + Date.now();
+
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.testimonials) ? [...db.testimonials] : [];
+      const idx = list.findIndex(item => String(item.id) === String(t.id));
+      if (idx >= 0) list[idx] = t;
+      else list.push(t);
+      return { ...db, testimonials: list };
+    });
 
     try {
       await fetch(`${DB_API_BASE}/testimonials`, {
@@ -822,6 +854,11 @@ export const api = {
   },
 
   deleteTestimonial: async (id) => {
+    saveClientStoredDB(db => {
+      const list = Array.isArray(db.testimonials) ? [...db.testimonials] : [];
+      return { ...db, testimonials: list.filter(item => String(item.id) !== String(id)) };
+    });
+
     try {
       await fetch(`${DB_API_BASE}/testimonials?id=${encodeURIComponent(id)}`, {
         method: 'DELETE'
@@ -845,21 +882,34 @@ export const api = {
       const res = await fetch(`${DB_API_BASE}/settings`);
       if (res.ok) {
         const data = await res.json();
-        if (data && Object.keys(data).length > 0) return data;
+        if (data && Object.keys(data).length > 0) {
+          saveClientStoredDB(db => ({ ...db, settings: data }));
+          return data;
+        }
       }
     } catch (e) {}
 
     if (isSupabaseConfigured() && supabase) {
       try {
         const { data, error } = await supabase.from('site_settings').select('*').eq('id', 1).maybeSingle();
-        if (!error && data) return data;
+        if (!error && data) {
+          saveClientStoredDB(db => ({ ...db, settings: data }));
+          return data;
+        }
       } catch (e) {}
+    }
+
+    const localDB = getClientStoredDB();
+    if (localDB && localDB.settings) {
+      return localDB.settings;
     }
 
     return null;
   },
 
   saveSiteSettings: async (settings) => {
+    saveClientStoredDB(db => ({ ...db, settings }));
+
     try {
       await fetch(`${DB_API_BASE}/settings`, {
         method: 'POST',
@@ -904,9 +954,17 @@ export const api = {
       const res = await fetch(`${DB_API_BASE}/partnership-section`);
       if (res.ok) {
         const data = await res.json();
-        if (data && typeof data === 'object') return data;
+        if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+          saveClientStoredDB(db => ({ ...db, partnershipSection: data }));
+          return data;
+        }
       }
     } catch (e) {}
+
+    const localDB = getClientStoredDB();
+    if (localDB && localDB.partnershipSection) {
+      return localDB.partnershipSection;
+    }
 
     const defaultSection = {
       id: 'partnership-section',
@@ -932,6 +990,8 @@ export const api = {
       id: 'partnership-section',
       updated_at: new Date().toISOString()
     };
+
+    saveClientStoredDB(db => ({ ...db, partnershipSection: payload }));
 
     try {
       await fetch(`${DB_API_BASE}/partnership-section`, {
