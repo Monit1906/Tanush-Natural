@@ -12,12 +12,19 @@ function cmsServerPlugin() {
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
 
+  const seedFilePath = path.resolve(process.cwd(), 'src/data/initialDatabase.json');
+
   // Load or initialize DB
   const getDB = () => {
     try {
       if (fs.existsSync(dbFilePath)) {
         const raw = fs.readFileSync(dbFilePath, 'utf-8');
         return JSON.parse(raw);
+      } else if (fs.existsSync(seedFilePath)) {
+        const raw = fs.readFileSync(seedFilePath, 'utf-8');
+        const seedData = JSON.parse(raw);
+        fs.writeFileSync(dbFilePath, JSON.stringify(seedData, null, 2), 'utf-8');
+        return seedData;
       }
     } catch (e) {
       console.error('[CMS Server] Failed to read database file:', e);
