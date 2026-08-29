@@ -8,8 +8,9 @@
 
 /* ── Category Square Frames Strip ───────────────────────── */
 .shop-categories-bar {
-  margin: var(--spacing-2xl) auto var(--spacing-3xl);
+  margin: var(--spacing-xl) auto var(--spacing-2xl);
   padding: 0 var(--spacing-md);
+  overflow: visible;
 }
 
 .categories-scroll {
@@ -18,7 +19,9 @@
   align-items: flex-start;
   gap: 28px;
   overflow-x: auto;
-  padding-bottom: var(--spacing-lg);
+  overflow-y: visible;
+  padding: 18px 12px 24px;
+  margin-top: -10px;
   scrollbar-width: none;
 }
 
@@ -37,6 +40,7 @@
   max-width: 200px;
   position: relative;
   transition: transform 0.25s ease;
+  padding-top: 4px;
 }
 
 .cat-square-frame .cat-img,
