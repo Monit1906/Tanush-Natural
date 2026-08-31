@@ -430,17 +430,19 @@ const Home = () => {
 
       case 'social': {
         const defaultPool = [
-          { id: 'def-1', image: '/images/social/social-1.jpg', title: 'Nourishing Texture' },
-          { id: 'def-2', image: '/images/social/social-2.jpg', title: 'Pure Botanical Care' },
-          { id: 'def-3', image: '/images/social/social-3.jpg', title: 'Handcrafted Bottle Ritual' },
-          { id: 'def-4', image: '/images/lifestyle/brand-story.jpg', title: 'Herbal Ingredients Flatlay' },
-          { id: 'def-5', image: '/images/lifestyle/thoughtful-1.jpg', title: 'Nourishing Cream Display' },
-          { id: 'def-6', image: '/images/lifestyle/thoughtful-2.jpg', title: 'Soothing Touch Routine' },
-          { id: 'def-7', image: '/images/lifestyle/collage-sub2.jpg', title: 'Herb Drops & Elixirs' },
-          { id: 'def-8', image: '/images/lifestyle/collage-main.jpg', title: 'Natural Routine Moments' },
-          { id: 'def-9', image: '/images/lifestyle/thoughtful-4.jpg', title: 'Botanical Kitchen Routine' },
-          { id: 'def-10', image: '/images/lifestyle/thoughtful-3.jpg', title: 'Pure Herbal Formulations' },
-          { id: 'def-11', image: '/images/lifestyle/collage-sub1.jpg', title: 'Gentle Skin Wellness' }
+          { id: 'poster-1', image: '/images/posters/posters-01.png', title: 'Pure Herbal Mosquito Protection' },
+          { id: 'poster-2', image: '/images/posters/posters-02.png', title: 'Everyday Natural Living Ritual' },
+          { id: 'poster-3', image: '/images/posters/posters-03.png', title: 'Artisanal Botanical Formulation' },
+          { id: 'poster-4', image: '/images/posters/posters-04.png', title: 'Eco-Mindful Daily Wellness' },
+          { id: 'poster-5', image: '/images/posters/posters-05.png', title: 'Fresh Botanical Harvest' },
+          { id: 'poster-6', image: '/images/posters/posters-06.png', title: 'Pure Essential Oil Distillation' },
+          { id: 'poster-7', image: '/images/posters/posters-07.png', title: 'Chemical-Free Household Care' },
+          { id: 'poster-8', image: '/images/posters/posters-08.png', title: 'Indian Botanical Heritage' },
+          { id: 'poster-9', image: '/images/posters/posters-09.png', title: 'Mindful Daily Sanctuary' },
+          { id: 'poster-10', image: '/images/posters/posters-10.png', title: 'Authentic Botanical Alchemy' },
+          { id: 'poster-11', image: '/images/posters/posters-11.png', title: 'Herbal Relief & Gentle Care' },
+          { id: 'poster-12', image: '/images/posters/posters-12.png', title: 'Rooted in Nature Formulations' },
+          { id: 'poster-13', image: '/images/posters/posters-13.png', title: 'Pure Origin Botanical Blends' }
         ];
 
         const rawItems = (data.socialSection?.items && data.socialSection.items.length > 0)
@@ -520,7 +522,14 @@ const Home = () => {
                           key={item.id || itemIdx} 
                           className={`journey-card ${getCardClass(colIdx, itemIdx, colItems.length)}`}
                         >
-                          <img src={item.image} alt={item.title || 'Journey'} loading="lazy" />
+                          <img 
+                            src={item.image} 
+                            alt={item.title || 'Journey'} 
+                            loading="lazy" 
+                            onError={(e) => {
+                              e.target.src = '/images/lifestyle/collage-main.jpg';
+                            }}
+                          />
                         </div>
                       ))}
                     </div>

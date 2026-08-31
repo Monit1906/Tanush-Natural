@@ -392,10 +392,91 @@ export const DEFAULT_PAGES_CONFIG = {
         visibility: { desktop: true, tablet: true, mobile: true }
       },
       {
+        id: 'journey',
+        name: 'From Nature to Your Home Journey',
+        type: 'journey',
+        order: 3,
+        isActive: true,
+        content: {
+          badge: 'THE TANUSH JOURNEY',
+          eyebrow: 'THE TANUSH JOURNEY',
+          heading: 'FROM NATURE TO YOUR HOME',
+          title: 'FROM NATURE TO YOUR HOME',
+          subheading: 'Thoughtfully made, from natural inspiration to everyday living.',
+          subtitle: 'Thoughtfully made, from natural inspiration to everyday living.'
+        },
+        steps: [
+          {
+            id: 'step-1',
+            number: '01',
+            label: '01 — SOURCE',
+            title: 'Inspired by Nature',
+            description: 'Botanical ingredients and natural inspiration selected with care.',
+            illustration: 'source',
+            customIllustration: '',
+            position: 'center',
+            scale: 'medium',
+            opacity: 100,
+            desktopVisible: true,
+            mobileVisible: true,
+            enabled: true
+          },
+          {
+            id: 'step-2',
+            number: '02',
+            label: '02 — CRAFT',
+            title: 'Thoughtfully Formulated',
+            description: 'Carefully crafted in India for everyday living.',
+            illustration: 'craft',
+            customIllustration: '',
+            position: 'center',
+            scale: 'medium',
+            opacity: 100,
+            desktopVisible: true,
+            mobileVisible: true,
+            enabled: true
+          },
+          {
+            id: 'step-3',
+            number: '03',
+            label: '03 — QUALITY',
+            title: 'Made With Care',
+            description: 'Every formulation is created with attention to detail.',
+            illustration: 'quality',
+            customIllustration: '',
+            position: 'center',
+            scale: 'medium',
+            opacity: 100,
+            desktopVisible: true,
+            mobileVisible: true,
+            enabled: true
+          },
+          {
+            id: 'step-4',
+            number: '04',
+            label: '04 — HOME',
+            title: 'Made for Everyday Living',
+            description: 'Thoughtfully made for modern Indian homes.',
+            illustration: 'home',
+            customIllustration: '',
+            position: 'center',
+            scale: 'medium',
+            opacity: 100,
+            desktopVisible: true,
+            mobileVisible: true,
+            enabled: true
+          }
+        ],
+        media: {},
+        illustration: {},
+        layout: { align: 'center', width: 'contained', spacing: 'compact', bgColor: '#FAF8F5' },
+        visibility: { desktop: true, tablet: true, mobile: true }
+      },
+      {
         id: 'promotional',
         name: 'Botanical Quality Guarantee',
         type: 'promotional',
-        order: 3,
+        order: 4,
         isActive: true,
         content: {
           badge: 'OUR PROMISE',
@@ -440,7 +521,7 @@ export const DEFAULT_PAGES_CONFIG = {
           subheading: 'We look to Indian botanical wisdom for clean everyday solutions.'
         },
         media: {
-          desktopImage: '/images/hero/hero-1.jpg'
+          desktopImage: '/images/lifestyle/why-tanush-hero.jpg'
         },
         illustration: {
           id: 'neem-branch',
@@ -589,7 +670,7 @@ export const DEFAULT_PAGES_CONFIG = {
           subheading: 'Join India’s rapidly growing botanical wellness and everyday essentials network.'
         },
         media: {
-          desktopImage: '/images/hero/hero-1.jpg'
+          desktopImage: '/images/lifestyle/partner-hero.jpg'
         },
         illustration: {
           id: 'harvest-basket',
@@ -725,7 +806,7 @@ export const DEFAULT_PAGES_CONFIG = {
           subheading: 'Whether you have a query about formulations, orders, or partnerships, we are here for you.'
         },
         media: {
-          desktopImage: '/images/hero/hero-1.jpg'
+          desktopImage: '/images/lifestyle/contact-hero.jpg'
         },
         illustration: {
           id: 'modern-indian-home',
@@ -902,6 +983,47 @@ export function normalizePageConfig(pageId, rawConfig) {
 
   if (!rawConfig) return fallback;
 
+  let normalizedSections = Array.isArray(rawConfig.sections) && rawConfig.sections.length > 0
+    ? rawConfig.sections.map((sec, idx) => ({
+        ...sec,
+        order: typeof sec.order === 'number' ? sec.order : idx,
+        isActive: sec.isActive !== false,
+        content: { ...(sec.content || {}) },
+        steps: Array.isArray(sec.steps) 
+          ? sec.steps.map((st, sIdx) => ({
+              id: st.id || `step-${sIdx + 1}`,
+              number: st.number || `0${sIdx + 1}`,
+              label: st.label || `${st.number || `0${sIdx + 1}`} — ${(st.title || '').split(' ')[0].toUpperCase()}`,
+              title: st.title || `Step ${sIdx + 1}`,
+              description: st.description || '',
+              illustration: st.illustration || 'source',
+              customIllustration: st.customIllustration || '',
+              position: st.position || 'center',
+              scale: st.scale || 'medium',
+              opacity: typeof st.opacity === 'number' ? st.opacity : 100,
+              desktopVisible: st.desktopVisible !== false,
+              mobileVisible: st.mobileVisible !== false,
+              enabled: st.enabled !== false && st.isActive !== false
+            }))
+          : sec.steps,
+        media: { ...(sec.media || {}) },
+        illustration: { ...(sec.illustration || {}) },
+        layout: { ...(sec.layout || {}) },
+        visibility: { desktop: true, tablet: true, mobile: true, ...(sec.visibility || {}) }
+      }))
+    : [...fallback.sections];
+
+  // If page is 'shop' and 'journey' is missing in user's saved DB, inject default journey
+  if (pageId === 'shop' && !normalizedSections.some(s => s.id === 'journey')) {
+    const defaultJourney = fallback.sections.find(s => s.id === 'journey');
+    if (defaultJourney) {
+      normalizedSections.push({ ...defaultJourney });
+    }
+  }
+
+  // Sort sections by order
+  normalizedSections.sort((a, b) => (a.order || 0) - (b.order || 0));
+
   return {
     ...fallback,
     ...rawConfig,
@@ -911,17 +1033,6 @@ export function normalizePageConfig(pageId, rawConfig) {
     isActive: rawConfig.isActive !== false,
     seoTitle: rawConfig.seoTitle || fallback.seoTitle,
     seoDescription: rawConfig.seoDescription || fallback.seoDescription,
-    sections: Array.isArray(rawConfig.sections) && rawConfig.sections.length > 0
-      ? rawConfig.sections.map((sec, idx) => ({
-          ...sec,
-          order: typeof sec.order === 'number' ? sec.order : idx,
-          isActive: sec.isActive !== false,
-          content: { ...(sec.content || {}) },
-          media: { ...(sec.media || {}) },
-          illustration: { ...(sec.illustration || {}) },
-          layout: { ...(sec.layout || {}) },
-          visibility: { desktop: true, tablet: true, mobile: true, ...(sec.visibility || {}) }
-        })).sort((a, b) => (a.order || 0) - (b.order || 0))
-      : fallback.sections
+    sections: normalizedSections
   };
 }

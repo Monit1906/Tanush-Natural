@@ -179,10 +179,6 @@ const AdminLayout = () => {
         <div className="admin-sidebar-header">
           <div className="admin-brand-title">
             <BrandLogo variant="admin-sidebar" />
-            <div className="brand-text-stack">
-              <h2>{siteSettings?.brand_name ? siteSettings.brand_name.toUpperCase() : 'TANUSH NATURAL & CO.'}</h2>
-              <span className="brand-cms-subtitle">MANAGEMENT CMS</span>
-            </div>
           </div>
           <Link to="/" className="view-site-link" target="_blank" rel="noopener noreferrer" title="View Public Website">
             <ExternalLink size={14} />
@@ -321,48 +317,19 @@ const AdminLayout = () => {
           </div>
 
           {/* Right Action Icons & User Info */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div className="admin-topbar-controls">
             
-            {/* Real Notification Bell & Dropdown */}
+            {/* Notification Bell & Dropdown */}
             <div className="admin-notif-wrap" style={{ position: 'relative' }}>
               <button 
                 type="button"
-                className="icon-action-btn" 
+                className={`admin-topbar-bell-btn ${showNotifDropdown ? 'active' : ''}`}
                 title="Notifications" 
                 onClick={() => { setShowNotifDropdown(prev => !prev); setShowProfileDropdown(false); }}
-                style={{ 
-                  position: 'relative', 
-                  color: '#4A5B4F', 
-                  width: '36px', 
-                  height: '36px', 
-                  borderRadius: '8px',
-                  background: showNotifDropdown ? 'rgba(23, 59, 47, 0.08)' : 'rgba(255, 255, 255, 0.9)',
-                  border: '1px solid rgba(23, 59, 47, 0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justify: 'center',
-                  cursor: 'pointer'
-                }}
               >
                 <Bell size={18} />
                 {unreadCount > 0 && (
-                  <span style={{ 
-                    position: 'absolute', 
-                    top: '-3px', 
-                    right: '-3px', 
-                    minWidth: '16px', 
-                    height: '16px', 
-                    padding: '0 4px',
-                    background: '#C53030', 
-                    color: '#FFFFFF', 
-                    borderRadius: '10px', 
-                    fontSize: '0.62rem', 
-                    fontWeight: 800, 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justify: 'center',
-                    boxShadow: '0 2px 5px rgba(197, 48, 48, 0.3)'
-                  }}>
+                  <span className="admin-bell-badge">
                     {unreadCount > 99 ? '99+' : unreadCount}
                   </span>
                 )}
@@ -373,14 +340,14 @@ const AdminLayout = () => {
                 <div style={{
                   position: 'absolute',
                   right: 0,
-                  top: 'calc(100% + 8px)',
+                  top: 'calc(100% + 10px)',
                   width: '380px',
-                  background: 'rgba(255, 255, 255, 0.96)',
+                  background: 'rgba(255, 255, 255, 0.98)',
                   backdropFilter: 'blur(16px)',
                   WebkitBackdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(23, 59, 47, 0.12)',
+                  border: '1.5px solid rgba(23, 59, 47, 0.12)',
                   borderRadius: '16px',
-                  boxShadow: '0 12px 36px rgba(0, 0, 0, 0.15)',
+                  boxShadow: '0 16px 40px rgba(23, 59, 47, 0.14)',
                   zIndex: 200,
                   overflow: 'hidden'
                 }}>
@@ -467,72 +434,78 @@ const AdminLayout = () => {
               )}
             </div>
 
-            {/* Profile Dropdown Area */}
+            {/* Subtle Divider */}
+            <div className="admin-topbar-divider"></div>
+
+            {/* Luxury Profile Capsule Pill */}
             <div className="admin-profile-wrap" style={{ position: 'relative' }}>
               <div 
+                className={`admin-profile-pill ${showProfileDropdown ? 'active' : ''}`}
                 onClick={() => { setShowProfileDropdown(prev => !prev); setShowNotifDropdown(false); }}
-                style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingLeft: '12px', borderLeft: '1px solid rgba(23, 59, 47, 0.1)', cursor: 'pointer' }}
+                title="Account Settings & Profile"
               >
-                <div style={{ width: '34px', height: '34px', borderRadius: '50%', overflow: 'hidden', background: '#173B2F', flexShrink: 0 }}>
+                <div className="admin-avatar-wrap">
                   <img 
                     src="/images/admin-avatar.png" 
                     alt="Tanush Admin" 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                    className="admin-avatar-img"
                     onError={(e) => { e.target.src = '/favicon.png'; }}
                   />
+                  <div className="admin-online-dot" title="Active Now"></div>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <strong style={{ fontSize: '0.82rem', color: '#173B2F', lineHeight: 1.2, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    admin2026 <ChevronDown size={12} color="#7A8B7C" />
-                  </strong>
-                  <span style={{ fontSize: '0.68rem', color: '#7A8B7C' }}>Administrator</span>
+                <div className="admin-user-meta">
+                  <div className="admin-user-name">
+                    <span>admin2026</span>
+                    <ChevronDown size={13} className="admin-chevron-icon" />
+                  </div>
+                  <span className="admin-user-role">Administrator</span>
                 </div>
               </div>
 
               {/* Profile Dropdown Menu */}
               {showProfileDropdown && (
-                <div style={{
-                  position: 'absolute',
-                  right: 0,
-                  top: 'calc(100% + 8px)',
-                  width: '200px',
-                  background: '#FFFFFF',
-                  border: '1px solid rgba(23, 59, 47, 0.12)',
-                  borderRadius: '12px',
-                  boxShadow: '0 10px 30px rgba(0, 0, 0, 0.12)',
-                  zIndex: 200,
-                  padding: '6px',
-                  textAlign: 'left'
-                }}>
+                <div className="admin-dropdown-menu">
+                  <div className="admin-dropdown-header">
+                    <span className="header-name">Tanush Natural &amp; Co.</span>
+                    <span className="header-status">
+                      <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: '#22C55E' }}></span>
+                      Verified Master Admin
+                    </span>
+                  </div>
+                  
                   <div 
+                    className="admin-dropdown-item"
                     onClick={() => { navigate('/admin/settings'); setShowProfileDropdown(false); }}
-                    style={{ padding: '8px 12px', fontSize: '0.78rem', cursor: 'pointer', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '8px', color: '#173B2F' }}
                   >
-                    <Settings size={15} />
+                    <Settings size={15} color="#173B2F" />
                     <span>Settings &amp; SEO</span>
                   </div>
+
                   <div 
+                    className="admin-dropdown-item"
                     onClick={() => { navigate('/admin/audit'); setShowProfileDropdown(false); }}
-                    style={{ padding: '8px 12px', fontSize: '0.78rem', cursor: 'pointer', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '8px', color: '#173B2F' }}
                   >
-                    <History size={15} />
+                    <History size={15} color="#173B2F" />
                     <span>Security Audit Trail</span>
                   </div>
+
                   <a 
                     href="/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     onClick={() => setShowProfileDropdown(false)}
-                    style={{ padding: '8px 12px', fontSize: '0.78rem', cursor: 'pointer', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '8px', color: '#173B2F', textDecoration: 'none' }}
+                    className="admin-dropdown-item"
                   >
-                    <ExternalLink size={15} />
+                    <ExternalLink size={15} color="#173B2F" />
                     <span>View Public Store</span>
                   </a>
+
                   <div 
+                    className="admin-dropdown-item danger"
                     onClick={() => { handleLogout(); setShowProfileDropdown(false); }}
-                    style={{ padding: '8px 12px', fontSize: '0.78rem', cursor: 'pointer', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '8px', color: '#E53E3E', borderTop: '1px solid rgba(0,0,0,0.06)', marginTop: '4px' }}
+                    style={{ borderTop: '1px solid rgba(23, 59, 47, 0.08)', marginTop: '4px', paddingTop: '8px' }}
                   >
-                    <LogOut size={15} />
+                    <LogOut size={15} color="#C53030" />
                     <span>Sign Out</span>
                   </div>
                 </div>

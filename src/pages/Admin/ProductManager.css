@@ -1,0 +1,552 @@
+/* ==========================================================================
+   PRODUCT MANAGER — LUXURY BOTANICAL ADMIN MODAL & TABLE STYLES
+   ========================================================================== */
+
+/* Formulation Editor Modal Container */
+.prod-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 24, 18, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: prodFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes prodFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.prod-modal-container {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(23, 59, 47, 0.12);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 1080px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25), 0 4px 16px rgba(23, 59, 47, 0.08);
+  overflow: hidden;
+  position: relative;
+  animation: prodScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes prodScaleIn {
+  from { opacity: 0; transform: scale(0.96) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Modal Header */
+.prod-modal-header {
+  padding: 22px 28px;
+  background: linear-gradient(to right, #FAF8F5, #FFFFFF);
+  border-bottom: 1px solid rgba(23, 59, 47, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prod-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.prod-modal-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #173B2F;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(23, 59, 47, 0.2);
+}
+
+.prod-modal-header-left h3 {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: 1.38rem;
+  font-weight: 700;
+  color: #173B2F;
+  margin: 0 0 2px 0;
+}
+
+.prod-modal-header-left p {
+  font-size: 0.82rem;
+  color: #637365;
+  margin: 0;
+}
+
+/* Modal Scrollable Body (Two-Column Layout) */
+.prod-modal-body {
+  padding: 26px 28px;
+  overflow-y: auto;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 28px;
+}
+
+@media (max-width: 1024px) {
+  .prod-modal-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Form Sections */
+.prod-form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.prod-section-card {
+  background: #FAF8F5;
+  border: 1.5px solid rgba(23, 59, 47, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.prod-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(23, 59, 47, 0.06);
+}
+
+.prod-section-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(23, 59, 47, 0.08);
+  color: #173B2F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prod-section-title {
+  font-family: var(--font-sans, "Outfit", sans-serif);
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #173B2F;
+  margin: 0;
+}
+
+/* Grid rows inside section cards */
+.prod-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.prod-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .prod-grid-2,
+  .prod-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Form Fields */
+.prod-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prod-form-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #2D3E32;
+  letter-spacing: 0.02em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prod-form-label .label-hint {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #8C998B;
+}
+
+.prod-input,
+.prod-textarea,
+.prod-select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.86rem;
+  color: #173B2F;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(23, 59, 47, 0.14);
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.prod-input:focus,
+.prod-textarea:focus,
+.prod-select:focus {
+  background: #FFFFFF;
+  border-color: #173B2F;
+  box-shadow: 0 0 0 3px rgba(23, 59, 47, 0.08);
+  outline: none;
+}
+
+.prod-input::placeholder,
+.prod-textarea::placeholder {
+  color: #A0AEC0;
+}
+
+.prod-textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Slug input with prefix */
+.prod-slug-wrapper {
+  display: flex;
+  align-items: stretch;
+  border: 1.5px solid rgba(23, 59, 47, 0.14);
+  border-radius: 10px;
+  background: #FFFFFF;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.prod-slug-wrapper:focus-within {
+  border-color: #173B2F;
+  box-shadow: 0 0 0 3px rgba(23, 59, 47, 0.08);
+}
+
+.prod-slug-prefix {
+  padding: 0 10px;
+  background: rgba(23, 59, 47, 0.04);
+  border-right: 1px solid rgba(23, 59, 47, 0.08);
+  display: flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-family: monospace;
+  color: #637365;
+  white-space: nowrap;
+}
+
+.prod-slug-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 12px;
+  font-size: 0.84rem;
+  font-family: monospace;
+  color: #173B2F;
+  font-weight: 600;
+  outline: none;
+}
+
+/* Pricing input with ₹ prefix */
+.prod-currency-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.prod-currency-symbol {
+  position: absolute;
+  left: 12px;
+  font-weight: 700;
+  color: #637365;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.prod-currency-input {
+  padding-left: 28px !important;
+}
+
+/* Toggle Switch Cards */
+.prod-toggle-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(23, 59, 47, 0.08);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.prod-toggle-card.active {
+  background: rgba(47, 107, 67, 0.04);
+  border-color: rgba(47, 107, 67, 0.25);
+}
+
+.prod-toggle-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.prod-toggle-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #173B2F;
+}
+
+.prod-toggle-desc {
+  font-size: 0.72rem;
+  color: #637365;
+  margin-top: 1px;
+}
+
+/* Right Side: Media & Live Card Simulator */
+.prod-media-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.prod-gallery-panel {
+  background: #FAF8F5;
+  border: 1.5px solid rgba(23, 59, 47, 0.1);
+  border-radius: 18px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.prod-gallery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.prod-gallery-header h4 {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #173B2F;
+  margin: 0;
+}
+
+.prod-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 10px;
+}
+
+.prod-gallery-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #EDE8DD;
+  border: 1.5px solid rgba(23, 59, 47, 0.14);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.prod-gallery-item:hover {
+  transform: translateY(-2px);
+  border-color: #173B2F;
+}
+
+.prod-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.prod-gallery-item.primary-thumb {
+  border: 2px solid #173B2F;
+  box-shadow: 0 4px 12px rgba(23, 59, 47, 0.15);
+}
+
+.prod-primary-badge {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  background: #173B2F;
+  color: #FFFFFF;
+  font-size: 0.58rem;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.prod-remove-img-btn {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #FFFFFF;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.prod-remove-img-btn:hover {
+  background: #C53030;
+  transform: scale(1.1);
+}
+
+.prod-gallery-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.prod-gallery-actions button {
+  flex: 1;
+}
+
+/* Live Product Card Miniature Simulator */
+.prod-live-card-sim {
+  background: #FFFFFF;
+  border: 1px solid rgba(23, 59, 47, 0.1);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(23, 59, 47, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.sim-prod-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 170px;
+  background: #EDE8DD;
+  overflow: hidden;
+}
+
+.sim-prod-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sim-prod-category-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #173B2F;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sim-prod-ribbon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #B48228;
+  color: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.sim-prod-body {
+  padding: 16px;
+  text-align: left;
+}
+
+.sim-prod-title {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #173B2F;
+  margin: 0 0 6px 0;
+  line-height: 1.25;
+}
+
+.sim-prod-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: #D97706;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.sim-prod-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sim-prod-price {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #173B2F;
+}
+
+.sim-prod-compare-price {
+  font-size: 0.8rem;
+  color: #A0AEC0;
+  text-decoration: line-through;
+}
+
+.sim-prod-discount-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #2F6B43;
+  background: rgba(47, 107, 67, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.sim-prod-add-btn {
+  width: 100%;
+  padding: 8px;
+  background: #173B2F;
+  color: #FFFFFF;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: none;
+  text-align: center;
+}
+
+/* Modal Sticky Action Footer */
+.prod-modal-footer {
+  padding: 18px 28px;
+  background: #FAF8F5;
+  border-top: 1px solid rgba(23, 59, 47, 0.08);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}

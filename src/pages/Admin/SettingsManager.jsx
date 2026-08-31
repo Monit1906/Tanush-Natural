@@ -7,11 +7,13 @@ import './AdminStyles.css';
 const SettingsManager = () => {
   const [settings, setSettings] = useState({
     brand_name: 'Tanush Natural & Co.',
+    brand_title: 'TANUSH',
+    brand_subtitle: 'NATURAL & CO.',
     tagline: 'Rooted in Nature, Made for Everyday Living',
-    logo_url: '/images/brand/tanush-logo.png',
+    logo_url: '/uploads/1787985113737-Round_LOGO.png',
     logo_media_id: 'brand-logo-main',
     logo_alt: 'Tanush Natural & Co.',
-    favicon_url: '/images/brand/tanush-logo.png',
+    favicon_url: '/uploads/1787985113737-Round_LOGO.png',
     use_primary_favicon: true,
     currency: '₹',
     email: 'info@tanushnatural.com',
@@ -98,8 +100,8 @@ const SettingsManager = () => {
     e.preventDefault();
     await api.saveSiteSettings(settings);
     const activeFav = settings.use_primary_favicon !== false 
-      ? (settings.logo_url || '/images/brand/tanush-logo.png')
-      : (settings.favicon_url || settings.logo_url || '/images/brand/tanush-logo.png');
+      ? (settings.logo_url || '/uploads/1787985113737-Round_LOGO.png')
+      : (settings.favicon_url || settings.logo_url || '/uploads/1787985113737-Round_LOGO.png');
     applyFavicon(activeFav, settings.brand_name || 'Tanush Natural & Co.', settings.tagline);
     showToast('✓ Brand Identity, Logo, Favicon & Website settings saved everywhere!');
   };
@@ -111,7 +113,7 @@ const SettingsManager = () => {
       <div className="admin-header-actions">
         <div>
           <h2>Brand Identity, Logo & SEO</h2>
-          <p className="text-muted">Single authoritative source of truth for the Tanush Natural logo, favicon, and brand metadata across website & admin panel.</p>
+          <p className="text-muted">Single authoritative source of truth for the Tanush Natural logo, typography, and brand metadata across website & admin panel.</p>
         </div>
       </div>
 
@@ -124,7 +126,7 @@ const SettingsManager = () => {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '24px' }}>
-            {/* Current Logo Preview Card */}
+            {/* Current Logo & Typography Live Preview Card */}
             <div style={{ 
               background: 'rgba(255, 255, 255, 0.85)', 
               borderRadius: '16px', 
@@ -133,24 +135,60 @@ const SettingsManager = () => {
               boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04)'
             }}>
               <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--color-text-light)', textTransform: 'uppercase', marginBottom: '12px' }}>
-                CURRENT LOGO PREVIEW
+                LIVE LOGO &amp; TEXT PREVIEW
               </div>
+
+              {/* Light Mode Preview */}
               <div style={{ 
-                height: '140px', 
                 borderRadius: '12px', 
-                background: 'radial-gradient(circle, #FAF7EE 0%, #FFFFFF 100%)', 
+                background: '#FAF8F5', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center',
                 border: '1px dashed rgba(23, 59, 47, 0.2)',
-                marginBottom: '16px',
-                padding: '12px'
+                marginBottom: '10px',
+                padding: '16px',
+                gap: '12px'
               }}>
                 <img 
-                  src={settings.logo_url || '/images/brand/tanush-logo.png'} 
+                  src={settings.logo_url || '/uploads/1787985113737-Round_LOGO.png'} 
                   alt={settings.logo_alt || 'Logo'} 
-                  style={{ maxHeight: '110px', maxWidth: '100%', objectFit: 'contain', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.06))' }} 
+                  style={{ height: '52px', width: '52px', objectFit: 'contain', borderRadius: '50%', filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.08))' }} 
                 />
+                <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.05 }}>
+                  <span style={{ fontFamily: 'var(--font-serif, "Playfair Display", Georgia, serif)', fontSize: '1.35rem', fontWeight: 800, letterSpacing: '0.04em', color: '#173B2F', textTransform: 'uppercase' }}>
+                    {settings.brand_title || 'TANUSH'}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-serif, "Playfair Display", Georgia, serif)', fontSize: '0.88rem', fontWeight: 700, letterSpacing: '0.05em', color: '#173B2F', textTransform: 'uppercase', marginTop: '2px' }}>
+                    {settings.brand_subtitle || 'NATURAL & CO.'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Dark Mode Preview */}
+              <div style={{ 
+                borderRadius: '12px', 
+                background: '#112219', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                marginBottom: '16px',
+                padding: '16px',
+                gap: '12px'
+              }}>
+                <img 
+                  src={settings.logo_url || '/uploads/1787985113737-Round_LOGO.png'} 
+                  alt={settings.logo_alt || 'Logo'} 
+                  style={{ height: '48px', width: '48px', objectFit: 'contain', borderRadius: '50%' }} 
+                />
+                <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.05 }}>
+                  <span style={{ fontFamily: 'var(--font-serif, "Playfair Display", Georgia, serif)', fontSize: '1.3rem', fontWeight: 800, letterSpacing: '0.04em', color: '#FFFFFF', textTransform: 'uppercase' }}>
+                    {settings.brand_title || 'TANUSH'}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-serif, "Playfair Display", Georgia, serif)', fontSize: '0.84rem', fontWeight: 700, letterSpacing: '0.05em', color: '#E2E8F0', textTransform: 'uppercase', marginTop: '2px' }}>
+                    {settings.brand_subtitle || 'NATURAL & CO.'}
+                  </span>
+                </div>
               </div>
 
               <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
@@ -159,7 +197,7 @@ const SettingsManager = () => {
                   className="btn-admin-primary btn-sm flex-1" 
                   onClick={() => logoInputRef.current?.click()}
                 >
-                  <Upload size={14} /> Upload the data
+                  <Upload size={14} /> Upload Logo
                 </button>
                 <input 
                   type="file" 
@@ -195,6 +233,37 @@ const SettingsManager = () => {
 
             {/* Logo Attributes & Favicon Control */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="form-row">
+                <div className="form-group flex-1">
+                  <label>Brand Header Title (Line 1)</label>
+                  <input 
+                    type="text" 
+                    value={settings.brand_title || ''} 
+                    onChange={(e) => setSettings({ ...settings, brand_title: e.target.value })} 
+                    placeholder="TANUSH"
+                  />
+                </div>
+                <div className="form-group flex-1">
+                  <label>Brand Header Subtitle (Line 2)</label>
+                  <input 
+                    type="text" 
+                    value={settings.brand_subtitle || ''} 
+                    onChange={(e) => setSettings({ ...settings, brand_subtitle: e.target.value })} 
+                    placeholder="NATURAL & CO."
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Full Brand Name</label>
+                <input 
+                  type="text" 
+                  value={settings.brand_name || ''} 
+                  onChange={(e) => setSettings({ ...settings, brand_name: e.target.value })} 
+                  placeholder="Tanush Natural & Co."
+                />
+              </div>
+
               <div className="form-group">
                 <label>Logo Alt Text</label>
                 <input 
@@ -211,7 +280,7 @@ const SettingsManager = () => {
                   <input 
                     type="text" 
                     readOnly 
-                    value={settings.logo_url || '/images/brand/tanush-logo.png'} 
+                    value={settings.logo_url || '/uploads/1787985113737-Round_LOGO.png'} 
                     style={{ background: '#F8FAFC', fontSize: '0.82rem' }} 
                   />
                   <button 
@@ -301,14 +370,6 @@ const SettingsManager = () => {
 
           <div className="form-row">
             <div className="form-group flex-1">
-              <label>Brand / Store Name</label>
-              <input 
-                type="text" 
-                value={settings.brand_name || ''} 
-                onChange={(e) => setSettings({ ...settings, brand_name: e.target.value })} 
-              />
-            </div>
-            <div className="form-group flex-1">
               <label>Currency Symbol</label>
               <input 
                 type="text" 
@@ -316,15 +377,14 @@ const SettingsManager = () => {
                 onChange={(e) => setSettings({ ...settings, currency: e.target.value })} 
               />
             </div>
-          </div>
-
-          <div className="form-group">
-            <label>Brand Tagline</label>
-            <input 
-              type="text" 
-              value={settings.tagline || ''} 
-              onChange={(e) => setSettings({ ...settings, tagline: e.target.value })} 
-            />
+            <div className="form-group flex-1">
+              <label>Brand Tagline</label>
+              <input 
+                type="text" 
+                value={settings.tagline || ''} 
+                onChange={(e) => setSettings({ ...settings, tagline: e.target.value })} 
+              />
+            </div>
           </div>
 
           <div className="form-row">

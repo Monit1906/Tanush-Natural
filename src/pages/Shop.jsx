@@ -11,6 +11,7 @@ import {
   BotanicalWatermark 
 } from '../components/Illustrations/BotanicalIllustrations';
 import { api } from '../lib/db';
+import ShopJourney from '../components/ShopJourney/ShopJourney';
 import './Shop.css';
 
 const Shop = () => {
@@ -24,18 +25,21 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [pageConfig, setPageConfig] = useState(null);
+  const [siteSettings, setSiteSettings] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
-      const [prods, cats, conf] = await Promise.all([
+      const [prods, cats, conf, settings] = await Promise.all([
         api.getProducts(),
         api.getCategories(),
-        api.getPageConfig('shop')
+        api.getPageConfig('shop'),
+        api.getSiteSettings()
       ]);
       setProducts(prods.filter(p => p.is_active !== false));
       setCategories(cats.filter(c => c.is_active !== false));
       if (conf) setPageConfig(conf);
+      if (settings) setSiteSettings(settings);
     } catch (e) {
       console.warn('Failed loading shop data:', e);
     } finally {
@@ -50,12 +54,14 @@ const Shop = () => {
     window.addEventListener('products_updated', handleSync);
     window.addEventListener('categories_updated', handleSync);
     window.addEventListener('page_sections_updated', handleSync);
+    window.addEventListener('site_settings_updated', handleSync);
     window.addEventListener('cms_data_updated', handleSync);
 
     return () => {
       window.removeEventListener('products_updated', handleSync);
       window.removeEventListener('categories_updated', handleSync);
       window.removeEventListener('page_sections_updated', handleSync);
+      window.removeEventListener('site_settings_updated', handleSync);
       window.removeEventListener('cms_data_updated', handleSync);
     };
   }, []);
@@ -76,6 +82,7 @@ const Shop = () => {
   };
 
   const heroSec = getSection('hero');
+  const journeySec = getSection('journey');
   const promoSec = getSection('promotional');
 
   // Handle Category Filter
@@ -126,23 +133,25 @@ const Shop = () => {
         <section className="shop-categories-bar container">
           <h2 className="visually-hidden">Shop by Category</h2>
           <div className="categories-scroll">
-            <div 
-              className={`cat-square-frame cat-circle ${activeCategory === 'all' ? 'active' : ''}`}
-              onClick={() => handleCategoryClick('all')}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && handleCategoryClick('all')}
-            >
-              <div className="cat-img all-products-img">
-                <img 
-                  src="/images/categories/all.jpg" 
-                  alt="All Products"
-                  loading="lazy"
-                  onError={(e) => { e.target.src = '/images/products/vaporizer-machine-1.jpg'; }}
-                />
+            {siteSettings?.all_products_tile?.is_active !== false && (
+              <div 
+                className={`cat-square-frame cat-circle ${activeCategory === 'all' ? 'active' : ''}`}
+                onClick={() => handleCategoryClick('all')}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && handleCategoryClick('all')}
+              >
+                <div className="cat-img all-products-img">
+                  <img 
+                    src={siteSettings?.all_products_tile?.image || '/images/categories/all.jpg'} 
+                    alt={siteSettings?.all_products_tile?.title || 'All Products'}
+                    loading="lazy"
+                    onError={(e) => { e.target.src = '/images/categories/all.jpg'; }}
+                  />
+                </div>
+                <span>{siteSettings?.all_products_tile?.title || 'All Products'}</span>
               </div>
-              <span>All Products</span>
-            </div>
+            )}
 
             {categories.map(cat => (
               <div 
@@ -246,6 +255,11 @@ const Shop = () => {
             )}
           </div>
         </section>
+      )}
+
+      {/* From Nature to Your Home — Premium Storytelling Journey */}
+      {isSectionActive('journey') && (
+        <ShopJourney config={journeySec} />
       )}
 
       {/* Promotional Botanical Quality Strip */}

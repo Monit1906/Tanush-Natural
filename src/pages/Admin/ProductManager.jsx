@@ -24,10 +24,19 @@ import {
   Package,
   ChevronDown,
   MousePointer,
-  Monitor
+  Monitor,
+  Sparkles,
+  Star,
+  Tag,
+  Compass,
+  ImageIcon,
+  ShieldCheck,
+  CheckCircle2,
+  Info
 } from 'lucide-react';
 import MediaPickerModal from '../../components/Admin/MediaPickerModal';
 import './AdminStyles.css';
+import './ProductManager.css';
 
 const ProductManager = () => {
   const navigate = useNavigate();
@@ -812,155 +821,465 @@ const ProductManager = () => {
 
       {/* ── Product Edit / Creation Modal ── */}
       {editingProduct && (
-        <div className="edit-hero-modal-overlay" onClick={() => setEditingProduct(null)}>
-          <div className="edit-hero-modal-container" style={{ maxWidth: '820px' }} onClick={e => e.stopPropagation()}>
-            <div className="edit-hero-header">
-              <div>
-                <h3 className="edit-hero-header-title">
-                  {editingProduct === 'new' ? 'Add New Formulation' : `Edit Formulation: ${formData.name}`}
-                </h3>
-                <p className="edit-hero-header-sub">
-                  Configure botanical attributes, pricing, SKU, stock inventory, and gallery media.
-                </p>
+        <div className="prod-modal-overlay" onClick={() => setEditingProduct(null)}>
+          <div className="prod-modal-container" onClick={e => e.stopPropagation()}>
+            {/* Modal Header */}
+            <div className="prod-modal-header">
+              <div className="prod-modal-header-left">
+                <div className="prod-modal-badge">
+                  <Leaf size={22} />
+                </div>
+                <div>
+                  <h3>{editingProduct === 'new' ? 'Add New Botanical Formulation' : `Edit: ${formData.name || 'Formulation'}`}</h3>
+                  <p>Configure pure botanical actives, pricing matrix, inventory, and high-res media.</p>
+                </div>
               </div>
-              <button className="icon-action-btn" onClick={() => setEditingProduct(null)}>
+              <button 
+                type="button" 
+                className="icon-action-btn" 
+                onClick={() => setEditingProduct(null)}
+                style={{ width: '34px', height: '34px', borderRadius: '10px' }}
+              >
                 <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleSave} className="edit-hero-body" style={{ maxHeight: '72vh', overflowY: 'auto' }}>
-              {/* General details */}
-              <div className="edit-hero-card">
-                <h4 className="edit-hero-card-title">General Information</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '12px' }}>
-                  <div className="form-group">
-                    <label>Product Name *</label>
-                    <input type="text" name="name" value={formData.name || ''} onChange={handleChange} required />
+            <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+              <div className="prod-modal-body">
+                {/* Left Column: Formulation Settings */}
+                <div className="prod-form-column">
+                  {/* 1. General Essentials */}
+                  <div className="prod-section-card">
+                    <div className="prod-section-header">
+                      <div className="prod-section-icon">
+                        <Tag size={15} />
+                      </div>
+                      <h4 className="prod-section-title">Formulation Essentials</h4>
+                    </div>
+
+                    <div className="prod-form-group">
+                      <label className="prod-form-label">
+                        <span>Formulation Title / Name *</span>
+                        <span className="label-hint">Primary customer-facing name</span>
+                      </label>
+                      <input 
+                        type="text" 
+                        name="name" 
+                        required 
+                        className="prod-input"
+                        placeholder="e.g. Pure Aloe Vera Soothing Gel"
+                        value={formData.name || ''} 
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          const autoSlug = val.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+                          setFormData(prev => ({
+                            ...prev,
+                            name: val,
+                            slug: editingProduct === 'new' && (!prev.slug || prev.slug === '') ? autoSlug : prev.slug
+                          }));
+                        }} 
+                      />
+                    </div>
+
+                    <div className="prod-grid-2">
+                      <div className="prod-form-group">
+                        <label className="prod-form-label">
+                          <span>SKU Code</span>
+                          <span className="label-hint">Inventory identifier</span>
+                        </label>
+                        <input 
+                          type="text" 
+                          name="sku" 
+                          className="prod-input"
+                          placeholder="e.g. TN-ALOE-01"
+                          value={formData.sku || ''} 
+                          onChange={handleChange} 
+                        />
+                      </div>
+
+                      <div className="prod-form-group">
+                        <label className="prod-form-label">
+                          <span>Category *</span>
+                          <span className="label-hint">Product collection</span>
+                        </label>
+                        <select 
+                          name="category" 
+                          className="prod-select"
+                          value={formData.category || ''} 
+                          onChange={handleChange}
+                        >
+                          {categories.map(c => (
+                            <option key={c.id} value={c.slug || c.id}>{c.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="prod-form-group">
+                      <label className="prod-form-label">
+                        <span>URL Slug (Page Route) *</span>
+                        <span className="label-hint">Unique link address</span>
+                      </label>
+                      <div className="prod-slug-wrapper">
+                        <span className="prod-slug-prefix">tanushnatural.com/products/</span>
+                        <input 
+                          type="text" 
+                          name="slug" 
+                          required 
+                          className="prod-slug-input"
+                          placeholder="pure-aloe-vera-gel"
+                          value={formData.slug || ''} 
+                          onChange={(e) => setFormData({ ...formData, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]+/g, '') })} 
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <label>SKU Code</label>
-                    <input type="text" name="sku" value={formData.sku || ''} onChange={handleChange} />
+
+                  {/* 2. Pricing & Stock Inventory */}
+                  <div className="prod-section-card">
+                    <div className="prod-section-header">
+                      <div className="prod-section-icon">
+                        <ShoppingBag size={15} />
+                      </div>
+                      <h4 className="prod-section-title">Pricing &amp; Inventory Matrix</h4>
+                    </div>
+
+                    <div className="prod-grid-3">
+                      <div className="prod-form-group">
+                        <label className="prod-form-label">
+                          <span>Selling Price (₹) *</span>
+                        </label>
+                        <div className="prod-currency-wrapper">
+                          <span className="prod-currency-symbol">₹</span>
+                          <input 
+                            type="number" 
+                            step="1" 
+                            min="0" 
+                            name="price" 
+                            required 
+                            className="prod-input prod-currency-input"
+                            value={formData.price ?? ''} 
+                            onChange={handleChange} 
+                          />
+                        </div>
+                      </div>
+
+                      <div className="prod-form-group">
+                        <label className="prod-form-label">
+                          <span>Compare MRP (₹)</span>
+                        </label>
+                        <div className="prod-currency-wrapper">
+                          <span className="prod-currency-symbol">₹</span>
+                          <input 
+                            type="number" 
+                            step="1" 
+                            min="0" 
+                            name="compareAtPrice" 
+                            className="prod-input prod-currency-input"
+                            value={formData.compareAtPrice ?? ''} 
+                            onChange={handleChange} 
+                          />
+                        </div>
+                      </div>
+
+                      <div className="prod-form-group">
+                        <label className="prod-form-label">
+                          <span>Stock Inventory (Units) *</span>
+                        </label>
+                        <input 
+                          type="number" 
+                          min="0" 
+                          name="stock" 
+                          required 
+                          className="prod-input"
+                          value={formData.stock ?? ''} 
+                          onChange={handleChange} 
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3. Botanical Actives & Heritage */}
+                  <div className="prod-section-card">
+                    <div className="prod-section-header">
+                      <div className="prod-section-icon">
+                        <Sparkles size={15} />
+                      </div>
+                      <h4 className="prod-section-title">Botanical Heritage &amp; Descriptions</h4>
+                    </div>
+
+                    <div className="prod-form-group">
+                      <label className="prod-form-label">
+                        <span>Short Summary Description</span>
+                        <span className="label-hint">Shown on listing cards</span>
+                      </label>
+                      <input 
+                        type="text" 
+                        name="shortDescription" 
+                        className="prod-input"
+                        placeholder="e.g. Cold-pressed, 99% pure organic aloe vera gel for intense hydration."
+                        value={formData.shortDescription || ''} 
+                        onChange={handleChange} 
+                      />
+                    </div>
+
+                    <div className="prod-form-group">
+                      <label className="prod-form-label">
+                        <span>Full Formulation Narrative</span>
+                        <span className="label-hint">Comprehensive detail section</span>
+                      </label>
+                      <textarea 
+                        name="description" 
+                        rows={3} 
+                        className="prod-textarea"
+                        placeholder="Detailed formulation story, ancient Ayurvedic harvesting practices, and therapeutic benefits..."
+                        value={formData.description || ''} 
+                        onChange={handleChange} 
+                      />
+                    </div>
+
+                    <div className="prod-form-group">
+                      <label className="prod-form-label">
+                        <span>Botanical Key Benefits (1 Benefit Per Line)</span>
+                        <span className="label-hint">Highlighted with green checks</span>
+                      </label>
+                      <textarea 
+                        name="benefitsText" 
+                        rows={3} 
+                        className="prod-textarea"
+                        placeholder="99% Pure Organic Aloe Vera&#10;Deep Cellular Hydration&#10;Soothes Sunburn &amp; Irritation"
+                        value={formData.benefitsText || ''} 
+                        onChange={handleChange} 
+                      />
+                    </div>
+
+                    <div className="prod-grid-2">
+                      <div className="prod-form-group">
+                        <label className="prod-form-label">
+                          <span>Ingredients</span>
+                          <span className="label-hint">Active plant actives</span>
+                        </label>
+                        <input 
+                          type="text" 
+                          name="ingredients" 
+                          className="prod-input"
+                          placeholder="e.g. Organic Aloe Vera, Vitamin E, Rosemary Extract"
+                          value={formData.ingredients || ''} 
+                          onChange={handleChange} 
+                        />
+                      </div>
+
+                      <div className="prod-form-group">
+                        <label className="prod-form-label">
+                          <span>How to Use / Ritual</span>
+                          <span className="label-hint">Application guide</span>
+                        </label>
+                        <input 
+                          type="text" 
+                          name="howToUse" 
+                          className="prod-input"
+                          placeholder="e.g. Apply evenly over face and neck daily morning and night."
+                          value={formData.howToUse || ''} 
+                          onChange={handleChange} 
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 4. Badges & Storefront Visibility */}
+                  <div className="prod-section-card">
+                    <div className="prod-section-header">
+                      <div className="prod-section-icon">
+                        <ShieldCheck size={15} />
+                      </div>
+                      <h4 className="prod-section-title">Storefront Badges &amp; Status</h4>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <div className={`prod-toggle-card ${formData.is_active !== false ? 'active' : ''}`}>
+                        <div className="prod-toggle-meta">
+                          <span className="prod-toggle-title">Published &amp; Active on Storefront</span>
+                          <span className="prod-toggle-desc">Customers can discover and purchase this formulation.</span>
+                        </div>
+                        <label className="cat-switch">
+                          <input 
+                            type="checkbox" 
+                            name="is_active" 
+                            checked={formData.is_active !== false} 
+                            onChange={handleChange} 
+                          />
+                          <span className="cat-switch-slider"></span>
+                        </label>
+                      </div>
+
+                      <div className={`prod-toggle-card ${formData.isFeatured ? 'active' : ''}`}>
+                        <div className="prod-toggle-meta">
+                          <span className="prod-toggle-title">Spotlight as Featured Formulation</span>
+                          <span className="prod-toggle-desc">Highlights this product on the home collections showcase.</span>
+                        </div>
+                        <label className="cat-switch">
+                          <input 
+                            type="checkbox" 
+                            name="isFeatured" 
+                            checked={formData.isFeatured || false} 
+                            onChange={handleChange} 
+                          />
+                          <span className="cat-switch-slider"></span>
+                        </label>
+                      </div>
+
+                      <div className={`prod-toggle-card ${formData.isBestSeller ? 'active' : ''}`}>
+                        <div className="prod-toggle-meta">
+                          <span className="prod-toggle-title">Award "Best Seller" Botanical Ribbon</span>
+                          <span className="prod-toggle-desc">Renders an elegant golden ribbon badge on the product card.</span>
+                        </div>
+                        <label className="cat-switch">
+                          <input 
+                            type="checkbox" 
+                            name="isBestSeller" 
+                            checked={formData.isBestSeller || false} 
+                            onChange={handleChange} 
+                          />
+                          <span className="cat-switch-slider"></span>
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '10px' }}>
-                  <div className="form-group">
-                    <label>Slug (URL Key) *</label>
-                    <input type="text" name="slug" value={formData.slug || ''} onChange={handleChange} required />
-                  </div>
-                  <div className="form-group">
-                    <label>Category *</label>
-                    <select name="category" value={formData.category || ''} onChange={handleChange}>
-                      {categories.map(c => (
-                        <option key={c.id} value={c.slug || c.id}>{c.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
+                {/* Right Column: Visual Media & Live Card Simulator */}
+                <div className="prod-media-column">
+                  {/* Gallery Uploader */}
+                  <div className="prod-gallery-panel">
+                    <div className="prod-gallery-header">
+                      <h4>Formulation Media Gallery</h4>
+                      <span style={{ fontSize: '0.74rem', color: '#637365' }}>
+                        {(formData.images || []).length} Image{(formData.images || []).length !== 1 ? 's' : ''}
+                      </span>
+                    </div>
 
-              {/* Pricing & Stock */}
-              <div className="edit-hero-card">
-                <h4 className="edit-hero-card-title">Pricing &amp; Inventory</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
-                  <div className="form-group">
-                    <label>Price (₹) *</label>
-                    <input type="number" step="0.01" name="price" value={formData.price ?? ''} onChange={handleChange} required />
-                  </div>
-                  <div className="form-group">
-                    <label>Compare at Price (₹)</label>
-                    <input type="number" step="0.01" name="compareAtPrice" value={formData.compareAtPrice ?? ''} onChange={handleChange} />
-                  </div>
-                  <div className="form-group">
-                    <label>Stock Inventory (Units) *</label>
-                    <input type="number" name="stock" value={formData.stock ?? ''} onChange={handleChange} required />
-                  </div>
-                </div>
-              </div>
-
-              {/* Descriptions & Botanical Attributes */}
-              <div className="edit-hero-card">
-                <h4 className="edit-hero-card-title">Botanical Descriptions &amp; Benefits</h4>
-                <div className="form-group" style={{ marginBottom: '10px' }}>
-                  <label>Short Description</label>
-                  <input type="text" name="shortDescription" value={formData.shortDescription || ''} onChange={handleChange} />
-                </div>
-                <div className="form-group" style={{ marginBottom: '10px' }}>
-                  <label>Full Description</label>
-                  <textarea name="description" rows="3" value={formData.description || ''} onChange={handleChange} />
-                </div>
-                <div className="form-group" style={{ marginBottom: '10px' }}>
-                  <label>Botanical Benefits (1 per line)</label>
-                  <textarea name="benefitsText" rows="3" value={formData.benefitsText || ''} onChange={handleChange} />
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <div className="form-group">
-                    <label>Ingredients</label>
-                    <input type="text" name="ingredients" value={formData.ingredients || ''} onChange={handleChange} />
-                  </div>
-                  <div className="form-group">
-                    <label>How to Use</label>
-                    <input type="text" name="howToUse" value={formData.howToUse || ''} onChange={handleChange} />
-                  </div>
-                </div>
-              </div>
-
-              {/* Product Gallery Images */}
-              <div className="edit-hero-card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                  <h4 className="edit-hero-card-title" style={{ margin: 0 }}>Product Images Gallery</h4>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button type="button" className="btn-admin-secondary" onClick={() => setShowMediaPicker(true)} style={{ padding: '4px 8px', fontSize: '0.72rem' }}>
-                      <FolderOpen size={12} /> Media Library
-                    </button>
-                    <button type="button" className="btn-admin-secondary" onClick={() => fileInputRef.current?.click()} style={{ padding: '4px 8px', fontSize: '0.72rem' }}>
-                      <Upload size={12} /> Upload
-                    </button>
-                    <input type="file" ref={fileInputRef} onChange={(e) => handleFileUpload(e.target.files)} multiple accept="image/*" style={{ display: 'none' }} />
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '8px' }}>
-                  {(formData.images || []).map((img, idx) => (
-                    <div key={idx} style={{ position: 'relative', width: '70px', height: '70px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(23, 59, 47, 0.15)' }}>
-                      <img src={img} alt="Product preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <div className="prod-gallery-actions">
                       <button 
                         type="button" 
-                        onClick={() => handleRemoveImage(idx)} 
-                        style={{ position: 'absolute', top: '2px', right: '2px', width: '18px', height: '18px', borderRadius: '50%', background: 'rgba(0,0,0,0.6)', color: '#FFFFFF', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                        className="btn-admin-primary btn-sm" 
+                        onClick={() => fileInputRef.current?.click()}
                       >
-                        <X size={10} />
+                        <Upload size={13} /> Upload Photos
+                      </button>
+                      <input 
+                        type="file" 
+                        ref={fileInputRef} 
+                        onChange={(e) => handleFileUpload(e.target.files)} 
+                        multiple 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                      />
+
+                      <button 
+                        type="button" 
+                        className="btn-admin-secondary btn-sm" 
+                        onClick={() => setShowMediaPicker(true)}
+                      >
+                        <FolderOpen size={13} /> Media Library
                       </button>
                     </div>
-                  ))}
+
+                    <div className="prod-gallery-grid">
+                      {(formData.images || []).map((img, idx) => (
+                        <div 
+                          key={idx} 
+                          className={`prod-gallery-item ${idx === 0 ? 'primary-thumb' : ''}`}
+                          title={idx === 0 ? 'Primary Display Photo' : 'Gallery Thumbnail'}
+                        >
+                          <img 
+                            src={img} 
+                            alt={`Photo ${idx + 1}`} 
+                            onError={e => { e.target.src = '/images/products/product-1.jpg'; }}
+                          />
+                          {idx === 0 && (
+                            <span className="prod-primary-badge">Main</span>
+                          )}
+                          <button 
+                            type="button" 
+                            className="prod-remove-img-btn"
+                            title="Remove photo"
+                            onClick={() => handleRemoveImage(idx)} 
+                          >
+                            <X size={11} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Storefront Product Card Miniature Live Simulator */}
+                  <div className="prod-gallery-panel" style={{ background: '#FFFFFF' }}>
+                    <div className="prod-gallery-header" style={{ marginBottom: '8px' }}>
+                      <span style={{ fontSize: '0.74rem', fontWeight: 800, letterSpacing: '0.08em', color: '#637365', textTransform: 'uppercase' }}>
+                        Live Storefront Card Preview
+                      </span>
+                      <Compass size={16} color="#173B2F" />
+                    </div>
+
+                    <div className="prod-live-card-sim">
+                      <div className="sim-prod-image-wrap">
+                        <img 
+                          src={formData.images?.[0] || '/images/products/product-1.jpg'} 
+                          alt={formData.name || 'Product'} 
+                          onError={e => { e.target.src = '/images/products/product-1.jpg'; }}
+                        />
+                        <span className="sim-prod-category-badge">
+                          {categories.find(c => (c.slug || c.id) === formData.category)?.name || formData.category || 'Botanical'}
+                        </span>
+                        {formData.isBestSeller && (
+                          <span className="sim-prod-ribbon">Best Seller</span>
+                        )}
+                      </div>
+
+                      <div className="sim-prod-body">
+                        <h4 className="sim-prod-title">
+                          {formData.name || 'Untitled Botanical Formulation'}
+                        </h4>
+
+                        <div className="sim-prod-rating">
+                          <span>★ 4.9</span>
+                          <span style={{ color: '#A0AEC0', fontWeight: 500 }}>(38 reviews)</span>
+                        </div>
+
+                        <div className="sim-prod-price-row">
+                          <span className="sim-prod-price">₹{formData.price || 0}</span>
+                          {formData.compareAtPrice && Number(formData.compareAtPrice) > Number(formData.price) && (
+                            <>
+                              <span className="sim-prod-compare-price">₹{formData.compareAtPrice}</span>
+                              <span className="sim-prod-discount-badge">
+                                {Math.round(((Number(formData.compareAtPrice) - Number(formData.price)) / Number(formData.compareAtPrice)) * 100)}% OFF
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        <button type="button" className="sim-prod-add-btn">
+                          Add to Cart
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Status & Badges */}
-              <div className="edit-hero-card">
-                <h4 className="edit-hero-card-title">Status &amp; Badges</h4>
-                <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.82rem' }}>
-                    <input type="checkbox" name="is_active" checked={formData.is_active !== false} onChange={handleChange} />
-                    <span>Published (Active on Store)</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.82rem' }}>
-                    <input type="checkbox" name="isFeatured" checked={formData.isFeatured || false} onChange={handleChange} />
-                    <span>Featured Product</span>
-                  </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.82rem' }}>
-                    <input type="checkbox" name="isBestSeller" checked={formData.isBestSeller || false} onChange={handleChange} />
-                    <span>Best Seller</span>
-                  </label>
-                </div>
-              </div>
-
-              {/* Modal Footer */}
-              <div className="edit-hero-footer" style={{ margin: '10px -20px -20px', padding: '14px 20px' }}>
-                <button type="button" className="btn-admin-secondary" onClick={() => setEditingProduct(null)}>
+              {/* Modal Action Sticky Footer */}
+              <div className="prod-modal-footer">
+                <button 
+                  type="button" 
+                  className="btn-admin-secondary" 
+                  onClick={() => setEditingProduct(null)}
+                >
                   Cancel
                 </button>
-                <button type="submit" className="btn-admin-primary">
+                <button 
+                  type="submit" 
+                  className="btn-admin-primary"
+                >
                   <Check size={16} /> Save Formulation
                 </button>
               </div>

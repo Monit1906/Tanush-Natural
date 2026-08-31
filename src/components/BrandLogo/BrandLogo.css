@@ -1,89 +1,255 @@
-/* Universal Brand Logo Component Styles */
+/* ============================================================
+   UNIVERSAL BRAND LOGO & TYPOGRAPHY COMPONENT STYLES
+   ============================================================ */
+
 .global-brand-logo-wrap {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
   text-decoration: none;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
 }
 
 .global-brand-logo-wrap:hover {
-  transform: scale(1.02);
+  transform: translateY(-1px);
+}
+
+/* LOGO MARK CIRCLE */
+.global-brand-logo-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .global-brand-logo-img {
   object-fit: contain;
   display: block;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
 }
 
-/* Variant Sizes */
+.global-logo-fallback-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #173B2F;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* BRAND TEXT BLOCK (TWO-LINE SERIF TYPOGRAPHY) */
+.global-brand-text-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  line-height: 1.05;
+}
+
+.global-brand-text-block .brand-text-title {
+  font-family: var(--font-serif, "Playfair Display", "Times New Roman", Georgia, serif);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: block;
+}
+
+.global-brand-text-block .brand-text-subtitle {
+  font-family: var(--font-serif, "Playfair Display", "Times New Roman", Georgia, serif);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 2px;
+}
+
+/* ============================================================
+   VARIANT-SPECIFIC SIZING & PALETTES
+   ============================================================ */
+
+/* 1. PUBLIC HEADER NAVBAR */
+.logo-variant-header {
+  gap: 11px;
+}
+
 .img-header {
-  height: 48px;
-  width: auto;
-  max-width: 140px;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.06));
+  height: 46px;
+  width: 46px;
+  filter: drop-shadow(0 2px 8px rgba(23, 59, 47, 0.12));
+}
+
+.text-header .brand-text-title {
+  font-size: 1.28rem;
+  color: #173B2F;
+}
+
+.text-header .brand-text-subtitle {
+  font-size: 0.84rem;
+  color: #173B2F;
+}
+
+/* 2. PUBLIC FOOTER */
+.logo-variant-footer {
+  gap: 13px;
 }
 
 .img-footer {
-  height: 64px;
-  width: auto;
-  max-width: 160px;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
+  height: 52px;
+  width: 52px;
+  filter: drop-shadow(0 2px 8px rgba(23, 59, 47, 0.12));
+}
+
+.text-footer .brand-text-title {
+  font-size: 1.38rem;
+  color: #173B2F;
+}
+
+.text-footer .brand-text-subtitle {
+  font-size: 0.90rem;
+  color: #2F6B43;
+}
+
+/* 3. ADMIN SIDEBAR */
+.logo-variant-admin-sidebar {
+  gap: 10px;
+  align-items: center;
 }
 
 .img-admin-sidebar {
-  height: 42px;
-  width: 42px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(23, 59, 47, 0.12));
 }
 
-.img-admin-topbar {
-  height: 28px;
-  width: 28px;
-  border-radius: 50%;
+.text-admin-sidebar .brand-text-title {
+  font-family: var(--font-serif, "Playfair Display", "Times New Roman", Georgia, serif);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #173B2F;
+  line-height: 1.05;
+  text-transform: uppercase;
 }
 
-.img-admin-login {
-  height: 84px;
-  width: 84px;
-  border-radius: 50%;
-  margin: 0 auto;
-  box-shadow: 0 8px 24px rgba(23, 59, 47, 0.15);
+.text-admin-sidebar .brand-text-subtitle {
+  font-family: var(--font-serif, "Playfair Display", "Times New Roman", Georgia, serif);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #173B2F;
+  line-height: 1.1;
+  text-transform: uppercase;
+  margin-top: 2px;
 }
 
-.img-account {
-  height: 64px;
-  width: 64px;
-  border-radius: 50%;
-  margin: 0 auto 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
-.img-cart {
-  height: 36px;
-  width: auto;
-  max-width: 100px;
-}
-
-.global-logo-fallback {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* 4. ADMIN LOGIN SCREEN */
+.logo-variant-admin-login {
+  gap: 16px;
   justify-content: center;
 }
 
-.global-logo-fallback .logo-main {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--color-primary);
+.img-admin-login {
+  height: 64px;
+  width: 64px;
+  box-shadow: 0 6px 20px rgba(23, 59, 47, 0.18);
 }
 
-.global-logo-fallback .logo-sub {
-  font-family: var(--font-sans);
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
-  color: var(--color-accent);
+.text-admin-login .brand-text-title {
+  font-size: 1.55rem;
+  color: #173B2F;
 }
+
+.text-admin-login .brand-text-subtitle {
+  font-size: 1.0rem;
+  color: #2F6B43;
+}
+
+/* 5. CUSTOMER ACCOUNT */
+.logo-variant-account {
+  gap: 12px;
+  justify-content: center;
+}
+
+.img-account {
+  height: 54px;
+  width: 54px;
+  box-shadow: 0 4px 14px rgba(23, 59, 47, 0.12);
+}
+
+.text-account .brand-text-title {
+  font-size: 1.3rem;
+  color: #173B2F;
+}
+
+.text-account .brand-text-subtitle {
+  font-size: 0.86rem;
+  color: #2F6B43;
+}
+
+/* 6. CART DRAWER */
+.logo-variant-cart {
+  gap: 10px;
+}
+
+.img-cart {
+  height: 38px;
+  width: 38px;
+}
+
+.text-cart .brand-text-title {
+  font-size: 1.1rem;
+  color: #173B2F;
+}
+
+.text-cart .brand-text-subtitle {
+  font-size: 0.74rem;
+  color: #173B2F;
+}
+
+/* 7. PREVIEW BOX IN ADMIN SETTINGS */
+.logo-variant-settings-preview {
+  gap: 14px;
+}
+
+.img-settings-preview {
+  height: 58px;
+  width: 58px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.12));
+}
+
+.text-settings-preview .brand-text-title {
+  font-size: 1.45rem;
+  color: inherit;
+}
+
+.text-settings-preview .brand-text-subtitle {
+  font-size: 0.95rem;
+  color: inherit;
+}
+
+/* MOBILE RESPONSIVE TWEAKS */
+@media (max-width: 768px) {
+  .logo-variant-header {
+    gap: 8px;
+  }
+  .img-header {
+    height: 38px;
+    width: 38px;
+  }
+  .text-header .brand-text-title {
+    font-size: 1.05rem;
+  }
+  .text-header .brand-text-subtitle {
+    font-size: 0.68rem;
+  }
+}
+

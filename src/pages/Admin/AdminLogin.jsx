@@ -41,11 +41,13 @@ const AdminLogin = () => {
     <div className="admin-login-page">
       <div className="admin-login-card glass-panel">
         <div className="admin-login-brand">
-          <div style={{ marginBottom: '16px' }}>
+          <div style={{ marginBottom: '14px' }}>
             <BrandLogo variant="admin-login" />
           </div>
-          <h2>Tanush Natural CMS</h2>
-          <p className="text-muted text-sm">Protected Management & Content Control Center</p>
+          <span style={{ display: 'inline-block', fontSize: '0.74rem', fontWeight: 700, letterSpacing: '0.1em', color: '#2F6B43', background: 'rgba(47, 107, 67, 0.08)', padding: '4px 12px', borderRadius: '20px', marginBottom: '6px' }}>
+            MANAGEMENT CMS
+          </span>
+          <p className="text-muted text-sm" style={{ margin: 0 }}>Protected Management &amp; Content Control Center</p>
         </div>
         
         {error && <div className="admin-login-error">{error}</div>}

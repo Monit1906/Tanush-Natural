@@ -1,0 +1,313 @@
+/* ============================================================
+   TANUSH NATURAL — "FROM NATURE TO YOUR HOME" JOURNEY SECTION
+   Compact, Editorial, Botanical Storytelling Strip
+   ============================================================ */
+
+.shop-journey-section {
+  position: relative;
+  margin: 36px auto 28px;
+  padding: 32px 28px 28px;
+  background-color: #FAF8F5;
+  border-radius: 20px;
+  border: 1px solid rgba(23, 59, 47, 0.08);
+  box-shadow: 0 4px 20px rgba(23, 59, 47, 0.02);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* 1. EDITORIAL HEADER BLOCK */
+.journey-header-block {
+  text-align: center;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.journey-eyebrow {
+  display: inline-block;
+  font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2F6B43;
+  margin-bottom: 4px;
+}
+
+.journey-heading {
+  font-family: var(--font-serif, "Playfair Display", "Times New Roman", Georgia, serif);
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #173B2F;
+  letter-spacing: 0.03em;
+  line-height: 1.15;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.journey-subheading {
+  font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 0.86rem;
+  color: #556B5C;
+  margin: 6px auto 0;
+  max-width: 540px;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+/* 2. CONTINUOUS JOURNEY TRACK */
+.journey-track-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Continuous Botanical Stem (Desktop) */
+.journey-botanical-stem-line {
+  position: absolute;
+  top: 22px;
+  left: 8%;
+  right: 8%;
+  height: 24px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.stem-svg-line {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* 3. 4-STAGE GRID */
+.journey-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.journey-step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 8px;
+}
+
+.journey-step-item.align-left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.journey-step-item.align-right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* 4. BOTANICAL STEP NODE / ICON */
+.journey-step-node {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.journey-step-item:hover .journey-step-node {
+  transform: translateY(-2px);
+}
+
+.journey-icon-capsule {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid rgba(47, 107, 67, 0.16);
+  box-shadow: 0 2px 10px rgba(23, 59, 47, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.journey-step-item:hover .journey-icon-capsule {
+  border-color: rgba(47, 107, 67, 0.35);
+  box-shadow: 0 4px 14px rgba(23, 59, 47, 0.08);
+}
+
+.journey-icon-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.journey-custom-illustration {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Scale Variants */
+.journey-step-node.scale-sm .journey-icon-capsule {
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+}
+
+.journey-step-node.scale-lg .journey-icon-capsule {
+  width: 52px;
+  height: 52px;
+  padding: 10px;
+}
+
+/* 5. TYPOGRAPHY CONTENT BLOCK */
+.journey-step-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.journey-step-number-label {
+  font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #2F6B43;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.journey-step-title {
+  font-family: var(--font-serif, "Playfair Display", "Times New Roman", Georgia, serif);
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #173B2F;
+  margin: 0 0 4px;
+  line-height: 1.25;
+}
+
+.journey-step-desc {
+  font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 0.78rem;
+  color: #556B5C;
+  line-height: 1.45;
+  margin: 0 auto;
+  max-width: 220px;
+  font-weight: 400;
+}
+
+/* 6. RESPONSIVE BREAKPOINTS */
+
+/* Tablet (max-width: 992px) */
+@media (max-width: 992px) {
+  .shop-journey-section {
+    padding: 26px 20px 22px;
+    margin: 28px auto 20px;
+  }
+
+  .journey-heading {
+    font-size: 1.35rem;
+  }
+
+  .journey-steps-grid {
+    gap: 14px;
+  }
+
+  .journey-step-title {
+    font-size: 0.90rem;
+  }
+
+  .journey-step-desc {
+    font-size: 0.75rem;
+    max-width: 180px;
+  }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  .shop-journey-section {
+    padding: 24px 18px 20px;
+    margin: 24px auto 16px;
+    border-radius: 16px;
+  }
+
+  .journey-heading {
+    font-size: 1.25rem;
+  }
+
+  .journey-subheading {
+    font-size: 0.82rem;
+  }
+
+  /* Transform into vertical botanical storytelling timeline on Mobile */
+  .journey-botanical-stem-line {
+    display: none;
+  }
+
+  .journey-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    position: relative;
+    padding-left: 12px;
+  }
+
+  /* Vertical botanical vine connecting dots on mobile */
+  .journey-steps-grid::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    bottom: 24px;
+    left: 35px;
+    width: 1.5px;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(47, 107, 67, 0.3) 0,
+      rgba(47, 107, 67, 0.3) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+    z-index: 1;
+  }
+
+  .journey-step-item {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 16px;
+    padding: 0;
+  }
+
+  .journey-step-item.align-left,
+  .journey-step-item.align-right {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .journey-step-node {
+    margin-bottom: 0;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .journey-step-text {
+    text-align: left;
+    padding-top: 2px;
+  }
+
+  .journey-step-desc {
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}

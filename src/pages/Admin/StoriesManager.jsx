@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { api } from '../../lib/db';
-import { resolveReelVideoUrl, isValidVideoSource, getVideoMimeType } from '../../lib/mediaResolver';
+import { resolveReelVideoUrl, resolveReelPosterUrl, isValidVideoSource, getVideoMimeType } from '../../lib/mediaResolver';
 import { 
   Plus, 
   Edit2, 
@@ -260,9 +260,9 @@ const StoriesManager = () => {
                       title="Click to Preview"
                     >
                       {hasValidVideo ? (
-                        <video src={videoUrl} muted playsInline preload="metadata" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <video src={videoUrl} poster={resolveReelPosterUrl(story)} muted playsInline preload="metadata" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (
-                        <img src={story.image} alt={story.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.target.src = 'https://placehold.co/100x140?text=Reel'; }} />
+                        <img src={resolveReelPosterUrl(story)} alt={story.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.target.src = 'https://placehold.co/100x140?text=Reel'; }} />
                       )}
                       <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.3)' }}>
                         <Play size={14} fill="#fff" color="#fff" />
@@ -387,6 +387,7 @@ const StoriesManager = () => {
                   autoPlay 
                   loop 
                   muted 
+                  poster={resolveReelPosterUrl(previewDrawerStory)}
                   playsInline 
                   controls
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
@@ -395,7 +396,7 @@ const StoriesManager = () => {
                 </video>
               ) : (
                 <img 
-                  src={previewDrawerStory.image} 
+                  src={resolveReelPosterUrl(previewDrawerStory)} 
                   alt={previewDrawerStory.title} 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                 />
@@ -435,11 +436,11 @@ const StoriesManager = () => {
                     marginBottom: '10px'
                   }}>
                     {currentStory.video_url && isValidVideoSource(currentStory.video_url) ? (
-                      <video src={currentStory.video_url} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
+                      <video src={currentStory.video_url} poster={resolveReelPosterUrl(currentStory)} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
                         <source src={currentStory.video_url} type={getVideoMimeType(currentStory.video_url)} />
                       </video>
                     ) : (
-                      <img src={currentStory.image || 'https://placehold.co/400x600?text=Poster'} alt="Poster Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={resolveReelPosterUrl(currentStory)} alt="Poster Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     )}
                     {uploading && (
                       <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.8rem', gap: '8px' }}>

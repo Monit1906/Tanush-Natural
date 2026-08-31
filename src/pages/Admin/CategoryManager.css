@@ -1,0 +1,556 @@
+/* ==========================================================================
+   CATEGORY MANAGER — LUXURY BOTANICAL ADMIN STYLING
+   ========================================================================= */
+
+.category-manager-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Header & Stat KPIs */
+.category-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.category-stat-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(23, 59, 47, 0.08);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(23, 59, 47, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(23, 59, 47, 0.06);
+}
+
+.category-stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(23, 59, 47, 0.06);
+  color: #173B2F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.category-stat-icon.green {
+  background: rgba(47, 107, 67, 0.1);
+  color: #2F6B43;
+}
+
+.category-stat-icon.gold {
+  background: rgba(180, 130, 40, 0.1);
+  color: #B48228;
+}
+
+.category-stat-info h4 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #637365;
+  text-transform: uppercase;
+  margin: 0 0 4px 0;
+}
+
+.category-stat-info .stat-number {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #173B2F;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   GLOBAL "ALL PRODUCTS" SQUIRCLE CARD CUSTOMIZER PANEL
+   ========================================================================== */
+.all-products-customizer-banner {
+  background: linear-gradient(135deg, #FAF8F5 0%, #FFFFFF 100%);
+  border: 1.5px solid rgba(23, 59, 47, 0.12);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 20px rgba(23, 59, 47, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+@media (max-width: 900px) {
+  .all-products-customizer-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.all-products-info-side {
+  flex: 1;
+}
+
+.all-products-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(23, 59, 47, 0.08);
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #173B2F;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.all-products-info-side h3 {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #173B2F;
+  margin: 0 0 6px 0;
+}
+
+.all-products-info-side p {
+  font-size: 0.84rem;
+  color: #637365;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+  max-width: 540px;
+}
+
+.all-products-card-preview-side {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+/* Authentic Squircle Tile Simulator Matching Shop Page */
+.admin-squircle-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: #FFFFFF;
+  padding: 16px 20px;
+  border-radius: 24px;
+  box-shadow: 0 6px 24px rgba(23, 59, 47, 0.08);
+  border: 1px solid rgba(23, 59, 47, 0.06);
+}
+
+.admin-squircle-frame {
+  width: 140px;
+  height: 140px;
+  border-radius: 28px;
+  background-color: #FFFFFF;
+  border: 2.5px solid #173B2F;
+  box-shadow: 0 8px 24px rgba(23, 59, 47, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.admin-squircle-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 25px;
+}
+
+.admin-squircle-label {
+  font-family: var(--font-sans, "Outfit", sans-serif);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #173B2F;
+  text-align: center;
+}
+
+/* Edit / Create Form Master Card */
+.category-editor-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(23, 59, 47, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(23, 59, 47, 0.05);
+  overflow: hidden;
+  margin-bottom: 32px;
+  animation: catFadeSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes catFadeSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.category-editor-header {
+  padding: 22px 28px;
+  background: linear-gradient(to right, #FAF8F5, #FFFFFF);
+  border-bottom: 1px solid rgba(23, 59, 47, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-editor-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.category-editor-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #173B2F;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(23, 59, 47, 0.2);
+}
+
+.category-editor-title-wrap h3 {
+  font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #173B2F;
+  margin: 0 0 2px 0;
+}
+
+.category-editor-title-wrap p {
+  font-size: 0.82rem;
+  color: #637365;
+  margin: 0;
+}
+
+/* Two-Column Editor Layout */
+.category-editor-body {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  padding: 28px;
+}
+
+@media (max-width: 1024px) {
+  .category-editor-body {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.editor-form-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Form Groups & Inputs */
+.cat-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cat-form-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #243328;
+  letter-spacing: 0.02em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cat-form-label .label-hint {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: #8C998B;
+}
+
+.cat-input-text,
+.cat-textarea {
+  width: 100%;
+  padding: 11px 15px;
+  font-size: 0.88rem;
+  color: #173B2F;
+  background: #FAF8F5;
+  border: 1.5px solid rgba(23, 59, 47, 0.12);
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.cat-input-text:focus,
+.cat-textarea:focus {
+  background: #FFFFFF;
+  border-color: #173B2F;
+  box-shadow: 0 0 0 3px rgba(23, 59, 47, 0.08);
+  outline: none;
+}
+
+.cat-input-text::placeholder,
+.cat-textarea::placeholder {
+  color: #A0AEC0;
+}
+
+.cat-textarea {
+  min-height: 85px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* URL Slug input with prefix */
+.cat-slug-wrapper {
+  display: flex;
+  align-items: stretch;
+  border: 1.5px solid rgba(23, 59, 47, 0.12);
+  border-radius: 10px;
+  background: #FAF8F5;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.cat-slug-wrapper:focus-within {
+  background: #FFFFFF;
+  border-color: #173B2F;
+  box-shadow: 0 0 0 3px rgba(23, 59, 47, 0.08);
+}
+
+.cat-slug-prefix {
+  padding: 0 12px;
+  background: rgba(23, 59, 47, 0.04);
+  border-right: 1px solid rgba(23, 59, 47, 0.08);
+  display: flex;
+  align-items: center;
+  font-size: 0.78rem;
+  font-family: monospace;
+  color: #637365;
+  white-space: nowrap;
+}
+
+.cat-slug-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 11px 14px;
+  font-size: 0.86rem;
+  font-family: monospace;
+  color: #173B2F;
+  font-weight: 600;
+  outline: none;
+}
+
+/* Toggle Switch Card */
+.cat-toggle-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #FAF8F5;
+  border: 1.5px solid rgba(23, 59, 47, 0.08);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.cat-toggle-card.active {
+  background: rgba(47, 107, 67, 0.04);
+  border-color: rgba(47, 107, 67, 0.25);
+}
+
+.cat-toggle-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.cat-toggle-meta .toggle-title {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #173B2F;
+}
+
+.cat-toggle-meta .toggle-desc {
+  font-size: 0.74rem;
+  color: #637365;
+  margin-top: 2px;
+}
+
+/* Modern Switch Input */
+.cat-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.cat-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cat-switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #CBD5E0;
+  transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 24px;
+}
+
+.cat-switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #FFFFFF;
+  transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.cat-switch input:checked + .cat-switch-slider {
+  background-color: #173B2F;
+}
+
+.cat-switch input:checked + .cat-switch-slider:before {
+  transform: translateX(20px);
+}
+
+/* Column 2: Visual Media & Live Preview Stage */
+.editor-media-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cat-preview-panel {
+  background: #FAF8F5;
+  border: 1.5px solid rgba(23, 59, 47, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.cat-preview-header {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #637365;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cat-media-uploader-box {
+  background: #FFFFFF;
+  border: 2px dashed rgba(23, 59, 47, 0.16);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.cat-media-uploader-box:hover {
+  border-color: #173B2F;
+}
+
+.cat-image-frame {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #EDE8DD;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.cat-image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cat-upload-actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.cat-upload-actions button {
+  flex: 1;
+}
+
+/* Action Footer */
+.category-editor-footer {
+  padding: 18px 28px;
+  background: #FAF8F5;
+  border-top: 1px solid rgba(23, 59, 47, 0.08);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Category Table Refinements */
+.cat-table-thumb-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #FAF8F5;
+  border: 1px solid rgba(23, 59, 47, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.cat-table-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cat-name-cell strong {
+  display: block;
+  font-size: 0.92rem;
+  color: #173B2F;
+  margin-bottom: 2px;
+}
+
+.cat-name-cell .cat-desc-preview {
+  font-size: 0.74rem;
+  color: #718096;
+}
+
+.cat-slug-badge {
+  font-family: monospace;
+  font-size: 0.74rem;
+  background: rgba(23, 59, 47, 0.05);
+  color: #2F6B43;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(23, 59, 47, 0.08);
+}

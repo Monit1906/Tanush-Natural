@@ -5,19 +5,21 @@ const BrandContext = createContext(null);
 
 export const BrandProvider = ({ children }) => {
   const [branding, setBranding] = useState({
-    logoUrl: '/images/brand/tanush-logo.png',
+    logoUrl: '/uploads/1787985113737-Round_LOGO.png',
     logoAlt: 'Tanush Natural & Co.',
     logoMediaId: 'brand-logo-main',
-    faviconUrl: '/images/brand/tanush-logo.png',
+    faviconUrl: '/uploads/1787985113737-Round_LOGO.png',
     usePrimaryAsFavicon: true,
     brandName: 'Tanush Natural & Co.',
+    brandTitle: 'TANUSH',
+    brandSubtitle: 'NATURAL & CO.',
     tagline: 'Rooted in Nature, Made for Everyday Living'
   });
 
   const loadBranding = async () => {
     const settings = await api.getSiteSettings();
     if (settings) {
-      const activeLogo = settings.logo_url || '/images/brand/tanush-logo.png';
+      const activeLogo = settings.logo_url || '/uploads/1787985113737-Round_LOGO.png';
       const activeFavicon = settings.use_primary_favicon !== false 
         ? activeLogo 
         : (settings.favicon_url || activeLogo);
@@ -29,6 +31,8 @@ export const BrandProvider = ({ children }) => {
         faviconUrl: activeFavicon,
         usePrimaryAsFavicon: settings.use_primary_favicon !== false,
         brandName: settings.brand_name || 'Tanush Natural & Co.',
+        brandTitle: settings.brand_title || 'TANUSH',
+        brandSubtitle: settings.brand_subtitle || 'NATURAL & CO.',
         tagline: settings.tagline || 'Rooted in Nature, Made for Everyday Living'
       });
 
@@ -42,7 +46,7 @@ export const BrandProvider = ({ children }) => {
     const handleSettingsUpdate = (e) => {
       if (e.detail) {
         const s = e.detail;
-        const activeLogo = s.logo_url || '/images/brand/tanush-logo.png';
+        const activeLogo = s.logo_url || '/uploads/1787985113737-Round_LOGO.png';
         const activeFavicon = s.use_primary_favicon !== false 
           ? activeLogo 
           : (s.favicon_url || activeLogo);
@@ -55,6 +59,8 @@ export const BrandProvider = ({ children }) => {
           faviconUrl: activeFavicon,
           usePrimaryAsFavicon: s.use_primary_favicon !== false,
           brandName: s.brand_name || 'Tanush Natural & Co.',
+          brandTitle: s.brand_title || 'TANUSH',
+          brandSubtitle: s.brand_subtitle || 'NATURAL & CO.',
           tagline: s.tagline || 'Rooted in Nature, Made for Everyday Living'
         }));
 
@@ -77,12 +83,15 @@ export const useBrand = () => {
   const context = useContext(BrandContext);
   if (!context) {
     return {
-      logoUrl: '/images/brand/tanush-logo.png',
+      logoUrl: '/uploads/1787985113737-Round_LOGO.png',
       logoAlt: 'Tanush Natural & Co.',
-      faviconUrl: '/images/brand/tanush-logo.png',
+      faviconUrl: '/uploads/1787985113737-Round_LOGO.png',
       brandName: 'Tanush Natural & Co.',
+      brandTitle: 'TANUSH',
+      brandSubtitle: 'NATURAL & CO.',
       tagline: 'Rooted in Nature, Made for Everyday Living'
     };
   }
   return context;
 };
+

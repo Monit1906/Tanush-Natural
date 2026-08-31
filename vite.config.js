@@ -399,6 +399,22 @@ function cmsServerPlugin() {
           }
         }
 
+        // 9c. Social Journey Section
+        if (pathname === '/api/cms/social-section' || pathname === '/api/cms/journey') {
+          if (req.method === 'GET') {
+            return res.end(JSON.stringify(db?.socialSection || null));
+          }
+          if (req.method === 'POST') {
+            const socialData = await readBody();
+            db.socialSection = socialData;
+            if (db.siteSettings) {
+              db.siteSettings.socialSection = socialData;
+            }
+            saveDB(db);
+            return res.end(JSON.stringify({ success: true, data: socialData }));
+          }
+        }
+
         // 10. Testimonials
         if (pathname === '/api/cms/testimonials') {
           if (req.method === 'GET') {

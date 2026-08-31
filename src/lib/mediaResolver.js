@@ -65,36 +65,62 @@ export const isMediaVideo = (item) => {
 /**
  * Resolves the canonical video URL for a Reel / Story record
  * Searches story fields, referenced media ID, and media library registry
+ * Automatically upgrades .mov references to high-performance .mp4 if available
  */
 export const resolveReelVideoUrl = (story, mediaList = []) => {
   if (!story) return '';
 
+  let resolvedUrl = '';
+
   // 1. Direct video URL in story record
   const directUrl = story.video_url || story.videoUrl || story.video || story.media_url || story.mediaUrl;
   if (isValidVideoSource(directUrl)) {
-    return directUrl.trim();
+    resolvedUrl = directUrl.trim();
   }
 
-  // 2. Lookup via media_id
-  const mediaId = story.media_id || story.mediaId;
-  if (mediaId && Array.isArray(mediaList) && mediaList.length > 0) {
-    const matchedMedia = mediaList.find(m => String(m.id) === String(mediaId));
-    if (matchedMedia && isValidVideoSource(matchedMedia.url)) {
-      return matchedMedia.url.trim();
+  // 2. Lookup via media_id if not found
+  if (!resolvedUrl) {
+    const mediaId = story.media_id || story.mediaId;
+    if (mediaId && Array.isArray(mediaList) && mediaList.length > 0) {
+      const matchedMedia = mediaList.find(m => String(m.id) === String(mediaId));
+      if (matchedMedia && isValidVideoSource(matchedMedia.url)) {
+        resolvedUrl = matchedMedia.url.trim();
+      }
     }
   }
 
   // 3. Fallback match in media library by title/name if video_url was blank
-  if (story.title && Array.isArray(mediaList) && mediaList.length > 0) {
+  if (!resolvedUrl && story.title && Array.isArray(mediaList) && mediaList.length > 0) {
     const titleMatch = mediaList.find(m => 
       isMediaVideo(m) && 
       (m.name?.toLowerCase() === story.title?.toLowerCase() ||
        story.title?.toLowerCase().includes(m.name?.toLowerCase()))
     );
     if (titleMatch && isValidVideoSource(titleMatch.url)) {
-      return titleMatch.url.trim();
+      resolvedUrl = titleMatch.url.trim();
     }
   }
 
-  return '';
+  // Upgrade .mov to web standard .mp4 for cross-browser playback
+  if (resolvedUrl && resolvedUrl.toLowerCase().endsWith('.mov')) {
+    resolvedUrl = resolvedUrl.replace(/\.mov$/i, '.mp4');
+  }
+
+  return resolvedUrl;
 };
+
+/**
+ * Resolves high-quality poster thumbnail for a story / reel
+ */
+export const resolveReelPosterUrl = (story) => {
+  if (!story) return '';
+  if (story.image && !story.image.includes('placehold.co')) {
+    return story.image;
+  }
+  const vid = story.video_url || story.videoUrl;
+  if (vid && typeof vid === 'string' && vid.startsWith('/uploads/')) {
+    return vid.replace(/\.(mp4|mov)$/i, '_thumb.png');
+  }
+  return story.image || 'https://placehold.co/400x600?text=Tanush+Reel';
+};
+

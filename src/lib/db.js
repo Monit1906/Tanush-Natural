@@ -581,7 +581,6 @@ export const api = {
   },
 
   // Get Hero configured for a specific page route with fallback hierarchy
-  // Get Hero configured for a specific page route with fallback hierarchy
   getPageHero: async (pageKey, categoryKey = null) => {
     const allHeroes = await api.getHeroSlides();
     const activeHeroes = allHeroes.filter(h => h.is_active !== false && h.status !== 'draft');
@@ -936,12 +935,40 @@ export const api = {
 
   // --- Social / Journey Section ---
   getSocialSection: async () => {
+    try {
+      const res = await fetch(`${DB_API_BASE}/social-section`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+          saveClientStoredDB(db => ({ ...db, socialSection: data }));
+          return data;
+        }
+      }
+    } catch (e) {}
+
+    const localDB = getClientStoredDB();
+    if (localDB?.socialSection) {
+      return localDB.socialSection;
+    }
+
     const settings = await api.getSiteSettings();
-    if (settings?.socialSection) return settings.socialSection;
+    if (settings?.socialSection) {
+      return settings.socialSection;
+    }
+
     return null;
   },
 
   saveSocialSection: async (socialData) => {
+    try {
+      await fetch(`${DB_API_BASE}/social-section`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(socialData)
+      });
+    } catch (e) {}
+
+    saveClientStoredDB(db => ({ ...db, socialSection: socialData }));
     const settings = (await api.getSiteSettings()) || {};
     settings.socialSection = socialData;
     await api.saveSiteSettings(settings);

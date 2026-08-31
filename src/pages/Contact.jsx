@@ -121,29 +121,32 @@ const Contact = () => {
 
       {/* Form Section */}
       {isSectionActive('form_section') && (
-        <section className="contact-hero-form" style={{ marginTop: '2rem', position: 'relative' }}>
-          <SectionIllustrationSlot page="Contact" section="Form" defaultIllustration="tulsi-sprig" defaultPosition="bottom-left" defaultOpacity={5} />
-          <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
+        <section className="contact-hero-form">
+          <div className="contact-form-overlay"></div>
+          <SectionIllustrationSlot page="Contact" section="Form" defaultIllustration="tulsi-sprig" defaultPosition="bottom-left" defaultOpacity={8} />
+          <div className="container form-container-relative">
             
             <div className="contact-form-card">
               <div className="form-header">
-                <span className="icon-leaf">🌿</span>
+                <div className="leaf-icon-badge">🌿</div>
                 <h3>{formSec?.content?.heading || "Send Us a Message"}</h3>
-                <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: '#6B7C73' }}>
+                <p>
                   {formSec?.content?.subheading || "We typically respond within 24 business hours."}
                 </p>
               </div>
               
               {isSubmitted ? (
                 <div className="success-state">
-                  <CheckCircle size={48} color="var(--color-primary)" />
-                  <h4>Message Sent!</h4>
-                  <p>We'll get back to you within 24 hours.</p>
+                  <div className="success-icon-wrap">
+                    <CheckCircle size={56} weight="fill" color="#2F6B43" />
+                  </div>
+                  <h4>Message Sent Successfully!</h4>
+                  <p>Thank you for reaching out. Our support team will get back to you within 24 hours.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="contact-form-inner">
                   <div className="form-row">
-                    <div className="form-group">
+                    <div className="form-group flex-1">
                       <label>Your Name *</label>
                       <input 
                         type="text" 
@@ -154,7 +157,7 @@ const Contact = () => {
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group flex-1">
                       <label>Email Address *</label>
                       <input 
                         type="email" 
@@ -168,7 +171,7 @@ const Contact = () => {
                   </div>
                   
                   <div className="form-row">
-                    <div className="form-group">
+                    <div className="form-group flex-1">
                       <label>Phone Number</label>
                       <input 
                         type="tel" 
@@ -178,7 +181,7 @@ const Contact = () => {
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group flex-1">
                       <label>Subject</label>
                       <select 
                         name="subject" 
@@ -207,9 +210,9 @@ const Contact = () => {
                     />
                   </div>
 
-                  <Button variant="primary" type="submit" className="w-full">
-                    {formSec?.content?.primaryCtaText || "SEND MESSAGE →"}
-                  </Button>
+                  <button type="submit" className="contact-submit-btn">
+                    {formSec?.content?.primaryCtaText || "SEND MESSAGE"} →
+                  </button>
                 </form>
               )}
             </div>
@@ -223,44 +226,77 @@ const Contact = () => {
         <section className="contact-details-section section-padding" style={{ position: 'relative' }}>
           <SectionIllustrationSlot page="Contact" section="Cards" defaultIllustration="botanical-shield" defaultPosition="center-right" defaultOpacity={6} />
           <div className="container">
-            <SectionHeading 
-              subtitle="DIRECT CHANNELS" 
-              title={infoSec?.content?.heading || "Other Ways to Reach Us"} 
-              alignment="center" 
-            />
+            <div className="contact-section-header">
+              <span className="contact-section-badge">DIRECT CHANNELS</span>
+              <h2>{infoSec?.content?.heading || "Contact Information"}</h2>
+              <div className="contact-badge-divider"></div>
+            </div>
             
             <div className="contact-cards-grid">
               
               {/* Phone */}
               <div className="contact-info-card">
-                <div className="card-icon"><Phone size={28} /></div>
+                <div className="card-icon-wrap">
+                  <Phone size={26} weight="duotone" />
+                </div>
                 <h4>Call Us</h4>
-                <p className="info-main"><a href={`tel:${displayPhone}`}>{displayPhone}</a></p>
-                <p className="info-sub">{displayHours}</p>
+                <p className="info-main">
+                  <a href={`tel:${displayPhone}`}>{displayPhone}</a>
+                </p>
+                <div className="info-sub-pill">{displayHours}</div>
+                <a href={`tel:${displayPhone}`} className="card-action-link">
+                  Call Now <span>→</span>
+                </a>
               </div>
 
               {/* Email */}
               <div className="contact-info-card">
-                <div className="card-icon"><EnvelopeSimple size={28} /></div>
+                <div className="card-icon-wrap">
+                  <EnvelopeSimple size={26} weight="duotone" />
+                </div>
                 <h4>Email Us</h4>
-                <p className="info-main"><a href={`mailto:${displayEmail}`}>{displayEmail}</a></p>
-                <p className="info-sub">We reply within 24 hours</p>
+                <p className="info-main">
+                  <a href={`mailto:${displayEmail}`}>{displayEmail}</a>
+                </p>
+                <div className="info-sub-pill">We reply within 24 hours</div>
+                <a href={`mailto:${displayEmail}`} className="card-action-link">
+                  Send Email <span>→</span>
+                </a>
               </div>
 
               {/* WhatsApp */}
-              <div className="contact-info-card">
-                <div className="card-icon"><WhatsappLogo size={28} /></div>
-                <h4>WhatsApp</h4>
-                <p className="info-main"><a href={`https://wa.me/${displayWhatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a></p>
-                <p className="info-sub">Instant quick answers</p>
+              <div className="contact-info-card highlight-card">
+                <div className="card-icon-wrap whatsapp-icon-wrap">
+                  <WhatsappLogo size={26} weight="duotone" />
+                </div>
+                <h4>WhatsApp Support</h4>
+                <p className="info-main">
+                  <a href={`https://wa.me/${displayWhatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer">
+                    Chat on WhatsApp
+                  </a>
+                </p>
+                <div className="info-sub-pill whatsapp-pill">Instant Quick Answers</div>
+                <a href={`https://wa.me/${displayWhatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="card-action-link whatsapp-link">
+                  Start Chat <span>→</span>
+                </a>
               </div>
 
               {/* Location */}
               <div className="contact-info-card">
-                <div className="card-icon"><MapPin size={28} /></div>
-                <h4>Location</h4>
+                <div className="card-icon-wrap">
+                  <MapPin size={26} weight="duotone" />
+                </div>
+                <h4>Headquarters</h4>
                 <p className="info-main">{displayAddress}</p>
-                <p className="info-sub">Headquarters &amp; Operations</p>
+                <div className="info-sub-pill">Headquarters &amp; Operations</div>
+                <a 
+                  href={`https://maps.google.com/?q=${encodeURIComponent(displayAddress)}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="card-action-link"
+                >
+                  View on Map <span>→</span>
+                </a>
               </div>
 
             </div>

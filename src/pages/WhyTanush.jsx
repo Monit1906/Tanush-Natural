@@ -110,22 +110,22 @@ const WhyTanush = () => {
           
           <div className="thoughtful-grid">
             <div className="thoughtful-card">
-              <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-1.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <div className="card-img" style={{ backgroundImage: "url('/images/posters/posters-01.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
               <h4>Inspired by Nature</h4>
               <p>We draw inspiration from nature and use ingredients that are mindful and responsibly sourced.</p>
             </div>
             <div className="thoughtful-card">
-              <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-2.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <div className="card-img" style={{ backgroundImage: "url('/images/posters/posters-02.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
               <h4>Carefully Crafted</h4>
               <p>Our formulations are developed with care, using modern research and expertise.</p>
             </div>
             <div className="thoughtful-card">
-              <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-3.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <div className="card-img" style={{ backgroundImage: "url('/images/posters/posters-03.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
               <h4>Quality Assured</h4>
               <p>Every product goes through rigorous quality checks to ensure safety and consistency.</p>
             </div>
             <div className="thoughtful-card">
-              <div className="card-img" style={{ backgroundImage: "url('/images/lifestyle/thoughtful-4.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <div className="card-img" style={{ backgroundImage: "url('/images/posters/posters-04.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
               <h4>Made for Everyday</h4>
               <p>Practical, effective and easy to use products that fit seamlessly into daily life.</p>
             </div>
@@ -159,10 +159,20 @@ const WhyTanush = () => {
             </div>
             
             <div className="story-collage">
-              <div className="collage-main" style={{ backgroundImage: `url(${storySec?.media?.desktopImage || '/images/lifestyle/collage-main.jpg'})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-              <div className="collage-sub-wrap">
-                <div className="collage-sub" style={{ backgroundImage: "url('/images/lifestyle/collage-sub1.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-                <div className="collage-sub" style={{ backgroundImage: "url('/images/lifestyle/collage-sub2.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <div className="collage-main-wrapper">
+                <div 
+                  className="collage-main" 
+                  style={{ 
+                    backgroundImage: `url(${storySec?.media?.desktopImage && !storySec.media.desktopImage.includes('posters-05') ? storySec.media.desktopImage : '/images/lifestyle/our-story.jpg'})`, 
+                    backgroundSize: 'cover', 
+                    backgroundPosition: 'center' 
+                  }}
+                >
+                  <div className="story-badge-floating">
+                    <span className="badge-dot"></span>
+                    <span>100% Pure &amp; Thoughtfully Crafted</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

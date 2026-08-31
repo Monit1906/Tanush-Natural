@@ -164,19 +164,19 @@ const BecomePartner = () => {
             
             <div className="who-partner-grid">
               <div className="who-partner-card">
-                <div className="card-img" style={{ backgroundImage: "url('/images/categories/home-care.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+                <div className="card-img" style={{ backgroundImage: "url('/images/posters/posters-08.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
                 <h4>Retailers</h4>
               </div>
               <div className="who-partner-card">
-                <div className="card-img" style={{ backgroundImage: "url('/images/categories/mosquito-protection.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+                <div className="card-img" style={{ backgroundImage: "url('/images/posters/posters-09.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
                 <h4>Distributors</h4>
               </div>
               <div className="who-partner-card">
-                <div className="card-img" style={{ backgroundImage: "url('/images/categories/personal-care.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+                <div className="card-img" style={{ backgroundImage: "url('/images/posters/posters-10.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
                 <h4>Wholesalers</h4>
               </div>
               <div className="who-partner-card">
-                <div className="card-img" style={{ backgroundImage: "url('/images/categories/more.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+                <div className="card-img" style={{ backgroundImage: "url('/images/posters/posters-11.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
                 <h4>E-commerce Sellers</h4>
               </div>
             </div>
@@ -186,177 +186,207 @@ const BecomePartner = () => {
 
       {/* Journey & Form */}
       {(isSectionActive('process') || isSectionActive('form_section')) && (
-        <section className="journey-form-section container section-padding" style={{ position: 'relative' }}>
+        <section className="journey-form-section section-padding" style={{ position: 'relative' }}>
           <SectionIllustrationSlot page="BecomePartner" section="Form" defaultIllustration="modern-indian-home" defaultPosition="bottom-right" defaultOpacity={6} />
-          <div className="journey-form-grid">
-            
-            {/* Journey Process Steps */}
-            {isSectionActive('process') && (
-              <div className="journey-side">
-                <SectionHeading title={processSec?.content?.heading || "Our Partner Journey"} alignment="left" />
-                
-                <div className="journey-steps">
-                  <div className="j-step">
-                    <div className="j-icon"><ClipboardText size={32} /></div>
-                    <div className="j-info">
-                      <h4>1. Enquiry &amp; Registration</h4>
-                      <p>Fill in your basic details and interest in partnering with us.</p>
+          <div className="container">
+            <div className="journey-form-grid">
+              
+              {/* Journey Process Steps */}
+              {isSectionActive('process') && (
+                <div className="journey-side">
+                  <div className="journey-header">
+                    <span className="section-badge">GROW WITH US</span>
+                    <h2>{processSec?.content?.heading || "Our Partner Journey"}</h2>
+                    <p className="journey-lead">
+                      Partner with India's fastest growing conscious wellness brand. Seamless onboarding and dedicated distributor support.
+                    </p>
+                  </div>
+                  
+                  <div className="journey-steps-timeline">
+                    <div className="j-step-card">
+                      <div className="j-step-number">01</div>
+                      <div className="j-icon"><ClipboardText size={26} weight="duotone" /></div>
+                      <div className="j-info">
+                        <h4>Enquiry &amp; Registration</h4>
+                        <p>Fill in your business details and desired distribution channels.</p>
+                      </div>
+                    </div>
+                    <div className="j-step-card">
+                      <div className="j-step-number">02</div>
+                      <div className="j-icon"><Handshake size={26} weight="duotone" /></div>
+                      <div className="j-info">
+                        <h4>Discussion &amp; Margin Terms</h4>
+                        <p>Our sales team will discuss lucrative margin tiers and retail targets.</p>
+                      </div>
+                    </div>
+                    <div className="j-step-card">
+                      <div className="j-step-number">03</div>
+                      <div className="j-icon"><CheckCircle size={26} weight="duotone" /></div>
+                      <div className="j-info">
+                        <h4>Onboarding &amp; Sample Kits</h4>
+                        <p>Receive physical sample sets, catalogs, and marketing collateral.</p>
+                      </div>
+                    </div>
+                    <div className="j-step-card">
+                      <div className="j-step-number">04</div>
+                      <div className="j-icon"><Storefront size={26} weight="duotone" /></div>
+                      <div className="j-info">
+                        <h4>Launch &amp; Continuous Growth</h4>
+                        <p>Start fulfilling orders with regional exclusivity and marketing support.</p>
+                      </div>
                     </div>
                   </div>
-                  <div className="j-step">
-                    <div className="j-icon"><Handshake size={32} /></div>
-                    <div className="j-info">
-                      <h4>2. Discussion &amp; Proposal</h4>
-                      <p>Our team discusses terms, margin structures, and opportunities.</p>
+
+                  <div className="partner-perks-box">
+                    <div className="perk-item">
+                      <span className="perk-bullet">✓</span>
+                      <span>High profit margins &amp; distributor ROI</span>
                     </div>
-                  </div>
-                  <div className="j-step">
-                    <div className="j-icon"><CheckCircle size={32} /></div>
-                    <div className="j-info">
-                      <h4>3. Onboarding &amp; Samples</h4>
-                      <p>Product catalog, initial sample sets, and business onboarding.</p>
+                    <div className="perk-item">
+                      <span className="perk-bullet">✓</span>
+                      <span>Fast dispatch &amp; reliable supply chain</span>
                     </div>
-                  </div>
-                  <div className="j-step">
-                    <div className="j-icon"><Storefront size={32} /></div>
-                    <div className="j-info">
-                      <h4>4. Launch &amp; Grow</h4>
-                      <p>Begin distribution and retail sales with continuous marketing support.</p>
+                    <div className="perk-item">
+                      <span className="perk-bullet">✓</span>
+                      <span>Point-of-sale display stands &amp; marketing kits</span>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Application Form */}
-            {isSectionActive('form_section') && (
-              <div className="form-side">
-                <div className="partner-form-card glass-panel">
-                  <div className="form-header">
-                    <h3>{formSec?.content?.heading || "Partner Registration"}</h3>
-                    <p>{formSec?.content?.subheading || "Let's connect and build a rewarding business together."}</p>
-                  </div>
-
-                  {isSubmitted ? (
-                    <div className="partner-success">
-                      <CheckCircle size={48} color="#2F6B43" />
-                      <h4>Thank you for your interest!</h4>
-                      <p>Our partnership desk will contact you within 24 hours.</p>
+              {/* Application Form */}
+              {isSectionActive('form_section') && (
+                <div className="form-side">
+                  <div className="partner-form-card">
+                    <div className="form-header">
+                      <span className="form-leaf-icon">🌿</span>
+                      <h3>{formSec?.content?.heading || "Register Your Interest"}</h3>
+                      <p>{formSec?.content?.subheading || "Fill out the form below and our partnerships team will reach out within 24 hours."}</p>
                     </div>
-                  ) : (
-                    <form onSubmit={handleSubmit} className="partner-form">
-                      <div className="form-group">
-                        <label>Your Name *</label>
-                        <input 
-                          type="text" 
-                          name="name" 
-                          required 
-                          placeholder="e.g. Anand Mehta"
-                          value={formData.name}
-                          onChange={handleChange}
-                        />
+
+                    {isSubmitted ? (
+                      <div className="partner-success">
+                        <div className="success-icon-wrap">
+                          <CheckCircle size={56} weight="fill" color="#2F6B43" />
+                        </div>
+                        <h4>Thank you for your interest!</h4>
+                        <p>Our partnership executive will connect with you via phone and WhatsApp within 24 hours.</p>
                       </div>
-                      
-                      <div className="form-row">
-                        <div className="form-group flex-1">
-                          <label>Business / Firm Name *</label>
+                    ) : (
+                      <form onSubmit={handleSubmit} className="partner-form">
+                        <div className="form-group">
+                          <label>Your Name *</label>
                           <input 
                             type="text" 
-                            name="businessName" 
+                            name="name" 
                             required 
-                            placeholder="e.g. Mehta Traders"
-                            value={formData.businessName}
+                            placeholder="e.g. Anand Mehta"
+                            value={formData.name}
                             onChange={handleChange}
                           />
                         </div>
-                        <div className="form-group flex-1">
-                          <label>City &amp; State *</label>
-                          <input 
-                            type="text" 
-                            name="city" 
-                            required 
-                            placeholder="e.g. Ahmedabad, Gujarat"
-                            value={formData.city}
-                            onChange={handleChange}
-                          />
+                        
+                        <div className="form-row">
+                          <div className="form-group flex-1">
+                            <label>Business / Firm Name *</label>
+                            <input 
+                              type="text" 
+                              name="businessName" 
+                              required 
+                              placeholder="e.g. Mehta Traders"
+                              value={formData.businessName}
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="form-group flex-1">
+                            <label>City &amp; State *</label>
+                            <input 
+                              type="text" 
+                              name="city" 
+                              required 
+                              placeholder="e.g. Ahmedabad, Gujarat"
+                              value={formData.city}
+                              onChange={handleChange}
+                            />
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="form-row">
-                        <div className="form-group flex-1">
-                          <label>Contact Phone Number *</label>
-                          <input 
-                            type="tel" 
-                            name="phone" 
-                            required 
-                            placeholder="e.g. +91 98765 43210"
-                            value={formData.phone}
-                            onChange={handleChange}
-                          />
+                        <div className="form-row">
+                          <div className="form-group flex-1">
+                            <label>Contact Phone Number *</label>
+                            <input 
+                              type="tel" 
+                              name="phone" 
+                              required 
+                              placeholder="e.g. +91 98765 43210"
+                              value={formData.phone}
+                              onChange={handleChange}
+                            />
+                          </div>
+                          <div className="form-group flex-1">
+                            <label>Email Address *</label>
+                            <input 
+                              type="email" 
+                              name="email" 
+                              required 
+                              placeholder="e.g. anand@mehtatraders.com"
+                              value={formData.email}
+                              onChange={handleChange}
+                            />
+                          </div>
                         </div>
-                        <div className="form-group flex-1">
-                          <label>Email Address *</label>
-                          <input 
-                            type="email" 
-                            name="email" 
+
+                        <div className="form-group">
+                          <label>Business Category *</label>
+                          <select 
+                            name="businessType" 
                             required 
-                            placeholder="e.g. anand@mehtatraders.com"
-                            value={formData.email}
+                            value={formData.businessType}
                             onChange={handleChange}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="form-group">
-                        <label>Business Category *</label>
-                        <select 
-                          name="businessType" 
-                          required 
-                          value={formData.businessType}
-                          onChange={handleChange}
-                        >
-                          <option value="">Select Business Model</option>
-                          <option value="Retailer">Retailer / Store Owner</option>
-                          <option value="Distributor">Distributor / Stockist</option>
-                          <option value="Wholesaler">Wholesaler</option>
-                          <option value="Ecommerce">E-commerce / Online Seller</option>
-                          <option value="Institutional">Institutional / Corporate Buyer</option>
-                          <option value="Other">Other</option>
-                        </select>
-                      </div>
-
-                      <div className="form-group">
-                        <label>Message / Additional Information</label>
-                        <textarea 
-                          name="message" 
-                          rows="3" 
-                          placeholder="Tell us about your distribution reach, store locations, or experience..."
-                          value={formData.message}
-                          onChange={handleChange}
-                        />
-                      </div>
-
-                      <Button variant="primary" type="submit" className="w-full">
-                        {formSec?.content?.primaryCtaText || "SUBMIT PARTNERSHIP ENQUIRY →"}
-                      </Button>
-
-                      {formSec?.content?.whatsappNumber && (
-                        <div style={{ marginTop: '16px', textAlign: 'center' }}>
-                          <a 
-                            href={`https://wa.me/${formSec.content.whatsappNumber.replace(/[^0-9]/g, '')}?text=Hello%20Tanush%20Natural,%20I%20am%20interested%20in%20a%20business%20partnership.`}
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#25D366', fontWeight: 600, fontSize: '0.86rem', textDecoration: 'none' }}
                           >
-                            <WhatsappLogo size={20} weight="fill" /> Quick WhatsApp Business Chat
-                          </a>
+                            <option value="">Select Business Model</option>
+                            <option value="Retailer">Retailer / Store Owner</option>
+                            <option value="Distributor">Distributor / Stockist</option>
+                            <option value="Wholesaler">Wholesaler</option>
+                            <option value="Ecommerce">E-commerce / Online Seller</option>
+                            <option value="Institutional">Institutional / Corporate Buyer</option>
+                            <option value="Other">Other</option>
+                          </select>
                         </div>
-                      )}
-                    </form>
-                  )}
+
+                        <div className="form-group">
+                          <label>Message / Additional Information</label>
+                          <textarea 
+                            name="message" 
+                            rows="3" 
+                            placeholder="Tell us about your distribution reach, store locations, or experience..."
+                            value={formData.message}
+                            onChange={handleChange}
+                          />
+                        </div>
+
+                        <button type="submit" className="partner-submit-btn">
+                          {formSec?.content?.primaryCtaText || "SUBMIT PARTNER ENQUIRY"} →
+                        </button>
+
+                        {formSec?.content?.whatsappNumber && (
+                          <div className="partner-whatsapp-wrapper">
+                            <a 
+                              href={`https://wa.me/${formSec.content.whatsappNumber.replace(/[^0-9]/g, '')}?text=Hello%20Tanush%20Natural,%20I%20am%20interested%20in%20a%20business%20partnership.`}
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="partner-whatsapp-link"
+                            >
+                              <WhatsappLogo size={20} weight="fill" /> Quick WhatsApp Business Chat
+                            </a>
+                          </div>
+                        )}
+                      </form>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </section>
       )}

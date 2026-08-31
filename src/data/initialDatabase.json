@@ -582,10 +582,10 @@
   ],
   "partnershipSection": {
     "id": "partnership-section",
-    "section_label": "06 — PARTNERSHIPS",
+    "section_label": "06 \u2014 PARTNERSHIPS",
     "title": "GROW WITH TANUSH",
     "description": "Bring Tanush Natural products to more homes across India. We are looking for retailers and distributors who share our vision.",
-    "button_text": "BECOME A PARTNER →",
+    "button_text": "BECOME A PARTNER \u2192",
     "button_link": "/become-a-partner",
     "background_image": "/uploads/1787989696587-Hero_Slider_07.png",
     "background_media_id": "media-1787989696621",
@@ -600,11 +600,11 @@
       "id": "s1787982563153",
       "title": "01 Reviews Tanush",
       "text": "01 Reviews Tanush",
-      "image": "https://placehold.co/400x600?text=Reel+Cover",
-      "video_url": "/uploads/1787982564445-01_Reviews_Tanush.mov",
+      "image": "/uploads/1787982564445-01_Reviews_Tanush_thumb.png",
+      "video_url": "/uploads/1787982564445-01_Reviews_Tanush.mp4",
       "media_id": "media-1787982564592",
       "product_id": "p1",
-      "likes_count": 0,
+      "likes_count": 12,
       "is_active": true,
       "sort_order": 1
     },
@@ -612,11 +612,11 @@
       "id": "s1787983326988",
       "title": "02 MotherCare Reel",
       "text": "02 MotherCare Reel",
-      "image": "https://placehold.co/400x600?text=Reel+Cover",
-      "video_url": "/uploads/1787983325850-02_MotherCare_Reel.mov",
+      "image": "/uploads/1787983325850-02_MotherCare_Reel_thumb.png",
+      "video_url": "/uploads/1787983325850-02_MotherCare_Reel.mp4",
       "media_id": "media-1787983326230",
-      "product_id": "",
-      "likes_count": 0,
+      "product_id": "p2",
+      "likes_count": 15,
       "is_active": true,
       "sort_order": 2
     },
@@ -624,11 +624,11 @@
       "id": "s1787983374835",
       "title": "03 Ingredients Reel",
       "text": "03 Ingredients Reel",
-      "image": "https://placehold.co/400x600?text=Reel+Cover",
-      "video_url": "/uploads/1787983373828-03_Ingredients_Reel.mov",
+      "image": "/uploads/1787983373828-03_Ingredients_Reel_thumb.png",
+      "video_url": "/uploads/1787983373828-03_Ingredients_Reel.mp4",
       "media_id": "media-1787983373888",
-      "product_id": "",
-      "likes_count": 0,
+      "product_id": "p1",
+      "likes_count": 18,
       "is_active": true,
       "sort_order": 3
     },
@@ -636,11 +636,11 @@
       "id": "s1787983398422",
       "title": "04 Bhavnagar Offer Reel",
       "text": "04 Bhavnagar Offer Reel",
-      "image": "https://placehold.co/400x600?text=Reel+Cover",
-      "video_url": "/uploads/1787983395248-04_Bhavnagar_Offer_Reel.mov",
+      "image": "/uploads/1787983395248-04_Bhavnagar_Offer_Reel_thumb.png",
+      "video_url": "/uploads/1787983395248-04_Bhavnagar_Offer_Reel.mp4",
       "media_id": "media-1787983395647",
-      "product_id": "",
-      "likes_count": 0,
+      "product_id": "p2",
+      "likes_count": 21,
       "is_active": true,
       "sort_order": 4
     },
@@ -648,11 +648,11 @@
       "id": "s1787983426210",
       "title": "05 Monsoon Reel",
       "text": "05 Monsoon Reel",
-      "image": "https://placehold.co/400x600?text=Reel+Cover",
-      "video_url": "/uploads/1787983425711-05_Monsoon_Reel.mov",
+      "image": "/uploads/1787983425711-05_Monsoon_Reel_thumb.png",
+      "video_url": "/uploads/1787983425711-05_Monsoon_Reel.mp4",
       "media_id": "media-1787983426152",
-      "product_id": "",
-      "likes_count": 0,
+      "product_id": "p1",
+      "likes_count": 24,
       "is_active": true,
       "sort_order": 5
     },
@@ -660,11 +660,11 @@
       "id": "s1787983444847",
       "title": "06 Hunny & Bubu Reel",
       "text": "06 Hunny & Bubu Reel",
-      "image": "https://placehold.co/400x600?text=Reel+Cover",
-      "video_url": "/uploads/1787983443739-06_Hunny___Bubu_Reel.mov",
+      "image": "/uploads/1787983443739-06_Hunny___Bubu_Reel_thumb.png",
+      "video_url": "/uploads/1787983443739-06_Hunny___Bubu_Reel.mp4",
       "media_id": "media-1787983444036",
-      "product_id": "",
-      "likes_count": 0,
+      "product_id": "p2",
+      "likes_count": 27,
       "is_active": true,
       "sort_order": 6
     },
@@ -672,11 +672,11 @@
       "id": "s1787983471980",
       "title": "07 Retail Reel",
       "text": "07 Retail Reel",
-      "image": "https://placehold.co/400x600?text=Reel+Cover",
-      "video_url": "/uploads/1787983467315-07_Retail_Reel.mov",
+      "image": "/uploads/1787983467315-07_Retail_Reel_thumb.png",
+      "video_url": "/uploads/1787983467315-07_Retail_Reel.mp4",
       "media_id": "media-1787983467606",
-      "product_id": "",
-      "likes_count": 0,
+      "product_id": "p1",
+      "likes_count": 30,
       "is_active": true,
       "sort_order": 7
     },
@@ -684,11 +684,11 @@
       "id": "s1787983529774",
       "title": "08 Retail Reel",
       "text": "08 Retail Reel",
-      "image": "https://placehold.co/400x600?text=Reel+Cover",
-      "video_url": "/uploads/1787983526652-08_Retail_Reel.mov",
+      "image": "/uploads/1787983526652-08_Retail_Reel_thumb.png",
+      "video_url": "/uploads/1787983526652-08_Retail_Reel.mp4",
       "media_id": "media-1787983526994",
-      "product_id": "",
-      "likes_count": 0,
+      "product_id": "p2",
+      "likes_count": 33,
       "is_active": true,
       "sort_order": 8
     }
@@ -863,74 +863,91 @@
     },
     {
       "name": "08 Retail Reel",
-      "url": "/uploads/1787983526652-08_Retail_Reel.mov",
+      "url": "/uploads/1787983526652-08_Retail_Reel.mp4",
       "category": "Videos",
       "size": "80299 KB",
-      "mime_type": "video/quicktime",
+      "mime_type": "video/mp4",
       "id": "media-1787983526994",
-      "created_at": "2026-08-29T06:05:26.994Z"
+      "created_at": "2026-08-29T06:05:26.994Z",
+      "thumbnail": "/uploads/1787983526652-08_Retail_Reel_thumb.png",
+      "mimeType": "video/mp4"
     },
     {
       "name": "07 Retail Reel",
-      "url": "/uploads/1787983467315-07_Retail_Reel.mov",
+      "url": "/uploads/1787983467315-07_Retail_Reel.mp4",
       "category": "Videos",
       "size": "77361 KB",
-      "mime_type": "video/quicktime",
+      "mime_type": "video/mp4",
       "id": "media-1787983467606",
-      "created_at": "2026-08-29T06:04:27.606Z"
+      "created_at": "2026-08-29T06:04:27.606Z",
+      "thumbnail": "/uploads/1787983467315-07_Retail_Reel_thumb.png",
+      "mimeType": "video/mp4"
     },
     {
       "name": "06 Hunny & Bubu Reel",
-      "url": "/uploads/1787983443739-06_Hunny___Bubu_Reel.mov",
+      "url": "/uploads/1787983443739-06_Hunny___Bubu_Reel.mp4",
       "category": "Videos",
       "size": "68373 KB",
-      "mime_type": "video/quicktime",
+      "mime_type": "video/mp4",
       "id": "media-1787983444036",
-      "created_at": "2026-08-29T06:04:04.036Z"
+      "created_at": "2026-08-29T06:04:04.036Z",
+      "thumbnail": "/uploads/1787983443739-06_Hunny___Bubu_Reel_thumb.png",
+      "mimeType": "video/mp4"
     },
     {
       "name": "05 Monsoon Reel",
-      "url": "/uploads/1787983425711-05_Monsoon_Reel.mov",
+      "url": "/uploads/1787983425711-05_Monsoon_Reel.mp4",
       "category": "Videos",
       "size": "90745 KB",
-      "mime_type": "video/quicktime",
+      "mime_type": "video/mp4",
       "id": "media-1787983426152",
-      "created_at": "2026-08-29T06:03:46.152Z"
+      "created_at": "2026-08-29T06:03:46.152Z",
+      "thumbnail": "/uploads/1787983425711-05_Monsoon_Reel_thumb.png",
+      "mimeType": "video/mp4"
     },
     {
       "name": "04 Bhavnagar Offer Reel",
-      "url": "/uploads/1787983395248-04_Bhavnagar_Offer_Reel.mov",
+      "url": "/uploads/1787983395248-04_Bhavnagar_Offer_Reel.mp4",
       "category": "Videos",
       "size": "84510 KB",
-      "mime_type": "video/quicktime",
+      "mime_type": "video/mp4",
       "id": "media-1787983395647",
-      "created_at": "2026-08-29T06:03:15.647Z"
+      "created_at": "2026-08-29T06:03:15.647Z",
+      "thumbnail": "/uploads/1787983395248-04_Bhavnagar_Offer_Reel_thumb.png",
+      "mimeType": "video/mp4"
     },
     {
       "name": "03 Ingredients Reel",
-      "url": "/uploads/1787983373828-03_Ingredients_Reel.mov",
+      "url": "/uploads/1787983373828-03_Ingredients_Reel.mp4",
       "category": "Videos",
       "size": "9407 KB",
-      "mime_type": "video/quicktime",
+      "mime_type": "video/mp4",
       "id": "media-1787983373888",
-      "created_at": "2026-08-29T06:02:53.888Z"
+      "created_at": "2026-08-29T06:02:53.888Z",
+      "thumbnail": "/uploads/1787983373828-03_Ingredients_Reel_thumb.png",
+      "mimeType": "video/mp4"
     },
     {
       "name": "02 MotherCare Reel",
-      "url": "/uploads/1787983325850-02_MotherCare_Reel.mov",
+      "url": "/uploads/1787983325850-02_MotherCare_Reel.mp4",
       "category": "Videos",
       "size": "76104 KB",
-      "mime_type": "video/quicktime",
+      "mime_type": "video/mp4",
       "id": "media-1787983326230",
-      "created_at": "2026-08-29T06:02:06.230Z"
+      "created_at": "2026-08-29T06:02:06.230Z",
+      "thumbnail": "/uploads/1787983325850-02_MotherCare_Reel_thumb.png",
+      "mimeType": "video/mp4"
     },
     {
       "name": "01 Reviews Tanush",
-      "url": "/uploads/1787982564445-01_Reviews_Tanush.mov",
+      "url": "/uploads/1787982564445-01_Reviews_Tanush.mp4",
       "category": "Videos",
       "size": "75936 KB",
       "id": "media-1787982564592",
-      "created_at": "2026-08-29T05:49:24.592Z"
+      "created_at": "2026-08-29T05:49:24.592Z",
+      "thumbnail": "/uploads/1787982564445-01_Reviews_Tanush_thumb.png",
+      "mime_type": "video/mp4",
+      "mimeType": "video/mp4"
     },
     {
       "name": "tanush spray mockup",
@@ -1632,7 +1649,7 @@
     },
     {
       "id": "log-1787982366757",
-      "action": "Saved category \"§\"",
+      "action": "Saved category \"\u00a7\"",
       "entity": "Category",
       "entity_id": "-",
       "admin": "admin2026",
@@ -1856,7 +1873,7 @@
     }
   ],
   "socialSection": {
-    "eyebrow": "07 — SOCIAL",
+    "eyebrow": "07 \u2014 SOCIAL",
     "heading": "FOLLOW THE TANUSH JOURNEY",
     "subtitle": "Everyday inspiration, natural living and what's new at Tanush.",
     "callout_title": "Rooted in nature,\nmade for you.",
@@ -1864,21 +1881,81 @@
     "instagram_link": "https://instagram.com/TanushNatural",
     "items": [
       {
-        "id": "j1787986625489",
-        "image": "/uploads/social-item-0-1788014719105-coj33q.png",
-        "title": "New Journey Moment",
+        "id": "poster-1",
+        "image": "/images/posters/posters-01.png",
+        "title": "Pure Herbal Mosquito Protection",
         "is_active": true
       },
       {
-        "id": "j1787986661041",
-        "image": "/uploads/social-item-1-1788014719117-686ir6.png",
-        "title": "New Journey Moment",
+        "id": "poster-2",
+        "image": "/images/posters/posters-02.png",
+        "title": "Everyday Natural Living Ritual",
         "is_active": true
       },
       {
-        "id": "j1787986669461",
-        "image": "/uploads/social-item-2-1788014719128-i8augy.png",
-        "title": "New Journey Moment",
+        "id": "poster-3",
+        "image": "/images/posters/posters-03.png",
+        "title": "Artisanal Botanical Formulation",
+        "is_active": true
+      },
+      {
+        "id": "poster-4",
+        "image": "/images/posters/posters-04.png",
+        "title": "Eco-Mindful Daily Wellness",
+        "is_active": true
+      },
+      {
+        "id": "poster-5",
+        "image": "/images/posters/posters-05.png",
+        "title": "Fresh Botanical Harvest",
+        "is_active": true
+      },
+      {
+        "id": "poster-6",
+        "image": "/images/posters/posters-06.png",
+        "title": "Pure Essential Oil Distillation",
+        "is_active": true
+      },
+      {
+        "id": "poster-7",
+        "image": "/images/posters/posters-07.png",
+        "title": "Chemical-Free Household Care",
+        "is_active": true
+      },
+      {
+        "id": "poster-8",
+        "image": "/images/posters/posters-08.png",
+        "title": "Indian Botanical Heritage",
+        "is_active": true
+      },
+      {
+        "id": "poster-9",
+        "image": "/images/posters/posters-09.png",
+        "title": "Mindful Daily Sanctuary",
+        "is_active": true
+      },
+      {
+        "id": "poster-10",
+        "image": "/images/posters/posters-10.png",
+        "title": "Authentic Botanical Alchemy",
+        "is_active": true
+      },
+      {
+        "id": "poster-11",
+        "image": "/images/posters/posters-11.png",
+        "title": "Herbal Relief & Gentle Care",
+        "is_active": true
+      },
+      {
+        "id": "poster-12",
+        "image": "/images/posters/posters-12.png",
+        "title": "Rooted in Nature Formulations",
+        "is_active": true
+      },
+      {
+        "id": "poster-13",
+        "image": "/images/posters/posters-13.png",
+        "title": "Pure Origin Botanical Blends",
         "is_active": true
       }
     ]
@@ -1891,17 +1968,17 @@
     "logo_alt": "Tanush Natural & Co.",
     "favicon_url": "/uploads/1787985113737-Round_LOGO.png",
     "use_primary_favicon": true,
-    "currency": "₹",
+    "currency": "\u20b9",
     "email": "info@tanushnatural.com",
     "phone": "+91 98765 43210",
     "address": "Ahmedabad, Gujarat, India",
     "instagram": "https://instagram.com/TanushNatural",
     "whatsapp": "+919876543210",
-    "seo_title": "Tanush Natural — 100% Pure & Organic Living",
+    "seo_title": "Tanush Natural \u2014 100% Pure & Organic Living",
     "seo_description": "Discover thoughtful natural formulations crafted for Indian households.",
     "facebook": "https://facebook.com/TanushNatural",
     "youtube": "https://youtube.com/TanushNatural",
-    "announcement_text": "Free shipping on orders above ₹499",
+    "announcement_text": "Free shipping on orders above \u20b9499",
     "announcement_link": "/shop",
     "announcement_enabled": true,
     "nav_links": [
@@ -1937,7 +2014,7 @@
       }
     ],
     "socialSection": {
-      "eyebrow": "07 — SOCIAL",
+      "eyebrow": "07 \u2014 SOCIAL",
       "heading": "FOLLOW THE TANUSH JOURNEY",
       "subtitle": "Everyday inspiration, natural living and what's new at Tanush.",
       "callout_title": "Rooted in nature,\nmade for you.",
@@ -1945,24 +2022,92 @@
       "instagram_link": "https://instagram.com/TanushNatural",
       "items": [
         {
-          "id": "j1787986625489",
-          "image": "/uploads/site-social-0-1788014719137-60736o.png",
-          "title": "New Journey Moment",
+          "id": "poster-1",
+          "image": "/images/posters/posters-01.png",
+          "title": "Pure Herbal Mosquito Protection",
           "is_active": true
         },
         {
-          "id": "j1787986661041",
-          "image": "/uploads/site-social-1-1788014719147-1lgx3d.png",
-          "title": "New Journey Moment",
+          "id": "poster-2",
+          "image": "/images/posters/posters-02.png",
+          "title": "Everyday Natural Living Ritual",
           "is_active": true
         },
         {
-          "id": "j1787986669461",
-          "image": "/uploads/site-social-2-1788014719156-cev1wb.png",
-          "title": "New Journey Moment",
+          "id": "poster-3",
+          "image": "/images/posters/posters-03.png",
+          "title": "Artisanal Botanical Formulation",
+          "is_active": true
+        },
+        {
+          "id": "poster-4",
+          "image": "/images/posters/posters-04.png",
+          "title": "Eco-Mindful Daily Wellness",
+          "is_active": true
+        },
+        {
+          "id": "poster-5",
+          "image": "/images/posters/posters-05.png",
+          "title": "Fresh Botanical Harvest",
+          "is_active": true
+        },
+        {
+          "id": "poster-6",
+          "image": "/images/posters/posters-06.png",
+          "title": "Pure Essential Oil Distillation",
+          "is_active": true
+        },
+        {
+          "id": "poster-7",
+          "image": "/images/posters/posters-07.png",
+          "title": "Chemical-Free Household Care",
+          "is_active": true
+        },
+        {
+          "id": "poster-8",
+          "image": "/images/posters/posters-08.png",
+          "title": "Indian Botanical Heritage",
+          "is_active": true
+        },
+        {
+          "id": "poster-9",
+          "image": "/images/posters/posters-09.png",
+          "title": "Mindful Daily Sanctuary",
+          "is_active": true
+        },
+        {
+          "id": "poster-10",
+          "image": "/images/posters/posters-10.png",
+          "title": "Authentic Botanical Alchemy",
+          "is_active": true
+        },
+        {
+          "id": "poster-11",
+          "image": "/images/posters/posters-11.png",
+          "title": "Herbal Relief & Gentle Care",
+          "is_active": true
+        },
+        {
+          "id": "poster-12",
+          "image": "/images/posters/posters-12.png",
+          "title": "Rooted in Nature Formulations",
+          "is_active": true
+        },
+        {
+          "id": "poster-13",
+          "image": "/images/posters/posters-13.png",
+          "title": "Pure Origin Botanical Blends",
           "is_active": true
         }
       ]
+    },
+    "brand_title": "TANUSH",
+    "brand_subtitle": "NATURAL & CO.",
+    "all_products_tile": {
+      "title": "All Products",
+      "image": "/images/categories/all.jpg",
+      "is_active": true,
+      "description": "Explore all 100% natural and pure botanical living formulations"
     }
   },
   "customers": [],
@@ -2469,7 +2614,7 @@
       "name": "Home",
       "slug": "/",
       "isActive": true,
-      "seoTitle": "Tanush Natural — Thoughtful Everyday Natural Living & Mosquito Protection",
+      "seoTitle": "Tanush Natural \u2014 Thoughtful Everyday Natural Living & Mosquito Protection",
       "seoDescription": "Experience pure botanical mosquito protection, natural farming extracts, and mindful living essentials for modern Indian homes.",
       "sections": [
         {
@@ -2758,7 +2903,7 @@
             "badge": "PARTNERSHIP",
             "heading": "Grow With Tanush Natural",
             "subheading": "Collaborate with us as a retailer, distributor, or wellness partner across India.",
-            "primaryCtaText": "BECOME A PARTNER →",
+            "primaryCtaText": "BECOME A PARTNER \u2192",
             "primaryCtaLink": "/become-a-partner"
           },
           "media": {
@@ -2825,7 +2970,7 @@
       "name": "Shop",
       "slug": "/shop",
       "isActive": true,
-      "seoTitle": "Shop Botanical Formulations — Tanush Natural",
+      "seoTitle": "Shop Botanical Formulations \u2014 Tanush Natural",
       "seoDescription": "Explore our complete range of natural mosquito vaporizers, repellent sprays, and herbal care essentials.",
       "sections": [
         {
@@ -2918,10 +3063,100 @@
           }
         },
         {
+          "id": "journey",
+          "name": "From Nature to Your Home Journey",
+          "type": "journey",
+          "order": 3,
+          "isActive": true,
+          "content": {
+            "badge": "THE TANUSH JOURNEY",
+            "eyebrow": "THE TANUSH JOURNEY",
+            "heading": "FROM NATURE TO YOUR HOME",
+            "title": "FROM NATURE TO YOUR HOME",
+            "subheading": "Thoughtfully made, from natural inspiration to everyday living.",
+            "subtitle": "Thoughtfully made, from natural inspiration to everyday living."
+          },
+          "steps": [
+            {
+              "id": "step-1",
+              "number": "01",
+              "label": "01 \u2014 SOURCE",
+              "title": "Inspired by Nature",
+              "description": "Botanical ingredients and natural inspiration selected with care.",
+              "illustration": "source",
+              "customIllustration": "",
+              "position": "center",
+              "scale": "medium",
+              "opacity": 100,
+              "desktopVisible": true,
+              "mobileVisible": true,
+              "enabled": true
+            },
+            {
+              "id": "step-2",
+              "number": "02",
+              "label": "02 \u2014 CRAFT",
+              "title": "Thoughtfully Formulated",
+              "description": "Carefully crafted in India for everyday living.",
+              "illustration": "craft",
+              "customIllustration": "",
+              "position": "center",
+              "scale": "medium",
+              "opacity": 100,
+              "desktopVisible": true,
+              "mobileVisible": true,
+              "enabled": true
+            },
+            {
+              "id": "step-3",
+              "number": "03",
+              "label": "03 \u2014 QUALITY",
+              "title": "Made With Care",
+              "description": "Every formulation is created with attention to detail.",
+              "illustration": "quality",
+              "customIllustration": "",
+              "position": "center",
+              "scale": "medium",
+              "opacity": 100,
+              "desktopVisible": true,
+              "mobileVisible": true,
+              "enabled": true
+            },
+            {
+              "id": "step-4",
+              "number": "04",
+              "label": "04 \u2014 HOME",
+              "title": "Made for Everyday Living",
+              "description": "Thoughtfully made for modern Indian homes.",
+              "illustration": "home",
+              "customIllustration": "",
+              "position": "center",
+              "scale": "medium",
+              "opacity": 100,
+              "desktopVisible": true,
+              "mobileVisible": true,
+              "enabled": true
+            }
+          ],
+          "media": {},
+          "illustration": {},
+          "layout": {
+            "align": "center",
+            "width": "contained",
+            "spacing": "compact",
+            "bgColor": "#FAF8F5"
+          },
+          "visibility": {
+            "desktop": true,
+            "tablet": true,
+            "mobile": true
+          }
+        },
+        {
           "id": "promotional",
           "name": "Botanical Quality Guarantee",
           "type": "promotional",
-          "order": 3,
+          "order": 4,
           "isActive": true,
           "content": {
             "badge": "OUR PROMISE",
@@ -2959,7 +3194,7 @@
       "name": "Why Tanush",
       "slug": "/why-tanush",
       "isActive": true,
-      "seoTitle": "Why Tanush — Our Story, Natural Farming & Botanical Heritage",
+      "seoTitle": "Why Tanush \u2014 Our Story, Natural Farming & Botanical Heritage",
       "seoDescription": "Learn about our farming heritage, chemical-free extraction process, and mission to deliver pure everyday essentials.",
       "sections": [
         {
@@ -2974,7 +3209,7 @@
             "subheading": "We look to Indian botanical wisdom for clean everyday solutions."
           },
           "media": {
-            "desktopImage": "/images/hero/hero-1.jpg"
+            "desktopImage": "/images/lifestyle/why-tanush-hero.jpg"
           },
           "illustration": {
             "id": "neem-branch",
@@ -3095,11 +3330,11 @@
             "badge": "OUR STORY",
             "heading": "A Simple Thought That Started Tanush",
             "description": "We noticed how everyday households were looking for products that are effective, safe, and inspired by nature without harsh chemicals. That is when Tanush Natural was born.",
-            "primaryCtaText": "EXPLORE OUR PRODUCTS →",
+            "primaryCtaText": "EXPLORE OUR PRODUCTS \u2192",
             "primaryCtaLink": "/shop"
           },
           "media": {
-            "desktopImage": "/images/lifestyle/collage-main.jpg"
+            "desktopImage": "/images/lifestyle/our-story.jpg"
           },
           "illustration": {
             "id": "farmer-in-field",
@@ -3161,7 +3396,7 @@
       "name": "Become a Partner",
       "slug": "/become-a-partner",
       "isActive": true,
-      "seoTitle": "Partner With Tanush Natural — Distribution, Retail & Supply",
+      "seoTitle": "Partner With Tanush Natural \u2014 Distribution, Retail & Supply",
       "seoDescription": "Join our expanding network of authorized retailers, distributors, and bulk partners across India.",
       "sections": [
         {
@@ -3173,10 +3408,10 @@
           "content": {
             "badge": "PARTNER PROGRAM",
             "heading": "Grow Your Business With Tanush Natural",
-            "subheading": "Join India’s rapidly growing botanical wellness and everyday essentials network."
+            "subheading": "Join India\u2019s rapidly growing botanical wellness and everyday essentials network."
           },
           "media": {
-            "desktopImage": "/images/hero/hero-1.jpg"
+            "desktopImage": "/images/lifestyle/partner-hero.jpg"
           },
           "illustration": {
             "id": "harvest-basket",
@@ -3350,7 +3585,7 @@
       "name": "Contact Us",
       "slug": "/contact",
       "isActive": true,
-      "seoTitle": "Contact Us — Tanush Natural Customer Care & Head Office",
+      "seoTitle": "Contact Us \u2014 Tanush Natural Customer Care & Head Office",
       "seoDescription": "Get in touch with Tanush Natural. Customer support, order queries, and business enquiries.",
       "sections": [
         {
@@ -3361,11 +3596,11 @@
           "isActive": true,
           "content": {
             "badge": "GET IN TOUCH",
-            "heading": "We’d Love to Hear from You",
+            "heading": "We\u2019d Love to Hear from You",
             "subheading": "Whether you have a query about formulations, orders, or partnerships, we are here for you."
           },
           "media": {
-            "desktopImage": "/images/hero/hero-1.jpg"
+            "desktopImage": "/images/lifestyle/contact-hero.jpg"
           },
           "illustration": {
             "id": "modern-indian-home",
@@ -3432,7 +3667,7 @@
             "phone": "+91 94282 31144",
             "email": "hello@tanushnatural.com",
             "address": "Bhavnagar, Gujarat, India",
-            "businessHours": "Monday - Saturday: 9:00 AM – 6:00 PM IST",
+            "businessHours": "Monday - Saturday: 9:00 AM \u2013 6:00 PM IST",
             "whatsapp": "+919428231144"
           },
           "media": {},
@@ -3487,7 +3722,7 @@
       "name": "Product Detail",
       "slug": "/product/:slug",
       "isActive": true,
-      "seoTitle": "Product Details — Tanush Natural",
+      "seoTitle": "Product Details \u2014 Tanush Natural",
       "seoDescription": "Thoughtfully formulated using pure herbal and botanical extracts.",
       "sections": [
         {

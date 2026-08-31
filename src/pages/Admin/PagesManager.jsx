@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../lib/db';
 import { DEFAULT_PAGES_CONFIG, normalizePageConfig } from '../../lib/pageConfigs';
 import MediaPickerModal from '../../components/Admin/MediaPickerModal';
+import ShopJourney from '../../components/ShopJourney/ShopJourney';
 import { 
   Layout, 
   Sliders, 
@@ -38,7 +39,7 @@ import './PagesManager.css';
 
 const PAGES_LIST = [
   { id: 'home', name: 'Home', badge: '10 Sections' },
-  { id: 'shop', name: 'Shop', badge: '4 Sections' },
+  { id: 'shop', name: 'Shop', badge: '5 Sections' },
   { id: 'why-tanush', name: 'Why Tanush', badge: '6 Sections' },
   { id: 'become-a-partner', name: 'Become a Partner', badge: '6 Sections' },
   { id: 'contact', name: 'Contact Us', badge: '4 Sections' },
@@ -181,13 +182,22 @@ const PagesManager = () => {
 
   const handleMediaSelect = (url) => {
     if (editingSection) {
-      setEditingSection(prev => ({
-        ...prev,
-        media: {
-          ...(prev.media || {}),
-          [mediaPickerTarget]: url
+      if (typeof mediaPickerTarget === 'string' && mediaPickerTarget.startsWith('stepIllustration_')) {
+        const stepIdx = parseInt(mediaPickerTarget.split('_')[1], 10);
+        const steps = [...(editingSection.steps || [])];
+        if (steps[stepIdx]) {
+          steps[stepIdx] = { ...steps[stepIdx], customIllustration: url };
+          setEditingSection(prev => ({ ...prev, steps }));
         }
-      }));
+      } else {
+        setEditingSection(prev => ({
+          ...prev,
+          media: {
+            ...(prev.media || {}),
+            [mediaPickerTarget]: url
+          }
+        }));
+      }
     }
     setShowMediaPicker(false);
   };
@@ -431,49 +441,55 @@ const PagesManager = () => {
                 </span>
               </div>
               
-              <div 
-                className="live-preview-canvas-box"
-                style={{
-                  backgroundColor: editingSection.layout?.bgColor || '#FAF8F5',
-                  color: editingSection.layout?.bgColor === '#173B2F' ? '#FFFFFF' : '#173B2F',
-                  textAlign: editingSection.layout?.align || 'center'
-                }}
-              >
-                {editingSection.content?.badge && (
-                  <span className="preview-badge-pill">{editingSection.content.badge}</span>
-                )}
+              {(editingSection.type === 'journey' || editingSection.id === 'journey') ? (
+                <div style={{ borderRadius: '16px', overflow: 'hidden', margin: '8px 0' }}>
+                  <ShopJourney config={editingSection} />
+                </div>
+              ) : (
+                <div 
+                  className="live-preview-canvas-box"
+                  style={{
+                    backgroundColor: editingSection.layout?.bgColor || '#FAF8F5',
+                    color: editingSection.layout?.bgColor === '#173B2F' ? '#FFFFFF' : '#173B2F',
+                    textAlign: editingSection.layout?.align || 'center'
+                  }}
+                >
+                  {editingSection.content?.badge && (
+                    <span className="preview-badge-pill">{editingSection.content.badge}</span>
+                  )}
 
-                <h4 className="preview-heading-text">
-                  {editingSection.content?.heading || editingSection.content?.title || editingSection.name}
-                </h4>
+                  <h4 className="preview-heading-text">
+                    {editingSection.content?.heading || editingSection.content?.title || editingSection.name}
+                  </h4>
 
-                {(editingSection.content?.subheading || editingSection.content?.subtitle) && (
-                  <p className="preview-subheading-text">
-                    {editingSection.content?.subheading || editingSection.content?.subtitle}
-                  </p>
-                )}
+                  {(editingSection.content?.subheading || editingSection.content?.subtitle) && (
+                    <p className="preview-subheading-text">
+                      {editingSection.content?.subheading || editingSection.content?.subtitle}
+                    </p>
+                  )}
 
-                {editingSection.content?.description && (
-                  <p className="preview-desc-text">
-                    {editingSection.content.description}
-                  </p>
-                )}
+                  {editingSection.content?.description && (
+                    <p className="preview-desc-text">
+                      {editingSection.content.description}
+                    </p>
+                  )}
 
-                {(editingSection.content?.primaryCtaText || editingSection.content?.secondaryCtaText) && (
-                  <div className="preview-buttons-row">
-                    {editingSection.content?.primaryCtaText && (
-                      <span className="preview-btn-primary">
-                        {editingSection.content.primaryCtaText}
-                      </span>
-                    )}
-                    {editingSection.content?.secondaryCtaText && (
-                      <span className="preview-btn-secondary">
-                        {editingSection.content.secondaryCtaText}
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
+                  {(editingSection.content?.primaryCtaText || editingSection.content?.secondaryCtaText) && (
+                    <div className="preview-buttons-row">
+                      {editingSection.content?.primaryCtaText && (
+                        <span className="preview-btn-primary">
+                          {editingSection.content.primaryCtaText}
+                        </span>
+                      )}
+                      {editingSection.content?.secondaryCtaText && (
+                        <span className="preview-btn-secondary">
+                          {editingSection.content.secondaryCtaText}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Drawer Tabs — Luxury Segmented Pill Control */}
@@ -520,11 +536,11 @@ const PagesManager = () => {
                       </label>
                       <input 
                         type="text" 
-                        placeholder="e.g. 100% BOTANICAL & NATURAL"
-                        value={editingSection.content?.badge || ''} 
+                        placeholder="e.g. THE TANUSH JOURNEY"
+                        value={editingSection.content?.badge || editingSection.content?.eyebrow || ''} 
                         onChange={e => setEditingSection({
                           ...editingSection,
-                          content: { ...editingSection.content, badge: e.target.value }
+                          content: { ...editingSection.content, badge: e.target.value, eyebrow: e.target.value }
                         })}
                       />
                     </div>
@@ -536,7 +552,7 @@ const PagesManager = () => {
                       </label>
                       <input 
                         type="text" 
-                        placeholder="Section headline"
+                        placeholder="e.g. FROM NATURE TO YOUR HOME"
                         value={editingSection.content?.heading || editingSection.content?.title || ''} 
                         onChange={e => setEditingSection({
                           ...editingSection,
@@ -552,7 +568,7 @@ const PagesManager = () => {
                       </label>
                       <input 
                         type="text" 
-                        placeholder="Brief supporting line"
+                        placeholder="e.g. Thoughtfully made, from natural inspiration to everyday living."
                         value={editingSection.content?.subheading || editingSection.content?.subtitle || ''} 
                         onChange={e => setEditingSection({
                           ...editingSection,
@@ -561,22 +577,250 @@ const PagesManager = () => {
                       />
                     </div>
 
-                    <div className="form-group-clean">
-                      <label>
-                        <span>Body Description / Narrative</span>
-                        <span className="form-label-hint">Full story or paragraph</span>
-                      </label>
-                      <textarea 
-                        rows={4} 
-                        placeholder="Enter detailed copy or storyline..."
-                        value={editingSection.content?.description || ''} 
-                        onChange={e => setEditingSection({
-                          ...editingSection,
-                          content: { ...editingSection.content, description: e.target.value }
-                        })}
-                      />
-                    </div>
+                    {(editingSection.type !== 'journey' && editingSection.id !== 'journey') && (
+                      <div className="form-group-clean">
+                        <label>
+                          <span>Body Description / Narrative</span>
+                          <span className="form-label-hint">Full story or paragraph</span>
+                        </label>
+                        <textarea 
+                          rows={4} 
+                          placeholder="Enter detailed copy or storyline..."
+                          value={editingSection.content?.description || ''} 
+                          onChange={e => setEditingSection({
+                            ...editingSection,
+                            content: { ...editingSection.content, description: e.target.value }
+                          })}
+                        />
+                      </div>
+                    )}
                   </div>
+
+                  {/* SPECIALIZED JOURNEY STEPS EDITOR (01 SOURCE → 02 CRAFT → 03 QUALITY → 04 HOME) */}
+                  {(editingSection.type === 'journey' || editingSection.id === 'journey') && (
+                    <div className="form-card-section">
+                      <h4 className="form-card-title">
+                        <Sparkles size={15} color="#2F6B43" /> Journey Storytelling Stages (01 Source → 02 Craft → 03 Quality → 04 Home)
+                      </h4>
+                      <p style={{ fontSize: '0.82rem', color: '#6B7C73', margin: '-4px 0 16px', lineHeight: 1.4 }}>
+                        Customize the 4 horizontal storytelling steps. Configure titles, descriptions, built-in botanical line art or custom media illustrations.
+                      </p>
+
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        {(editingSection.steps || [
+                          { id: 'step-1', number: '01', label: '01 — SOURCE', title: 'Inspired by Nature', description: 'Botanical ingredients and natural inspiration selected with care.', illustration: 'source', scale: 'medium', position: 'center', opacity: 100, desktopVisible: true, mobileVisible: true, enabled: true },
+                          { id: 'step-2', number: '02', label: '02 — CRAFT', title: 'Thoughtfully Formulated', description: 'Carefully crafted in India for everyday living.', illustration: 'craft', scale: 'medium', position: 'center', opacity: 100, desktopVisible: true, mobileVisible: true, enabled: true },
+                          { id: 'step-3', number: '03', label: '03 — QUALITY', title: 'Made With Care', description: 'Every formulation is created with attention to detail.', illustration: 'quality', scale: 'medium', position: 'center', opacity: 100, desktopVisible: true, mobileVisible: true, enabled: true },
+                          { id: 'step-4', number: '04', label: '04 — HOME', title: 'Made for Everyday Living', description: 'Thoughtfully made for modern Indian homes.', illustration: 'home', scale: 'medium', position: 'center', opacity: 100, desktopVisible: true, mobileVisible: true, enabled: true }
+                        ]).map((step, sIdx) => {
+                          const updateStep = (field, val) => {
+                            const newSteps = [...(editingSection.steps || [])];
+                            if (!newSteps[sIdx]) {
+                              newSteps[sIdx] = { ...step };
+                            }
+                            newSteps[sIdx] = { ...newSteps[sIdx], [field]: val };
+                            setEditingSection({ ...editingSection, steps: newSteps });
+                          };
+
+                          return (
+                            <div 
+                              key={step.id || `step-${sIdx}`}
+                              style={{
+                                background: '#FAF8F5',
+                                border: '1px solid rgba(23, 59, 47, 0.12)',
+                                borderRadius: '14px',
+                                padding: '18px 20px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '14px'
+                              }}
+                            >
+                              {/* Step Top Bar */}
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(23, 59, 47, 0.08)', paddingBottom: '10px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  <span style={{ background: '#173B2F', color: '#FAF8F5', padding: '3px 8px', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 800 }}>
+                                    {step.number || `0${sIdx + 1}`}
+                                  </span>
+                                  <span style={{ fontSize: '0.90rem', fontWeight: 700, color: '#173B2F' }}>
+                                    {step.label || `Stage 0${sIdx + 1}`}
+                                  </span>
+                                </div>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', color: '#173B2F', cursor: 'pointer', fontWeight: 600 }}>
+                                  <input 
+                                    type="checkbox"
+                                    checked={step.enabled !== false}
+                                    onChange={e => updateStep('enabled', e.target.checked)}
+                                    style={{ accentColor: '#2F6B43', width: '16px', height: '16px' }}
+                                  />
+                                  <span>Enabled</span>
+                                </label>
+                              </div>
+
+                              {/* Row 1: Label and Title */}
+                              <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '12px' }}>
+                                <div className="form-group-clean" style={{ margin: 0 }}>
+                                  <label style={{ fontSize: '0.76rem' }}>Stage Label</label>
+                                  <input 
+                                    type="text"
+                                    value={step.label || ''}
+                                    placeholder="e.g. 01 — SOURCE"
+                                    onChange={e => updateStep('label', e.target.value)}
+                                    style={{ fontSize: '0.84rem' }}
+                                  />
+                                </div>
+                                <div className="form-group-clean" style={{ margin: 0 }}>
+                                  <label style={{ fontSize: '0.76rem' }}>Stage Title</label>
+                                  <input 
+                                    type="text"
+                                    value={step.title || ''}
+                                    placeholder="e.g. Inspired by Nature"
+                                    onChange={e => updateStep('title', e.target.value)}
+                                    style={{ fontSize: '0.84rem', fontWeight: 600 }}
+                                  />
+                                </div>
+                              </div>
+
+                              {/* Row 2: Description */}
+                              <div className="form-group-clean" style={{ margin: 0 }}>
+                                <label style={{ fontSize: '0.76rem' }}>Description Narrative</label>
+                                <textarea 
+                                  rows={2}
+                                  value={step.description || ''}
+                                  placeholder="Short editorial description of this stage..."
+                                  onChange={e => updateStep('description', e.target.value)}
+                                  style={{ fontSize: '0.84rem', resize: 'vertical' }}
+                                />
+                              </div>
+
+                              {/* Row 3: Icon & Custom Illustration Selection */}
+                              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', background: '#FFFFFF', padding: '12px 14px', borderRadius: '10px', border: '1px solid rgba(23, 59, 47, 0.06)' }}>
+                                <div>
+                                  <label style={{ fontSize: '0.75rem', fontWeight: 700, color: '#173B2F', display: 'block', marginBottom: '6px' }}>
+                                    Default Botanical Icon
+                                  </label>
+                                  <select 
+                                    value={step.illustration || (sIdx === 0 ? 'source' : sIdx === 1 ? 'craft' : sIdx === 2 ? 'quality' : 'home')}
+                                    onChange={e => updateStep('illustration', e.target.value)}
+                                    style={{ width: '100%', padding: '7px 10px', borderRadius: '8px', border: '1px solid #DCD6CB', fontSize: '0.82rem', background: '#FAF8F5' }}
+                                  >
+                                    <option value="source">🌱 01 — Sprout / Botanical Seedling</option>
+                                    <option value="craft">🌿 02 — Craft / Apothecary Dropper Vessel</option>
+                                    <option value="quality">✓ 03 — Quality / Botanical Seal</option>
+                                    <option value="home">🏡 04 — Home / Contemporary Indian Home</option>
+                                  </select>
+                                </div>
+
+                                <div>
+                                  <label style={{ fontSize: '0.75rem', fontWeight: 700, color: '#173B2F', display: 'block', marginBottom: '6px' }}>
+                                    Custom Image / Illustration
+                                  </label>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    {step.customIllustration ? (
+                                      <>
+                                        <img 
+                                          src={step.customIllustration} 
+                                          alt="" 
+                                          style={{ width: '32px', height: '32px', borderRadius: '6px', objectFit: 'contain', border: '1px solid #DCD6CB', background: '#FAF8F5' }} 
+                                        />
+                                        <button 
+                                          type="button"
+                                          onClick={() => openMediaPickerFor(`stepIllustration_${sIdx}`)}
+                                          style={{ fontSize: '0.76rem', padding: '5px 9px', borderRadius: '6px', background: '#173B2F', color: '#FFFFFF', border: 'none', cursor: 'pointer' }}
+                                        >
+                                          Change
+                                        </button>
+                                        <button 
+                                          type="button"
+                                          onClick={() => updateStep('customIllustration', '')}
+                                          style={{ fontSize: '0.76rem', padding: '5px 9px', borderRadius: '6px', background: 'rgba(23, 59, 47, 0.08)', color: '#173B2F', border: 'none', cursor: 'pointer' }}
+                                        >
+                                          Clear
+                                        </button>
+                                      </>
+                                    ) : (
+                                      <button 
+                                        type="button"
+                                        onClick={() => openMediaPickerFor(`stepIllustration_${sIdx}`)}
+                                        style={{ fontSize: '0.78rem', padding: '6px 12px', borderRadius: '8px', background: 'rgba(47, 107, 67, 0.1)', color: '#2F6B43', border: '1px dashed #2F6B43', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                                      >
+                                        <FolderOpen size={13} />
+                                        <span>Choose from Media Library</span>
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Row 4: Scale, Alignment, Opacity & Device Controls */}
+                              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', fontSize: '0.75rem' }}>
+                                <div>
+                                  <label style={{ display: 'block', color: '#6B7C73', marginBottom: '4px' }}>Alignment</label>
+                                  <select 
+                                    value={step.position || 'center'}
+                                    onChange={e => updateStep('position', e.target.value)}
+                                    style={{ width: '100%', padding: '5px 8px', borderRadius: '6px', border: '1px solid #DCD6CB', fontSize: '0.78rem' }}
+                                  >
+                                    <option value="left">Left</option>
+                                    <option value="center">Center</option>
+                                    <option value="right">Right</option>
+                                  </select>
+                                </div>
+
+                                <div>
+                                  <label style={{ display: 'block', color: '#6B7C73', marginBottom: '4px' }}>Scale</label>
+                                  <select 
+                                    value={step.scale || 'medium'}
+                                    onChange={e => updateStep('scale', e.target.value)}
+                                    style={{ width: '100%', padding: '5px 8px', borderRadius: '6px', border: '1px solid #DCD6CB', fontSize: '0.78rem' }}
+                                  >
+                                    <option value="small">Small</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="large">Large</option>
+                                  </select>
+                                </div>
+
+                                <div>
+                                  <label style={{ display: 'block', color: '#6B7C73', marginBottom: '4px' }}>
+                                    Opacity: {step.opacity || 100}%
+                                  </label>
+                                  <input 
+                                    type="range"
+                                    min="10"
+                                    max="100"
+                                    step="5"
+                                    value={step.opacity || 100}
+                                    onChange={e => updateStep('opacity', parseInt(e.target.value, 10))}
+                                    style={{ width: '100%', accentColor: '#2F6B43' }}
+                                  />
+                                </div>
+
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', justifyContent: 'center' }}>
+                                  <label style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+                                    <input 
+                                      type="checkbox"
+                                      checked={step.desktopVisible !== false}
+                                      onChange={e => updateStep('desktopVisible', e.target.checked)}
+                                      style={{ accentColor: '#2F6B43' }}
+                                    />
+                                    <span>Desktop</span>
+                                  </label>
+                                  <label style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}>
+                                    <input 
+                                      type="checkbox"
+                                      checked={step.mobileVisible !== false}
+                                      onChange={e => updateStep('mobileVisible', e.target.checked)}
+                                      style={{ accentColor: '#2F6B43' }}
+                                    />
+                                    <span>Mobile</span>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Card B: Call-To-Action Buttons */}
                   <div className="form-card-section">

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { api } from '../../lib/db';
-import { resolveReelVideoUrl, isValidVideoSource, getVideoMimeType } from '../../lib/mediaResolver';
+import { resolveReelVideoUrl, resolveReelPosterUrl, isValidVideoSource, getVideoMimeType } from '../../lib/mediaResolver';
 import { 
   Play, 
   Pause, 
@@ -270,7 +270,7 @@ const ReelsSection = ({ storiesData = [], productsData = [] }) => {
               Tanush in <span>Motion</span>
             </h2>
             <p className="reels-subheading">
-              Discover routines, textures, and real stories from our botanical community.
+              Botanical care, everyday moments, and the stories behind Tanush Natural.
             </p>
           </div>
 
@@ -382,6 +382,7 @@ const ReelCard = ({ story, product, videoSrc, onClick }) => {
   const cardRef = useRef(null);
   const videoRef = useRef(null);
   const [videoError, setVideoError] = useState(false);
+  const posterUrl = resolveReelPosterUrl(story);
   const [duration, setDuration] = useState(() => {
     if (typeof story.duration === 'number' && story.duration > 0) return story.duration;
     if (typeof story.duration === 'string' && story.duration.trim()) return story.duration.trim();
@@ -431,24 +432,26 @@ const ReelCard = ({ story, product, videoSrc, onClick }) => {
       className="reel-card-item"
       onClick={onClick}
     >
-      {/* Real Playing Video with Fallback */}
+      {/* Real Playing Video with High Quality Poster Fallback */}
       {hasValidVideo && !videoError ? (
         <video
           ref={videoRef}
           src={videoSrc}
-          poster={story.image}
+          poster={posterUrl}
           muted
           loop
           playsInline
           autoPlay
-          preload="metadata"
+          preload="auto"
           onLoadedMetadata={handleLoadedMetadata}
           onError={() => setVideoError(true)}
           className="reel-card-video"
-        />
+        >
+          <source src={videoSrc} type={getVideoMimeType(videoSrc)} />
+        </video>
       ) : (
         <img 
-          src={story.image || 'https://placehold.co/400x600?text=Tanush+Reel'} 
+          src={posterUrl} 
           alt={story.title || 'Reel'} 
           className="reel-card-fallback-img"
           loading="lazy"
@@ -520,6 +523,7 @@ const ReelViewerModal = ({
   const videoSrc = resolveReelVideoUrl(currentStory, mediaList);
   const hasValidVideo = isValidVideoSource(videoSrc);
 
+  const posterUrl = resolveReelPosterUrl(currentStory);
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
@@ -871,7 +875,7 @@ const ReelViewerModal = ({
         >
           {/* Ambient Blurred Video Poster Layer */}
           <img 
-            src={currentStory.image || 'https://placehold.co/400x600?text=Tanush+Reel'} 
+            src={posterUrl} 
             alt="Ambience" 
             className="reel-video-ambient-backdrop" 
           />
@@ -880,7 +884,7 @@ const ReelViewerModal = ({
             <video
               ref={videoRef}
               src={videoSrc}
-              poster={currentStory.image}
+              poster={posterUrl}
               loop
               autoPlay
               playsInline
@@ -907,7 +911,7 @@ const ReelViewerModal = ({
           ) : (
             <div style={{ width: '100%', height: '100%', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1 }}>
               <img 
-                src={currentStory.image || 'https://placehold.co/600x800?text=Tanush+Natural'} 
+                src={posterUrl} 
                 alt={currentStory.title} 
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
